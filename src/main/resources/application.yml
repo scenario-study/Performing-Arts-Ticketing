@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: scenario-study
+  profiles:
+    active:
+      - local
+    group:
+      real:
+        - db-real
+        - jpa-real
+        - server-real
+      local:
+        - db-local
+        - jpa-local
+        - server-local
+    include:
+      - db
+      - jpa
+      - jwt
+      - file
+
+springdoc:
+  swagger-ui:
+    path: /api-docs
