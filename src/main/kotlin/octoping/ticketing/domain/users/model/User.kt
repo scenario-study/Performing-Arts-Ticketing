@@ -5,15 +5,9 @@ class User(
     username: String,
     password: String,
 ) {
-    private val _id: Long
-    private val _username: Username
-    private var _password: Password
-
-    init {
-        this._id = id
-        this._username = Username(username)
-        this._password = Password(password)
-    }
+    private val _id: Long = id
+    private val _username = Username(username)
+    private var _password = Password(password)
 
     val id: Long
         get() = _id
@@ -26,5 +20,9 @@ class User(
 
     fun changePassword(password: String) {
         this._password = Password(password)
+    }
+
+    fun isNew(): Boolean {
+        return this._id == 0L
     }
 }
