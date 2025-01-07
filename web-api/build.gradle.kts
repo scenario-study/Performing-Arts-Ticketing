@@ -15,6 +15,7 @@ dependencies {
     // Swagger
     implementation("org.springdoc:springdoc-openapi:2.7.0")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0")
+    implementation("io.swagger.core.v3:swagger-annotations:2.2.27")
 
     // Database
     runtimeOnly("com.mysql:mysql-connector-j")
