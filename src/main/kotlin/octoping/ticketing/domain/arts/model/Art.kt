@@ -1,50 +1,54 @@
 package octoping.ticketing.domain.arts.model
 
-import octoping.ticketing.domain.discount.DiscountCoupon
+import octoping.ticketing.domain.discount.model.DiscountCoupon
+import octoping.ticketing.domain.discount.model.NoDiscountCoupon
 import octoping.ticketing.domain.exception.ValidationException
+import octoping.ticketing.domain.price.model.ArtPrice
 import octoping.ticketing.domain.ticket.model.Ticket
 import octoping.ticketing.domain.users.model.User
 import java.time.LocalDate
 
-abstract class Art(
+class Art(
     id: Long,
     name: String,
     description: String,
-    price: Long,
     onePersonBuyLimit: Int,
     startDate: LocalDate,
-    endDate: LocalDate,
+    endDate: LocalDate? = null,
 ) {
     private val _id: Long
     private var _name: ArtName
     private var _description: String
-    private var _price: ArtPrice
     private var _onePersonBuyLimit: Int
     private var _artDate: ArtDate
 
     init {
-        validate(name)
+        validate(description)
         this._id = id
         this._name = ArtName(name)
         this._description = description
-        this._price = ArtPrice(price)
         this._onePersonBuyLimit = onePersonBuyLimit
         this._artDate = ArtDate(startDate, endDate)
     }
 
+    val id get() = _id
     val name get() = _name.name
     val description get() = _description
-    val price get() = this._price.price
     val onePersonBuyLimit get() = _onePersonBuyLimit
 
-    fun buyTicket(user: User, discountCoupon: DiscountCoupon): Ticket {
+    fun buyTicket(user: User, price: ArtPrice, discountCoupon: DiscountCoupon = NoDiscountCoupon()): Ticket {
         if (user.isNew()) {
             throw ValidationException("저장되지 않은 유저입니다")
         }
 
+        if (!price.isCurrentlyApplied()) {
+            throw ValidationException("현재 유효하지 않은 가격입니다")
+        }
+
         return Ticket(
-            originalPrice = this.price,
-            boughtPrice = discountCoupon.discount(this.price),
+            artId = this.id,
+            originalPrice = price.basePrice,
+            boughtPrice = discountCoupon.discount(price.discountPrice),
             boughtUserId = user.id,
         )
     }
