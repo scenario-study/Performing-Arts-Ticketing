@@ -1,4 +1,4 @@
-package com.hunhui.common.error
+package com.hunhui.ticketworld.common.error
 
 open class BusinessException(
     val errorCode: ErrorCode,
