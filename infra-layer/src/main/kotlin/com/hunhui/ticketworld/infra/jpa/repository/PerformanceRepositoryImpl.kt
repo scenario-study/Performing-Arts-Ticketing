@@ -62,22 +62,22 @@ internal class PerformanceRepositoryImpl(
             imageUrl = imageUrl,
             location = location,
             status = status,
-            seatGrades = seatGrades.map { it.entity },
-            rounds = rounds.map { it.entity }
-        )
-
-    private val PerformanceRound.entity: PerformanceRoundEntity
-        get() = PerformanceRoundEntity(
-            id = id,
-            performanceDateTime = performanceDateTime,
-            reservationStartDateTime = reservationStartDateTime,
-            reservationFinishDateTime = reservationFinishDateTime
-        )
-
-    private val SeatGrade.entity: SeatGradeEntity
-        get() = SeatGradeEntity(
-            id = id,
-            gradeName = gradeName,
-            price = price.amount
+            seatGrades = seatGrades.map {
+                SeatGradeEntity(
+                    id = it.id,
+                    gradeName = it.gradeName,
+                    price = it.price.amount,
+                    performanceId = this.id
+                )
+            },
+            rounds = rounds.map {
+                PerformanceRoundEntity(
+                    id = it.id,
+                    performanceDateTime = it.performanceDateTime,
+                    reservationStartDateTime = it.reservationStartDateTime,
+                    reservationFinishDateTime = it.reservationFinishDateTime,
+                    performanceId = this.id
+                )
+            }
         )
 }

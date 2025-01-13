@@ -10,7 +10,7 @@ import jakarta.persistence.Table
 import java.util.UUID
 
 @Entity
-@Table(name = "seatGrade")
+@Table(name = "seat_grade")
 internal class SeatGradeEntity(
     @Id
     @Column(name = "id", updatable = false, nullable = false)
@@ -22,7 +22,6 @@ internal class SeatGradeEntity(
     @Column(name = "price", nullable = false)
     val price: Long,
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "performanceId")
-    val performance: PerformanceEntity? = null
+    @Column(name = "performanceId", nullable = false)
+    val performanceId: UUID
 ) : BaseTimeEntity()
