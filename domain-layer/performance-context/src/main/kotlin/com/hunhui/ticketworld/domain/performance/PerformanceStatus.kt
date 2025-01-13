@@ -1,4 +1,4 @@
-package com.hunhui.domain.performance
+package com.hunhui.ticketworld.domain.performance
 
 /** 공연 상태
  * @property PRIVATE 비공개(조회 불가, 예매 불가)

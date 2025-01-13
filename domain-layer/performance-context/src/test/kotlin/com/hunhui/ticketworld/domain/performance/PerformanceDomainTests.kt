@@ -1,4 +1,4 @@
-package com.hunhui.domain.performance
+package com.hunhui.ticketworld.domain.performance
 
 import org.junit.jupiter.api.Test
 

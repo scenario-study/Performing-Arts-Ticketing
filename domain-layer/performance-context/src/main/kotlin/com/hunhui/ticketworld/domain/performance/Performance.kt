@@ -1,4 +1,4 @@
-package com.hunhui.domain.performance
+package com.hunhui.ticketworld.domain.performance
 
 import java.time.LocalDate
 import java.util.UUID

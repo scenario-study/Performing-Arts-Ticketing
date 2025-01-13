@@ -1,6 +1,6 @@
-package com.hunhui.domain.performance
+package com.hunhui.ticketworld.domain.performance
 
-import com.hunhui.common.vo.Money
+import com.hunhui.ticketworld.common.vo.Money
 import java.util.UUID
 
 class SeatGrade (
