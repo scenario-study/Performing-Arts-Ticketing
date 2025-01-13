@@ -38,14 +38,19 @@ subprojects {
         useJUnitPlatform()
     }
 
+    afterEvaluate {
+        if (name != "common") {
+            dependencies {
+                implementation(project(":common"))
+            }
+        }
+    }
+
     // 공통 의존성
     dependencies {
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.2")
         implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.25")
         testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.9.25")
         testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.11.3")
-
-        // 공통 모듈
-        implementation(project(":common"))
     }
 }
