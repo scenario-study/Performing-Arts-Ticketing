@@ -13,4 +13,7 @@ dependencies {
     // Swagger
     implementation("org.springdoc:springdoc-openapi:2.7.0")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0")
+
+    implementation(project(":application-layer"))
+    implementation(project(":infra-layer"))
 }

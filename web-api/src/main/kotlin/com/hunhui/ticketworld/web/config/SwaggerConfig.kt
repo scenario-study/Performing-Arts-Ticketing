@@ -1,4 +1,4 @@
-package com.hunhui.api.config
+package com.hunhui.ticketworld.web.config
 
 import io.swagger.v3.oas.models.Components
 import io.swagger.v3.oas.models.OpenAPI

@@ -1,4 +1,4 @@
-package com.hunhui.api
+package com.hunhui.ticketworld
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
