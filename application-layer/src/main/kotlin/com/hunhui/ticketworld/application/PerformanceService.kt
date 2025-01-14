@@ -23,7 +23,7 @@ class PerformanceService(
         return PerformanceSummaryListResponse.from(performances)
     }
 
-    fun savePerformance(performanceCreateRequest: PerformanceCreateRequest) {
+    fun createPerformance(performanceCreateRequest: PerformanceCreateRequest) {
         val performance = Performance(
             id = performanceCreateRequest.id,
             title = performanceCreateRequest.title,

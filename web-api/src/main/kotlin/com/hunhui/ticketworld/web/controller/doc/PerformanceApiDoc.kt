@@ -24,8 +24,8 @@ interface PerformanceApiDoc {
         @RequestParam(defaultValue = "0") page: Int,
     ): ResponseEntity<PerformanceSummaryListResponse>
 
-    @Operation(summary = "공연 정보 저장 API")
-    fun savePerformance(
+    @Operation(summary = "공연 생성 API")
+    fun createPerformance(
         @RequestBody performanceCreateRequest: PerformanceCreateRequest,
     ): ResponseEntity<Unit>
 }

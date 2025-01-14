@@ -31,7 +31,7 @@ class PerformanceController(
     ): ResponseEntity<PerformanceSummaryListResponse> = ResponseEntity.ok(performanceService.getPerformances(page, size))
 
     @PostMapping
-    override fun savePerformance(
+    override fun createPerformance(
         @RequestBody performanceCreateRequest: PerformanceCreateRequest,
-    ): ResponseEntity<Unit> = ResponseEntity.ok(performanceService.savePerformance(performanceCreateRequest))
+    ): ResponseEntity<Unit> = ResponseEntity.ok(performanceService.createPerformance(performanceCreateRequest))
 }
