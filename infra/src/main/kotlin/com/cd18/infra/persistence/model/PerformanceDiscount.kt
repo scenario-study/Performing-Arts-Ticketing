@@ -1,3 +1,5 @@
+package com.cd18.infra.persistence.model
+
 import com.cd18.infra.persistence.config.model.BaseTimeEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -15,5 +17,5 @@ class PerformanceDiscount(
     @Column(name = "perf_id")
     var performanceInfoId: Long,
     @Column(name = "perf_dc_price")
-    var performanceDiscountPrice: Int,
+    var discountPrice: Int,
 ) : BaseTimeEntity()

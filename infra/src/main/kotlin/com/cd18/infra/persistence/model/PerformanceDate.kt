@@ -1,3 +1,5 @@
+package com.cd18.infra.persistence.model
+
 import com.cd18.infra.persistence.config.model.BaseTimeEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -15,6 +17,6 @@ class PerformanceDate(
     var id: Long? = null,
     @Column(name = "perf_id")
     var performanceInfoId: Long,
-    @Column(name = "perf_desc")
-    var performanceTime: Date,
+    @Column(name = "perf_time")
+    var startTime: Date,
 ) : BaseTimeEntity()

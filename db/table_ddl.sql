@@ -15,7 +15,8 @@ CREATE TABLE performance_date
     id         bigint auto_increment primary key,
     perf_id    bigint    not null,
     perf_time  timestamp not null,
-    created_at timestamp
+    created_at timestamp,
+    updated_at    timestamp
 );
 
 CREATE TABLE performance_price
