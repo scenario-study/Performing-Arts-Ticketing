@@ -3,7 +3,6 @@ package com.hunhui.ticketworld.application
 import com.hunhui.ticketworld.application.dto.request.PerformanceCreateRequest
 import com.hunhui.ticketworld.application.dto.response.PerformanceResponse
 import com.hunhui.ticketworld.application.dto.response.PerformanceSummaryListResponse
-import com.hunhui.ticketworld.domain.performance.Performance
 import com.hunhui.ticketworld.domain.performance.PerformanceRepository
 import org.springframework.stereotype.Service
 import java.util.UUID
@@ -24,17 +23,6 @@ class PerformanceService(
     }
 
     fun createPerformance(performanceCreateRequest: PerformanceCreateRequest) {
-        val performance = Performance(
-            id = performanceCreateRequest.id,
-            title = performanceCreateRequest.title,
-            genre = performanceCreateRequest.genre,
-            imageUrl = performanceCreateRequest.imageUrl,
-            location = performanceCreateRequest.location,
-            description = performanceCreateRequest.description,
-            seatGrades = performanceCreateRequest.seatGrades,
-            status = performanceCreateRequest.status,
-            rounds = performanceCreateRequest.rounds
-        )
-        performanceRepository.save(performance)
+        performanceRepository.save(performanceCreateRequest.domain)
     }
 }

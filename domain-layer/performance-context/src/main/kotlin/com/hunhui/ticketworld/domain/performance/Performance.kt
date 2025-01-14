@@ -11,7 +11,6 @@ class Performance (
     val location: String,
     val description: String,
     val seatGrades: List<SeatGrade>,
-    val status: PerformanceStatus,
     val rounds: List<PerformanceRound>,
 ) {
     companion object {
@@ -33,7 +32,6 @@ class Performance (
                 description = description,
                 seatGrades = seatGrades,
                 rounds = rounds,
-                status = PerformanceStatus.PRIVATE,
             )
         }
     }
@@ -44,8 +42,4 @@ class Performance (
         get() = rounds.maxOf { it.performanceDateTime.toLocalDate() }
     val availableRounds: List<PerformanceRound>
         get() = rounds.filter { it.isReservationAvailable }
-    val canView: Boolean
-        get() = status.canView
-    val canReserve: Boolean
-        get() = status.canReserve
 }

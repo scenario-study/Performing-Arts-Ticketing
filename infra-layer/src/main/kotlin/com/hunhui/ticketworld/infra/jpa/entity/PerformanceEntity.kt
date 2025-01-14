@@ -1,7 +1,6 @@
 package com.hunhui.ticketworld.infra.jpa.entity
 
 import com.hunhui.ticketworld.domain.performance.PerformanceGenre
-import com.hunhui.ticketworld.domain.performance.PerformanceStatus
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -35,10 +34,6 @@ internal class PerformanceEntity(
 
     @Column(name = "description", nullable = false)
     val description: String,
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
-    val status: PerformanceStatus,
 
     @OneToMany(
         mappedBy = "performanceId",
