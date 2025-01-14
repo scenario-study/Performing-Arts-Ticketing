@@ -48,7 +48,7 @@ class Art(
         return Ticket(
             artId = this.id,
             originalPrice = price.basePrice,
-            boughtPrice = discountCoupon.discount(price.discountPrice),
+            boughtPrice = discountCoupon.discount(price.discountedPrice),
             boughtUserId = user.id,
         )
     }

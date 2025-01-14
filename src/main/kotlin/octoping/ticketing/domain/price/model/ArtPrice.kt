@@ -8,7 +8,7 @@ private const val MAX_PRICE = 10_000_000_000
 class ArtPrice(
     private val artId: Long,
     val basePrice: Long,
-    val discountPrice: Long,
+    val discountedPrice: Long,
     private val startDate: LocalDateTime = LocalDateTime.now(),
     private var endDate: LocalDateTime? = null,
 ) {
@@ -21,21 +21,21 @@ class ArtPrice(
             throw ValidationException("Price cannot be greater than max price: $basePrice")
         }
 
-        if (discountPrice < 0) {
-            throw ValidationException("Discount cannot be negative: $discountPrice")
+        if (discountedPrice < 0) {
+            throw ValidationException("Discount cannot be negative: $discountedPrice")
         }
 
-        if (discountPrice > basePrice) {
-            throw ValidationException("Discount cannot be less than max price: $discountPrice")
+        if (discountedPrice > basePrice) {
+            throw ValidationException("Discount cannot be less than max price: $discountedPrice")
         }
     }
 
-    fun changePrice(basePrice: Long, discountPrice: Long, now: LocalDateTime = LocalDateTime.now()): ArtPrice {
+    fun changePrice(basePrice: Long, discountedPrice: Long, now: LocalDateTime = LocalDateTime.now()): ArtPrice {
         if (!this.isCurrentlyApplied()) {
             throw ValidationException("현재 가격이 변경되었습니다")
         }
 
-        if (this.basePrice == basePrice && this.discountPrice == discountPrice) {
+        if (this.basePrice == basePrice && this.discountedPrice == discountedPrice) {
             return this
         }
 
@@ -44,7 +44,7 @@ class ArtPrice(
         return ArtPrice(
             artId = artId,
             basePrice = basePrice,
-            discountPrice = discountPrice,
+            discountedPrice = discountedPrice,
             startDate = startDate,
             endDate = endDate,
         )
@@ -55,7 +55,7 @@ class ArtPrice(
             return 0
         }
 
-        return (this.discountPrice / this.basePrice * 100).toInt()
+        return (this.discountedPrice / this.basePrice * 100).toInt()
     }
 
     fun isCurrentlyApplied() = this.endDate != null

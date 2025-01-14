@@ -15,7 +15,7 @@ internal class ArtPriceTest : AnnotationSpec() {
             ArtPrice(
                 artId = 0,
                 basePrice = price,
-                discountPrice = 1000,
+                discountedPrice = 1000,
             )
         }
     }
@@ -30,7 +30,7 @@ internal class ArtPriceTest : AnnotationSpec() {
             ArtPrice(
                 artId = 0,
                 basePrice = price,
-                discountPrice = 1000,
+                discountedPrice = 1000,
             )
         }
     }
