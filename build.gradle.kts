@@ -63,5 +63,6 @@ subprojects {
         implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.25")
         testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.9.25")
         testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.11.3")
+        testImplementation("io.mockk:mockk:1.13.16")
     }
 }
