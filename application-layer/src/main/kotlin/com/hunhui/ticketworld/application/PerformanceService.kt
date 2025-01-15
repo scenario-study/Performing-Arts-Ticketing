@@ -23,6 +23,6 @@ class PerformanceService(
     }
 
     fun createPerformance(performanceCreateRequest: PerformanceCreateRequest) {
-        performanceRepository.save(performanceCreateRequest.domain)
+        performanceRepository.save(performanceCreateRequest.toDomain())
     }
 }
