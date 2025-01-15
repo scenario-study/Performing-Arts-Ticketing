@@ -1,5 +1,6 @@
 package com.hunhui.ticketworld.domain.performance
 
+import com.hunhui.ticketworld.common.vo.Money
 import java.time.LocalDate
 import java.util.UUID
 
@@ -42,4 +43,6 @@ class Performance (
         get() = rounds.maxOf { it.performanceDateTime.toLocalDate() }
     val availableRounds: List<PerformanceRound>
         get() = rounds.filter { it.isReservationAvailable }
+    val minimumPrice: Money
+        get() = seatGrades.minOf { it.price }
 }
