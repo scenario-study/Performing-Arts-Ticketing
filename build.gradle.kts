@@ -5,9 +5,14 @@ plugins {
     id("org.springframework.boot") version "3.4.1" apply false
     id("io.spring.dependency-management") version "1.1.7" apply false
     jacoco
+    id("jacoco-report-aggregation")
 
     // ktlint
     id("org.jlleitschuh.gradle.ktlint") version "12.1.2"
+}
+
+dependencies {
+    jacocoAggregation(project(":domain-layer:performance-context"))
 }
 
 allprojects {
@@ -42,6 +47,7 @@ subprojects {
     }
 
     tasks.jacocoTestReport {
+        dependsOn(tasks.test)
         reports {
             html.required.set(true)
             xml.required.set(true)
