@@ -44,10 +44,10 @@ jobs:
               run: ./gradlew testCodeCoverageReport
 
             - name: 테스트 커버리지 리포트 PR Commant 추가
-              uses: madrapps/jacoco-report@v1.6
+              uses: madrapps/jacoco-report@v1.7.1
               with:
                   title: 테스트 커버리지 리포트
-                  paths: build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
+                  paths: ${{ github.workspace }}/**/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
                   token: ${{ secrets.GITHUB_TOKEN }}
                   min-coverage-overall: 0
                   min-coverage-changed-files: 0
