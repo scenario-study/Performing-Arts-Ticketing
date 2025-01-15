@@ -10,3 +10,9 @@ dependencies {
 
     implementation(project(":domain-layer:performance-context"))
 }
+
+tasks {
+    bootJar {
+        enabled = false
+    }
+}
