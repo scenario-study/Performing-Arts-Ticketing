@@ -1,0 +1,50 @@
+name: PR 제출 시 코드 검사 및 코드 커버리지 리포트 작성
+
+on:
+    pull_request:
+        branches:
+            - jhh
+    workflow_dispatch: # 수동 실행 이벤트 추가
+
+permissions:
+    contents: read
+    pull-requests: write
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: 코드 체크아웃
+              uses: actions/checkout@v3
+
+            - name: JDK 21 설정
+              uses: actions/setup-java@v3
+              with:
+                  distribution: 'temurin'
+                  java-version: '21'
+
+            - name: Gradle 패키지 캐싱
+              uses: actions/cache@v3
+              with:
+                  path: |
+                      ~/.gradle/caches
+                      ~/.gradle/wrapper
+                  key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+                  restore-keys: |
+                      ${{ runner.os }}-gradle-
+
+            - name: Gradle 빌드
+              run: ./gradlew build
+
+            - name: ktlint 검사 실행
+              run: ./gradlew ktlintCheck
+
+            - name: 테스트 커버리지 리포트 PR Commant 추가
+              uses: madrapps/jacoco-report@v1.6
+              with:
+                  title: 테스트 커버리지 리포트
+                  paths: build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  min-coverage-overall: 0
+                  min-coverage-changed-files: 0
