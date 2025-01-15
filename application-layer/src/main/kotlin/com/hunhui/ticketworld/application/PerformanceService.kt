@@ -11,11 +11,7 @@ import java.util.UUID
 class PerformanceService(
     private val performanceRepository: PerformanceRepository,
 ) {
-    fun getPerformance(performanceId: UUID): PerformanceResponse {
-        val performance = performanceRepository.findById(performanceId)
-        return performance?.let { PerformanceResponse.from(it) }
-            ?: throw IllegalArgumentException("Performance not found")
-    }
+    fun getPerformance(performanceId: UUID): PerformanceResponse = PerformanceResponse.from(performanceRepository.getById(performanceId))
 
     fun getPerformances(
         page: Int,
