@@ -18,36 +18,29 @@ internal class PerformanceEntity(
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     val id: UUID = UUID.randomUUID(),
-
     @Column(name = "title", nullable = false)
     val title: String,
-
     @Enumerated(EnumType.STRING)
     @Column(name = "genre", nullable = false)
     val genre: PerformanceGenre,
-
     @Column(name = "imageUrl", nullable = false)
     val imageUrl: String,
-
     @Column(name = "location", nullable = false)
     val location: String,
-
     @Column(name = "description", nullable = false)
     val description: String,
-
     @OneToMany(
         mappedBy = "performanceId",
         cascade = [CascadeType.ALL],
         orphanRemoval = true,
-        fetch = FetchType.LAZY
+        fetch = FetchType.LAZY,
     )
     val seatGrades: List<SeatGradeEntity> = emptyList(),
-
     @OneToMany(
         mappedBy = "performanceId",
         cascade = [CascadeType.ALL],
         orphanRemoval = true,
-        fetch = FetchType.LAZY
+        fetch = FetchType.LAZY,
     )
-    val rounds: List<PerformanceRoundEntity> = emptyList()
+    val rounds: List<PerformanceRoundEntity> = emptyList(),
 ) : BaseTimeEntity()

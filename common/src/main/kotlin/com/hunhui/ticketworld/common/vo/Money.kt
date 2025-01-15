@@ -9,7 +9,5 @@ data class Money(
         require(amount >= 0) { throw InvalidMoneyException() }
     }
 
-    override fun compareTo(other: Money): Int {
-        return this.amount.compareTo(other.amount)
-    }
+    override fun compareTo(other: Money): Int = this.amount.compareTo(other.amount)
 }

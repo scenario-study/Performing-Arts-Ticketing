@@ -15,7 +15,7 @@ class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
         logger.error(e.message, e)
         return ErrorResponse(
             errorCode = GlobalErrorCode.INTERNAL_SERVER_ERROR,
-            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR,
         )
     }
 
@@ -24,7 +24,7 @@ class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
         logger.warn(e.message, e)
         return ErrorResponse(
             errorCode = e.errorCode,
-            httpStatus = HttpStatus.BAD_REQUEST
+            httpStatus = HttpStatus.BAD_REQUEST,
         )
     }
 }

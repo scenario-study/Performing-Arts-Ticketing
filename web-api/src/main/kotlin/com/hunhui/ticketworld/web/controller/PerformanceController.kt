@@ -25,7 +25,6 @@ class PerformanceController(
         @PathVariable("performanceId") performanceId: UUID,
     ): ResponseEntity<PerformanceResponse> = ResponseEntity.ok(performanceService.getPerformance(performanceId))
 
-
     @GetMapping
     override fun getPerformanceSummaryList(
         @RequestParam(defaultValue = "10") size: Int,

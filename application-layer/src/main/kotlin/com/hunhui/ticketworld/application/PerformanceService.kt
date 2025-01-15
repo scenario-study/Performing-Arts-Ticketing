@@ -17,7 +17,10 @@ class PerformanceService(
             ?: throw IllegalArgumentException("Performance not found")
     }
 
-    fun getPerformances(page: Int, size: Int): PerformanceSummaryListResponse {
+    fun getPerformances(
+        page: Int,
+        size: Int,
+    ): PerformanceSummaryListResponse {
         val performances = performanceRepository.findAll(page, size)
         return PerformanceSummaryListResponse.from(performances)
     }

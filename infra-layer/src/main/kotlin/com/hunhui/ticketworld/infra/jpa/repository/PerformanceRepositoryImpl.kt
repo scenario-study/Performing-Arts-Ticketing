@@ -15,67 +15,81 @@ import java.util.UUID
 
 @Repository
 internal class PerformanceRepositoryImpl(
-    private val performanceJpaRepository: PerformanceJpaRepository
-): PerformanceRepository {
+    private val performanceJpaRepository: PerformanceJpaRepository,
+) : PerformanceRepository {
     override fun findById(id: UUID): Performance? = performanceJpaRepository.findByIdOrNull(id)?.domain
 
-    override fun findAll(page: Int, size: Int): List<Performance> = performanceJpaRepository.findAll(Pageable.ofSize(size).withPage(page)).content.map { it.domain }
+    override fun findAll(
+        page: Int,
+        size: Int,
+    ): List<Performance> =
+        performanceJpaRepository.findAll(
+            Pageable.ofSize(size).withPage(page),
+        ).content.map {
+            it.domain
+        }
 
     override fun save(performance: Performance) {
         performanceJpaRepository.save(performance.entity)
     }
 
     private val PerformanceEntity.domain: Performance
-        get() = Performance(
-            id = id,
-            title = title,
-            description = description,
-            genre = genre,
-            imageUrl = imageUrl,
-            location = location,
-            seatGrades = seatGrades.map { it.domain },
-            rounds = rounds.map { it.domain }
-        )
+        get() =
+            Performance(
+                id = id,
+                title = title,
+                description = description,
+                genre = genre,
+                imageUrl = imageUrl,
+                location = location,
+                seatGrades = seatGrades.map { it.domain },
+                rounds = rounds.map { it.domain },
+            )
 
     private val PerformanceRoundEntity.domain: PerformanceRound
-        get() = PerformanceRound(
-            id = id,
-            performanceDateTime = performanceDateTime,
-            reservationStartDateTime = reservationStartDateTime,
-            reservationFinishDateTime = reservationFinishDateTime
-        )
+        get() =
+            PerformanceRound(
+                id = id,
+                performanceDateTime = performanceDateTime,
+                reservationStartDateTime = reservationStartDateTime,
+                reservationFinishDateTime = reservationFinishDateTime,
+            )
 
     private val SeatGradeEntity.domain: SeatGrade
-        get() = SeatGrade(
-            id = id,
-            gradeName = gradeName,
-            price = Money(price)
-        )
+        get() =
+            SeatGrade(
+                id = id,
+                gradeName = gradeName,
+                price = Money(price),
+            )
 
     private val Performance.entity: PerformanceEntity
-        get() = PerformanceEntity(
-            id = id,
-            title = title,
-            description = description,
-            genre = genre,
-            imageUrl = imageUrl,
-            location = location,
-            seatGrades = seatGrades.map {
-                SeatGradeEntity(
-                    id = it.id,
-                    gradeName = it.gradeName,
-                    price = it.price.amount,
-                    performanceId = this.id
-                )
-            },
-            rounds = rounds.map {
-                PerformanceRoundEntity(
-                    id = it.id,
-                    performanceDateTime = it.performanceDateTime,
-                    reservationStartDateTime = it.reservationStartDateTime,
-                    reservationFinishDateTime = it.reservationFinishDateTime,
-                    performanceId = this.id
-                )
-            }
-        )
+        get() =
+            PerformanceEntity(
+                id = id,
+                title = title,
+                description = description,
+                genre = genre,
+                imageUrl = imageUrl,
+                location = location,
+                seatGrades =
+                    seatGrades.map {
+                        SeatGradeEntity(
+                            id = it.id,
+                            gradeName = it.gradeName,
+                            price = it.price.amount,
+                            performanceId = this.id,
+                        )
+                    },
+                rounds =
+                    rounds.map {
+                        PerformanceRoundEntity(
+                            id = it.id,
+                            performanceDateTime = it.performanceDateTime,
+                            reservationStartDateTime = it.reservationStartDateTime,
+                            reservationFinishDateTime = it.reservationFinishDateTime,
+                            performanceId = this.id,
+                        )
+                    },
+            )
 }

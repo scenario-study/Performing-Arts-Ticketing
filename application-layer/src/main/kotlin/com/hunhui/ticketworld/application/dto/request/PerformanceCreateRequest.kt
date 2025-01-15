@@ -13,27 +13,29 @@ data class PerformanceCreateRequest(
     val location: String,
     val description: String,
     val seatGrades: List<SeatGradeRequest>,
-    val rounds: List<PerformanceRoundRequest>
+    val rounds: List<PerformanceRoundRequest>,
 ) {
-    fun toDomain(): Performance = Performance.create(
-        title = title,
-        genre = genre,
-        imageUrl = imageUrl,
-        location = location,
-        description = description,
-        seatGrades = seatGrades.map { SeatGrade.create(it.gradeName, it.price) },
-        rounds = rounds.map {
-            PerformanceRound.create(
-                it.performanceDateTime,
-                it.reservationStartDateTime,
-                it.reservationFinishDateTime
-            )
-        },
-    )
+    fun toDomain(): Performance =
+        Performance.create(
+            title = title,
+            genre = genre,
+            imageUrl = imageUrl,
+            location = location,
+            description = description,
+            seatGrades = seatGrades.map { SeatGrade.create(it.gradeName, it.price) },
+            rounds =
+                rounds.map {
+                    PerformanceRound.create(
+                        it.performanceDateTime,
+                        it.reservationStartDateTime,
+                        it.reservationFinishDateTime,
+                    )
+                },
+        )
 
     data class SeatGradeRequest(
         val gradeName: String,
-        val price: Long
+        val price: Long,
     )
 
     data class PerformanceRoundRequest(

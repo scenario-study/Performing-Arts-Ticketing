@@ -6,10 +6,10 @@ import org.springframework.http.ResponseEntity
 
 class ErrorResponse(
     errorCode: ErrorCode,
-    httpStatus: HttpStatus
-): ResponseEntity<ErrorResponse.Body>(Body(errorCode), httpStatus) {
+    httpStatus: HttpStatus,
+) : ResponseEntity<ErrorResponse.Body>(Body(errorCode), httpStatus) {
     class Body(
-        errorCode: ErrorCode
+        errorCode: ErrorCode,
     ) {
         private val code: String = errorCode.code
         private val message: String = errorCode.message

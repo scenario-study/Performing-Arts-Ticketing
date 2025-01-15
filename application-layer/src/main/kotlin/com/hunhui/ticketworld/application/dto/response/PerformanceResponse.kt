@@ -6,7 +6,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.UUID
 
-data class PerformanceResponse (
+data class PerformanceResponse(
     val id: UUID,
     val title: String,
     val performanceStartDate: LocalDate,
@@ -19,33 +19,36 @@ data class PerformanceResponse (
     val rounds: List<PerformanceRoundResponse>,
 ) {
     companion object {
-        fun from(performance: Performance) = PerformanceResponse(
-            id = performance.id,
-            title = performance.title,
-            performanceStartDate = performance.startDate,
-            performanceFinishDate = performance.finishDate,
-            genre = performance.genre,
-            imageUrl = performance.imageUrl,
-            location = performance.location,
-            description = performance.description,
-            seatGrades = performance.seatGrades.map {
-                SeatGradeResponse(
-                    gradeName = it.gradeName,
-                    price = it.price.amount
-                )
-            },
-            rounds = performance.availableRounds.map {
-                PerformanceRoundResponse(
-                    id = it.id,
-                    performanceDateTime = it.performanceDateTime
-                )
-            }
-        )
+        fun from(performance: Performance): PerformanceResponse =
+            PerformanceResponse(
+                id = performance.id,
+                title = performance.title,
+                performanceStartDate = performance.startDate,
+                performanceFinishDate = performance.finishDate,
+                genre = performance.genre,
+                imageUrl = performance.imageUrl,
+                location = performance.location,
+                description = performance.description,
+                seatGrades =
+                    performance.seatGrades.map {
+                        SeatGradeResponse(
+                            gradeName = it.gradeName,
+                            price = it.price.amount,
+                        )
+                    },
+                rounds =
+                    performance.availableRounds.map {
+                        PerformanceRoundResponse(
+                            id = it.id,
+                            performanceDateTime = it.performanceDateTime,
+                        )
+                    },
+            )
     }
 
     data class SeatGradeResponse(
         val gradeName: String,
-        val price: Long
+        val price: Long,
     )
 
     data class PerformanceRoundResponse(

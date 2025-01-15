@@ -14,12 +14,12 @@ class PerformanceRound(
     init {
         require(reservationStartDateTime.isBefore(reservationFinishDateTime)) {
             throw InvalidPerformanceRoundException(
-                PerformanceRoundErrorCode.RESERVATION_START_DATE_IS_AFTER_FINISH_DATE
+                PerformanceRoundErrorCode.RESERVATION_START_DATE_IS_AFTER_FINISH_DATE,
             )
         }
         require(reservationFinishDateTime.isBefore(performanceDateTime)) {
             throw InvalidPerformanceRoundException(
-                PerformanceRoundErrorCode.RESERVATION_FINISH_DATE_IS_AFTER_PERFORMANCE_DATE
+                PerformanceRoundErrorCode.RESERVATION_FINISH_DATE_IS_AFTER_PERFORMANCE_DATE,
             )
         }
     }
@@ -28,17 +28,18 @@ class PerformanceRound(
         fun create(
             performanceDateTime: LocalDateTime,
             reservationStartDateTime: LocalDateTime,
-            reservationFinishDateTime: LocalDateTime
+            reservationFinishDateTime: LocalDateTime,
         ) = PerformanceRound(
             id = UUID.randomUUID(),
             performanceDateTime = performanceDateTime,
             reservationStartDateTime = reservationStartDateTime,
-            reservationFinishDateTime = reservationFinishDateTime
+            reservationFinishDateTime = reservationFinishDateTime,
         )
     }
 
     val isReservationAvailable: Boolean
-        get() = LocalDateTime.now().let {
-            it.isBefore(reservationFinishDateTime) && it.isAfter(reservationStartDateTime)
-        }
+        get() =
+            LocalDateTime.now().let {
+                it.isBefore(reservationFinishDateTime) && it.isAfter(reservationStartDateTime)
+            }
 }

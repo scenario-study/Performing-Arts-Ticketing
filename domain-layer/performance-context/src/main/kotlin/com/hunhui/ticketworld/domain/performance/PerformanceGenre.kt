@@ -5,5 +5,5 @@ enum class PerformanceGenre {
     MUSICAL,
     SPORTS,
     EXHIBITION,
-    ETC
+    ETC,
 }

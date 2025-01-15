@@ -13,16 +13,12 @@ internal class PerformanceRoundEntity(
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     val id: UUID = UUID.randomUUID(),
-
     @Column(name = "performanceDateTime", nullable = false)
     val performanceDateTime: LocalDateTime,
-
     @Column(name = "reservationStartDateTime", nullable = false)
     val reservationStartDateTime: LocalDateTime,
-
     @Column(name = "reservationFinishDateTime", nullable = false)
     val reservationFinishDateTime: LocalDateTime,
-
     @Column(name = "performanceId", nullable = false)
-    val performanceId: UUID
+    val performanceId: UUID,
 ) : BaseTimeEntity()

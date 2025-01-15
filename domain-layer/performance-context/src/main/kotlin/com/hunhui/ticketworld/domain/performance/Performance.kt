@@ -6,7 +6,7 @@ import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode
 import java.time.LocalDate
 import java.util.UUID
 
-class Performance (
+class Performance(
     val id: UUID,
     val title: String,
     val genre: PerformanceGenre,
@@ -30,8 +30,8 @@ class Performance (
             description: String,
             seatGrades: List<SeatGrade>,
             rounds: List<PerformanceRound>,
-        ): Performance {
-            return Performance(
+        ): Performance =
+            Performance(
                 id = UUID.randomUUID(),
                 title = title,
                 genre = genre,
@@ -41,7 +41,6 @@ class Performance (
                 seatGrades = seatGrades,
                 rounds = rounds,
             )
-        }
     }
 
     val startDate: LocalDate
