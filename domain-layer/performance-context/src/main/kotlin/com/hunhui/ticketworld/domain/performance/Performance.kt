@@ -1,6 +1,8 @@
 package com.hunhui.ticketworld.domain.performance
 
 import com.hunhui.ticketworld.common.vo.Money
+import com.hunhui.ticketworld.domain.performance.exception.InvalidPerformanceException
+import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode
 import java.time.LocalDate
 import java.util.UUID
 
@@ -14,6 +16,11 @@ class Performance (
     val seatGrades: List<SeatGrade>,
     val rounds: List<PerformanceRound>,
 ) {
+    init {
+        require(seatGrades.isNotEmpty()) { throw InvalidPerformanceException(PerformanceErrorCode.SEAT_GRADE_IS_EMPTY) }
+        require(rounds.isNotEmpty()) { throw InvalidPerformanceException(PerformanceErrorCode.ROUND_IS_EMPTY) }
+    }
+
     companion object {
         fun create(
             title: String,
