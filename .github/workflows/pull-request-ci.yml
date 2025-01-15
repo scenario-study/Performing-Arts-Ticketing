@@ -40,6 +40,9 @@ jobs:
             - name: ktlint 검사 실행
               run: ./gradlew ktlintCheck
 
+            - name: 루트 디렉토리에 jacoco 테스트 커버리지 리포트 생성
+              run: ./gradlew testCodeCoverageReport
+
             - name: 테스트 커버리지 리포트 PR Commant 추가
               uses: madrapps/jacoco-report@v1.6
               with:
