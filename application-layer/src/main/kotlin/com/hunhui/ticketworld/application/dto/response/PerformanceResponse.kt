@@ -34,7 +34,7 @@ data class PerformanceResponse (
                     price = it.price.amount
                 )
             },
-            rounds = performance.rounds.map {
+            rounds = performance.availableRounds.map {
                 PerformanceRoundResponse(
                     id = it.id,
                     performanceDateTime = it.performanceDateTime
