@@ -4,6 +4,7 @@ plugins {
     kotlin("plugin.jpa") version "1.9.25" apply false
     id("org.springframework.boot") version "3.4.1" apply false
     id("io.spring.dependency-management") version "1.1.7" apply false
+    jacoco
 
     // ktlint
     id("org.jlleitschuh.gradle.ktlint") version "12.1.2"
@@ -21,6 +22,7 @@ allprojects {
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
+    apply(plugin = "jacoco")
 
     kotlin {
         compilerOptions {
@@ -36,6 +38,15 @@ subprojects {
 
     tasks.withType<Test> {
         useJUnitPlatform()
+        finalizedBy(tasks.jacocoTestReport)
+    }
+
+    tasks.jacocoTestReport {
+        reports {
+            html.required.set(true)
+            xml.required.set(true)
+            csv.required.set(false)
+        }
     }
 
     afterEvaluate {
