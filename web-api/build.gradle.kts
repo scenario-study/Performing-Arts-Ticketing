@@ -7,6 +7,7 @@ plugins {
 dependencies {
     implementation(project(":common"))
     implementation(project(":domain"))
+    implementation(project(":infra"))
 
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -20,5 +21,8 @@ dependencies {
     implementation("io.swagger.core.v3:swagger-annotations:2.2.27")
 
     // Database
-    runtimeOnly("com.mysql:mysql-connector-j")
+    runtimeOnly("com.mysql:mysql-connector-j:8.4.0")
+    implementation("com.zaxxer:HikariCP")
+    implementation("org.hibernate.validator:hibernate-validator:8.0.1.Final")
+    implementation("org.glassfish:jakarta.el:4.0.2")
 }
