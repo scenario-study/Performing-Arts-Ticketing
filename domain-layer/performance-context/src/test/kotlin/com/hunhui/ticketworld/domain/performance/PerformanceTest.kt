@@ -15,7 +15,7 @@ class PerformanceTest {
     @Test
     fun `모든 필드가 유효할 때 Performance 생성에 성공한다`() {
         // when
-        val performance = PerformanceFixtureFactory.performance()
+        val performance = PerformanceFixtureFactory.createValidPerformance()
 
         // then
         assertNotNull(performance.id)
@@ -28,7 +28,7 @@ class PerformanceTest {
         // when & then
         val exception =
             assertThrows<InvalidPerformanceException> {
-                PerformanceFixtureFactory.performance(seatGrades = emptyList())
+                PerformanceFixtureFactory.createValidPerformance(seatGrades = emptyList())
             }
         assertEquals(PerformanceErrorCode.SEAT_GRADE_IS_EMPTY, exception.errorCode)
     }
@@ -38,7 +38,7 @@ class PerformanceTest {
         // when & then
         val exception =
             assertThrows<InvalidPerformanceException> {
-                PerformanceFixtureFactory.performance(rounds = emptyList())
+                PerformanceFixtureFactory.createValidPerformance(rounds = emptyList())
             }
         assertEquals(PerformanceErrorCode.ROUND_IS_EMPTY, exception.errorCode)
     }
@@ -59,7 +59,7 @@ class PerformanceTest {
                 LocalDateTime.of(2025, 1, 5, 0, 0),
             )
         val performance =
-            PerformanceFixtureFactory.performance(
+            PerformanceFixtureFactory.createValidPerformance(
                 rounds = listOf(performanceRound1, performanceRound2),
             )
 
@@ -86,7 +86,7 @@ class PerformanceTest {
                 LocalDateTime.of(2025, 1, 5, 0, 0),
             )
         val performance =
-            PerformanceFixtureFactory.performance(
+            PerformanceFixtureFactory.createValidPerformance(
                 rounds = listOf(performanceRound1, performanceRound2),
             )
 
@@ -115,7 +115,7 @@ class PerformanceTest {
                 now.minusDays(2),
             )
         val performance =
-            PerformanceFixtureFactory.performance(rounds = listOf(availableRound, unavailableRound))
+            PerformanceFixtureFactory.createValidPerformance(rounds = listOf(availableRound, unavailableRound))
 
         // when
         val availableRounds = performance.availableRounds
@@ -132,7 +132,7 @@ class PerformanceTest {
         val seatGrade1 = SeatGrade.create("VIP", 50000)
         val seatGrade2 = SeatGrade.create("R석", 40000)
         val performance =
-            PerformanceFixtureFactory.performance(seatGrades = listOf(seatGrade1, seatGrade2))
+            PerformanceFixtureFactory.createValidPerformance(seatGrades = listOf(seatGrade1, seatGrade2))
 
         // when
         val minPrice = performance.minimumPrice
