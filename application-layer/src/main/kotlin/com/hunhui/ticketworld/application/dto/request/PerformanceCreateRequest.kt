@@ -3,7 +3,7 @@ package com.hunhui.ticketworld.application.dto.request
 import com.hunhui.ticketworld.domain.performance.Performance
 import com.hunhui.ticketworld.domain.performance.PerformanceGenre
 import com.hunhui.ticketworld.domain.performance.PerformanceRound
-import com.hunhui.ticketworld.domain.performance.SeatGrade
+import com.hunhui.ticketworld.domain.performance.TicketGrade
 import java.time.LocalDateTime
 
 data class PerformanceCreateRequest(
@@ -12,7 +12,7 @@ data class PerformanceCreateRequest(
     val imageUrl: String,
     val location: String,
     val description: String,
-    val seatGrades: List<SeatGradeRequest>,
+    val ticketGrades: List<TicketGradeRequest>,
     val rounds: List<PerformanceRoundRequest>,
 ) {
     fun toDomain(): Performance =
@@ -22,7 +22,7 @@ data class PerformanceCreateRequest(
             imageUrl = imageUrl,
             location = location,
             description = description,
-            seatGrades = seatGrades.map { SeatGrade.create(it.gradeName, it.price) },
+            ticketGrades = ticketGrades.map { TicketGrade.create(it.gradeName, it.price) },
             rounds =
                 rounds.map {
                     PerformanceRound.create(
@@ -33,7 +33,7 @@ data class PerformanceCreateRequest(
                 },
         )
 
-    data class SeatGradeRequest(
+    data class TicketGradeRequest(
         val gradeName: String,
         val price: Long,
     )

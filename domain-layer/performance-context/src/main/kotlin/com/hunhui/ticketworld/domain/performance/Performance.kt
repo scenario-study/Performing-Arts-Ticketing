@@ -14,11 +14,11 @@ class Performance(
     val imageUrl: String,
     val location: String,
     val description: String,
-    val seatGrades: List<SeatGrade>,
+    val ticketGrades: List<TicketGrade>,
     val rounds: List<PerformanceRound>,
 ) {
     init {
-        require(seatGrades.isNotEmpty()) { throw InvalidPerformanceException(PerformanceErrorCode.SEAT_GRADE_IS_EMPTY) }
+        require(ticketGrades.isNotEmpty()) { throw InvalidPerformanceException(PerformanceErrorCode.TICKET_GRADE_IS_EMPTY) }
         require(rounds.isNotEmpty()) { throw InvalidPerformanceException(PerformanceErrorCode.ROUND_IS_EMPTY) }
     }
 
@@ -29,7 +29,7 @@ class Performance(
             imageUrl: String,
             location: String,
             description: String,
-            seatGrades: List<SeatGrade>,
+            ticketGrades: List<TicketGrade>,
             rounds: List<PerformanceRound>,
         ): Performance =
             Performance(
@@ -39,7 +39,7 @@ class Performance(
                 imageUrl = imageUrl,
                 location = location,
                 description = description,
-                seatGrades = seatGrades,
+                ticketGrades = ticketGrades,
                 rounds = rounds,
             )
     }
@@ -53,5 +53,5 @@ class Performance(
     val minimumReservationStartDateTime: LocalDateTime
         get() = rounds.minOf { it.reservationStartDateTime }
     val minimumPrice: Money
-        get() = seatGrades.minOf { it.price }
+        get() = ticketGrades.minOf { it.price }
 }

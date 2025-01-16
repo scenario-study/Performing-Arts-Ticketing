@@ -7,8 +7,8 @@ import jakarta.persistence.Table
 import java.util.UUID
 
 @Entity
-@Table(name = "seat_grade")
-internal class SeatGradeEntity(
+@Table(name = "ticket_grade")
+internal class TicketGradeEntity(
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     val id: UUID = UUID.randomUUID(),

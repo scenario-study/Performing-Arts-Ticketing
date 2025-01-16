@@ -19,7 +19,7 @@ class PerformanceTest {
 
         // then
         assertNotNull(performance.id)
-        assertTrue(performance.seatGrades.isNotEmpty())
+        assertTrue(performance.ticketGrades.isNotEmpty())
         assertTrue(performance.rounds.isNotEmpty())
     }
 
@@ -28,9 +28,9 @@ class PerformanceTest {
         // when & then
         val exception =
             assertThrows<InvalidPerformanceException> {
-                PerformanceFixtureFactory.createValidPerformance(seatGrades = emptyList())
+                PerformanceFixtureFactory.createValidPerformance(ticketGrades = emptyList())
             }
-        assertEquals(PerformanceErrorCode.SEAT_GRADE_IS_EMPTY, exception.errorCode)
+        assertEquals(PerformanceErrorCode.TICKET_GRADE_IS_EMPTY, exception.errorCode)
     }
 
     @Test
@@ -127,12 +127,12 @@ class PerformanceTest {
     }
 
     @Test
-    fun `minimumPrice는 seatGrades 중 가장 낮은 금액을 반환한다`() {
+    fun `minimumPrice는 ticketGrades 중 가장 낮은 금액을 반환한다`() {
         // given
-        val seatGrade1 = SeatGrade.create("VIP", 50000)
-        val seatGrade2 = SeatGrade.create("R석", 40000)
+        val ticketGrade1 = TicketGrade.create("VIP", 50000)
+        val ticketGrade2 = TicketGrade.create("R석", 40000)
         val performance =
-            PerformanceFixtureFactory.createValidPerformance(seatGrades = listOf(seatGrade1, seatGrade2))
+            PerformanceFixtureFactory.createValidPerformance(ticketGrades = listOf(ticketGrade1, ticketGrade2))
 
         // when
         val minPrice = performance.minimumPrice

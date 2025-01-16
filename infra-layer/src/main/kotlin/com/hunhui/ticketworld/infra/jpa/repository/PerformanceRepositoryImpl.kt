@@ -4,11 +4,11 @@ import com.hunhui.ticketworld.common.vo.Money
 import com.hunhui.ticketworld.domain.performance.Performance
 import com.hunhui.ticketworld.domain.performance.PerformanceRepository
 import com.hunhui.ticketworld.domain.performance.PerformanceRound
-import com.hunhui.ticketworld.domain.performance.SeatGrade
+import com.hunhui.ticketworld.domain.performance.TicketGrade
 import com.hunhui.ticketworld.domain.performance.exception.PerformanceNotFoundException
 import com.hunhui.ticketworld.infra.jpa.entity.PerformanceEntity
 import com.hunhui.ticketworld.infra.jpa.entity.PerformanceRoundEntity
-import com.hunhui.ticketworld.infra.jpa.entity.SeatGradeEntity
+import com.hunhui.ticketworld.infra.jpa.entity.TicketGradeEntity
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
@@ -46,7 +46,7 @@ internal class PerformanceRepositoryImpl(
                 genre = genre,
                 imageUrl = imageUrl,
                 location = location,
-                seatGrades = seatGrades.map { it.domain },
+                ticketGrades = ticketGrades.map { it.domain },
                 rounds = rounds.map { it.domain },
             )
 
@@ -59,9 +59,9 @@ internal class PerformanceRepositoryImpl(
                 reservationFinishDateTime = reservationFinishDateTime,
             )
 
-    private val SeatGradeEntity.domain: SeatGrade
+    private val TicketGradeEntity.domain: TicketGrade
         get() =
-            SeatGrade(
+            TicketGrade(
                 id = id,
                 gradeName = gradeName,
                 price = Money(price),
@@ -76,9 +76,9 @@ internal class PerformanceRepositoryImpl(
                 genre = genre,
                 imageUrl = imageUrl,
                 location = location,
-                seatGrades =
-                    seatGrades.map {
-                        SeatGradeEntity(
+                ticketGrades =
+                    ticketGrades.map {
+                        TicketGradeEntity(
                             id = it.id,
                             gradeName = it.gradeName,
                             price = it.price.amount,

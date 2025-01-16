@@ -3,7 +3,7 @@ package com.hunhui.ticketworld.domain.performance
 import com.hunhui.ticketworld.common.vo.Money
 import java.util.UUID
 
-class SeatGrade(
+class TicketGrade(
     val id: UUID,
     val gradeName: String,
     val price: Money,
@@ -12,7 +12,7 @@ class SeatGrade(
         fun create(
             gradeName: String,
             price: Long,
-        ) = SeatGrade(
+        ) = TicketGrade(
             id = UUID.randomUUID(),
             gradeName = gradeName,
             price = Money(price),
