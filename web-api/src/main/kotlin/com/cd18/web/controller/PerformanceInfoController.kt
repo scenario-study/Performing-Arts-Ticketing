@@ -1,5 +1,6 @@
 package com.cd18.web.controller
 
+import com.cd18.application.performance.PerformanceInfoService
 import com.cd18.common.http.response.ApiResponse
 import com.cd18.web.controller.request.PageRequest
 import com.cd18.web.controller.response.PerformanceInfoDetailResponse
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/performance")
 @Tag(name = "공연 정보", description = "공연 정보 APIs")
-class PerformanceInfoController {
+class PerformanceInfoController(
+    private val performanceInfoService: PerformanceInfoService,
+) {
     @GetMapping("")
     @Operation(
         summary = "공연 정보 리스트",
