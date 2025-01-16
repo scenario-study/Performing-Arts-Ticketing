@@ -6,13 +6,12 @@ import com.cd18.domain.performance.dto.PerformanceInfoDetailDto
 import com.cd18.domain.performance.dto.PerformanceInfoDto
 import com.cd18.domain.performance.enums.PerformanceInfoErrorCode
 import com.cd18.domain.performance.repository.PerformanceInfoRepository
+import com.cd18.infra.persistence.config.applyPagination
 import com.cd18.infra.persistence.model.QPerformanceDiscount.performanceDiscount
 import com.cd18.infra.persistence.model.QPerformanceInfo.performanceInfo
 import com.cd18.infra.persistence.model.QPerformancePrice.performancePrice
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.impl.JPAQueryFactory
-import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -20,8 +19,6 @@ class PerformanceInfoRepositoryImpl(
     private val queryFactory: JPAQueryFactory,
 ) : PerformanceInfoRepository {
     override fun getList(pageParam: PageParam): List<PerformanceInfoDto> {
-        val pageable: Pageable = PageRequest.of(pageParam.page, pageParam.size)
-
         return queryFactory.select(
             Projections.constructor(
                 PerformanceInfoDto::class.java,
@@ -39,8 +36,7 @@ class PerformanceInfoRepositoryImpl(
             .leftJoin(performanceDiscount)
             .on(performanceInfo.id.eq(performanceDiscount.performanceInfoId))
             .orderBy(performanceInfo.id.desc())
-            .offset(pageable.offset)
-            .limit(pageable.pageSize.toLong())
+            .applyPagination(pageParam)
             .fetch()
     }
 
