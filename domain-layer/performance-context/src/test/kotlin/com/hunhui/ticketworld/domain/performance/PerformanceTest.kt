@@ -127,6 +127,40 @@ class PerformanceTest {
     }
 
     @Test
+    fun `minimumReservationStartDateTime는 rounds 중 가장 이전인 예약 시작 시간을 반환한다`() {
+        // given
+        val round1 =
+            PerformanceRound.create(
+                performanceDateTime = LocalDateTime.of(2025, 1, 10, 18, 0),
+                reservationStartDateTime = LocalDateTime.of(2025, 1, 1, 0, 0),
+                reservationFinishDateTime = LocalDateTime.of(2025, 1, 5, 0, 0),
+            )
+        val round2 =
+            PerformanceRound.create(
+                performanceDateTime = LocalDateTime.of(2025, 1, 15, 18, 0),
+                reservationStartDateTime = LocalDateTime.of(2025, 1, 2, 0, 0),
+                reservationFinishDateTime = LocalDateTime.of(2025, 1, 6, 0, 0),
+            )
+        val round3 =
+            PerformanceRound.create(
+                performanceDateTime = LocalDateTime.of(2025, 1, 20, 18, 0),
+                reservationStartDateTime = LocalDateTime.of(2025, 1, 3, 0, 0),
+                reservationFinishDateTime = LocalDateTime.of(2025, 1, 7, 0, 0),
+            )
+
+        val performance =
+            PerformanceFixtureFactory.createValidPerformance(
+                rounds = listOf(round1, round2, round3),
+            )
+
+        // when
+        val earliestReservationStart = performance.minimumReservationStartDateTime
+
+        // then
+        assertEquals(LocalDateTime.of(2025, 1, 1, 0, 0), earliestReservationStart)
+    }
+
+    @Test
     fun `minimumPrice는 ticketGrades 중 가장 낮은 금액을 반환한다`() {
         // given
         val ticketGrade1 = TicketGrade.create("VIP", 50000)
