@@ -1,7 +1,7 @@
 package com.hunhui.ticketworld.domain.performance
 
 import com.hunhui.ticketworld.domain.performance.exception.InvalidPerformanceRoundException
-import com.hunhui.ticketworld.domain.performance.exception.PerformanceRoundErrorCode
+import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode
 import io.mockk.every
 import io.mockk.mockkStatic
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -50,7 +50,7 @@ class PerformanceRoundTest {
                     reservationFinishDateTime = now.plusDays(1),
                 )
             }
-        assertEquals(PerformanceRoundErrorCode.RESERVATION_START_DATE_IS_AFTER_FINISH_DATE, exception.errorCode)
+        assertEquals(PerformanceErrorCode.RESERVATION_START_DATE_IS_AFTER_FINISH_DATE, exception.errorCode)
     }
 
     @Test
@@ -68,7 +68,7 @@ class PerformanceRoundTest {
                     reservationFinishDateTime = now.plusDays(2),
                 )
             }
-        assertEquals(PerformanceRoundErrorCode.RESERVATION_FINISH_DATE_IS_AFTER_PERFORMANCE_DATE, exception.errorCode)
+        assertEquals(PerformanceErrorCode.RESERVATION_FINISH_DATE_IS_AFTER_PERFORMANCE_DATE, exception.errorCode)
     }
 
     @Test
