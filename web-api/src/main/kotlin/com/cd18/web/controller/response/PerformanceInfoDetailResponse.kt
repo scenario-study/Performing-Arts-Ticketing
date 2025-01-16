@@ -1,9 +1,10 @@
 package com.cd18.web.controller.response
 
+import com.cd18.domain.performance.dto.PerformanceInfoDetailDto
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "공연 정보 상세 응답")
-data class PerformanceInfoDetail(
+data class PerformanceInfoDetailResponse(
     @Schema(description = "공연 ID", example = "1")
     val performanceId: Long,
     @Schema(description = "공연명", example = "레미제라블")
@@ -22,4 +23,19 @@ data class PerformanceInfoDetail(
     val startDate: String,
     @Schema(description = "공연 종료일", example = "2025-05-05")
     val endDate: String,
-)
+) {
+    companion object {
+        fun of(performanceInfoDetailDto: PerformanceInfoDetailDto) =
+            PerformanceInfoDetailResponse(
+                performanceId = performanceInfoDetailDto.id,
+                performanceName = performanceInfoDetailDto.performanceName,
+                performanceDescription = performanceInfoDetailDto.performanceDescription,
+                performanceVenue = performanceInfoDetailDto.performanceVenue,
+                performanceOriginPrice = performanceInfoDetailDto.performanceOriginPrice,
+                performanceDiscountPrice = performanceInfoDetailDto.performanceDiscountPrice,
+                performanceDiscountRate = performanceInfoDetailDto.performanceDiscountRate,
+                startDate = performanceInfoDetailDto.startDate,
+                endDate = performanceInfoDetailDto.endDate,
+            )
+    }
+}

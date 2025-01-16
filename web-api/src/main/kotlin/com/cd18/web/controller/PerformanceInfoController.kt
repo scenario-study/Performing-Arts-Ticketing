@@ -2,8 +2,8 @@ package com.cd18.web.controller
 
 import com.cd18.common.http.response.ApiResponse
 import com.cd18.web.controller.request.PageRequest
-import com.cd18.web.controller.response.PerformanceInfoDetail
-import com.cd18.web.controller.response.PerformanceInfoList
+import com.cd18.web.controller.response.PerformanceInfoDetailResponse
+import com.cd18.web.controller.response.PerformanceInfoListResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -24,7 +24,7 @@ class PerformanceInfoController {
     fun getInfo(
         @Parameter(description = "페이지 정보")
         pageRequest: PageRequest,
-    ): ApiResponse<PerformanceInfoList> {
+    ): ApiResponse<PerformanceInfoListResponse> {
         // TODO: Implement
         return ApiResponse(result = PerformanceInfoList(listOf()))
     }
@@ -37,7 +37,7 @@ class PerformanceInfoController {
     fun getDetailInfo(
         @Parameter(description = "공연 ID", required = true, example = "1")
         @PathVariable id: Long,
-    ): ApiResponse<PerformanceInfoDetail> {
+    ): ApiResponse<PerformanceInfoDetailResponse> {
         // TODO: Implement
         val data: PerformanceInfoDetail? = null
         return ApiResponse(result = data)
