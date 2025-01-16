@@ -10,6 +10,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     implementation(project(":domain-layer:performance-context"))
+    implementation(project(":domain-layer:seat-context"))
 
     // jpa
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
