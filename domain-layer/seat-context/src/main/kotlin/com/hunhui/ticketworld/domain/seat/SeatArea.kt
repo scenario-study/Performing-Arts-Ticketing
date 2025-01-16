@@ -15,8 +15,8 @@ class SeatArea(
 ) {
     init {
         require(width >= 0 && height >= 0) { throw InvalidSeatAreaException(SeatErrorCode.GRID_NEGATIVE) }
-        require(seats.isNotEmpty()) { InvalidSeatAreaException(SeatErrorCode.SEAT_IS_EMPTY) }
-        require(allSeatsContained) { InvalidSeatAreaException(SeatErrorCode.SEAT_NOT_CONTAINED) }
+        require(seats.isNotEmpty()) { throw InvalidSeatAreaException(SeatErrorCode.SEAT_IS_EMPTY) }
+        require(allSeatsContained) { throw InvalidSeatAreaException(SeatErrorCode.SEAT_NOT_CONTAINED) }
     }
 
     /**

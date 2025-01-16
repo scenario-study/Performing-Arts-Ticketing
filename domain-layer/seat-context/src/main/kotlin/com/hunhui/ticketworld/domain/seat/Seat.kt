@@ -12,6 +12,6 @@ class Seat(
     val y: Int,
 ) {
     init {
-        require(x >= 0 && y >= 0) { InvalidSeatException(SeatErrorCode.POSITION_NEGATIVE) }
+        require(x >= 0 && y >= 0) { throw InvalidSeatException(SeatErrorCode.POSITION_NEGATIVE) }
     }
 }
