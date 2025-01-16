@@ -28,8 +28,8 @@ class PerformanceInfoController(
         @Parameter(description = "페이지 정보")
         pageRequest: PageRequest,
     ): ApiResponse<PerformanceInfoListResponse> {
-        // TODO: Implement
-        return ApiResponse(result = PerformanceInfoList(listOf()))
+        val data = performanceInfoService.getList(pageRequest.toPageParam()).getOrThrow()
+        return ApiResponse(result = PerformanceInfoListResponse.of(data))
     }
 
     @GetMapping("/{id}")
@@ -41,8 +41,7 @@ class PerformanceInfoController(
         @Parameter(description = "공연 ID", required = true, example = "1")
         @PathVariable id: Long,
     ): ApiResponse<PerformanceInfoDetailResponse> {
-        // TODO: Implement
-        val data: PerformanceInfoDetail? = null
-        return ApiResponse(result = data)
+        val data = performanceInfoService.getById(id).getOrThrow()
+        return ApiResponse(result = PerformanceInfoDetailResponse.of(data))
     }
 }
