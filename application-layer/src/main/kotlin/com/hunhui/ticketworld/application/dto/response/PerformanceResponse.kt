@@ -15,6 +15,7 @@ data class PerformanceResponse(
     val imageUrl: String,
     val location: String,
     val description: String,
+    val minimumReservationStartDateTime: LocalDateTime,
     val seatGrades: List<SeatGradeResponse>,
     val rounds: List<PerformanceRoundResponse>,
 ) {
@@ -29,6 +30,7 @@ data class PerformanceResponse(
                 imageUrl = performance.imageUrl,
                 location = performance.location,
                 description = performance.description,
+                minimumReservationStartDateTime = performance.minimumReservationStartDateTime,
                 seatGrades =
                     performance.seatGrades.map {
                         SeatGradeResponse(

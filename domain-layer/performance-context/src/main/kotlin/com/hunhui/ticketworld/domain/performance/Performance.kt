@@ -4,6 +4,7 @@ import com.hunhui.ticketworld.common.vo.Money
 import com.hunhui.ticketworld.domain.performance.exception.InvalidPerformanceException
 import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.UUID
 
 class Performance(
@@ -49,6 +50,8 @@ class Performance(
         get() = rounds.maxOf { it.performanceDateTime.toLocalDate() }
     val availableRounds: List<PerformanceRound>
         get() = rounds.filter { it.isReservationAvailable }
+    val minimumReservationStartDateTime: LocalDateTime
+        get() = rounds.minOf { it.reservationStartDateTime }
     val minimumPrice: Money
         get() = seatGrades.minOf { it.price }
 }
