@@ -13,7 +13,7 @@ import jakarta.persistence.Table
 class PerformancePrice(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
+    var id: Long = 0,
     @Column(name = "perf_id")
     var performanceInfoId: Long,
     @Column(name = "perf_price")
