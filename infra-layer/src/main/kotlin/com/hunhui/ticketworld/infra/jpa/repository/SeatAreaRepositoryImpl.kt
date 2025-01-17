@@ -40,7 +40,7 @@ internal class SeatAreaRepositoryImpl(
                     seats.map {
                         Seat(
                             id = it.id,
-                            gradeId = it.gradeId,
+                            gradeId = it.ticketGradeId,
                             seatName = it.seatName,
                             x = it.x,
                             y = it.y,
@@ -62,7 +62,7 @@ internal class SeatAreaRepositoryImpl(
                         SeatEntity(
                             id = it.id,
                             seatAreaId = id,
-                            gradeId = it.gradeId,
+                            ticketGradeId = it.gradeId,
                             seatName = it.seatName,
                             x = it.x,
                             y = it.y,
