@@ -22,6 +22,7 @@ enum class BaseErrorCode(
     ACCESS_DENIED("접근 권한이 없습니다.", HttpStatus.FORBIDDEN),
     UNAUTHORIZED("인증되지 않은 사용자입니다.", HttpStatus.UNAUTHORIZED),
     INVALID_PAGE_REQUEST("잘못된 페이지 요청입니다.", HttpStatus.BAD_REQUEST),
+    INVALID_PARAMETER("잘못된 파라미터입니다.", HttpStatus.BAD_REQUEST),
     ;
 
     override val prefix: String = "BASE"
