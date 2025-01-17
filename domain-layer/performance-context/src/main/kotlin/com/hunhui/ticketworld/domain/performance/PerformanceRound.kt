@@ -1,7 +1,8 @@
 package com.hunhui.ticketworld.domain.performance
 
-import com.hunhui.ticketworld.domain.performance.exception.InvalidPerformanceRoundException
-import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode
+import com.hunhui.ticketworld.common.error.BusinessException
+import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode.INVALID_RESERVATION_FINISH_DATE
+import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode.INVALID_RESERVATION_START_DATE
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -12,16 +13,8 @@ class PerformanceRound(
     val reservationFinishDateTime: LocalDateTime,
 ) {
     init {
-        require(reservationStartDateTime.isBefore(reservationFinishDateTime)) {
-            throw InvalidPerformanceRoundException(
-                PerformanceErrorCode.RESERVATION_START_DATE_IS_AFTER_FINISH_DATE,
-            )
-        }
-        require(reservationFinishDateTime.isBefore(performanceDateTime)) {
-            throw InvalidPerformanceRoundException(
-                PerformanceErrorCode.RESERVATION_FINISH_DATE_IS_AFTER_PERFORMANCE_DATE,
-            )
-        }
+        if (reservationStartDateTime.isAfter(reservationFinishDateTime)) throw BusinessException(INVALID_RESERVATION_START_DATE)
+        if (reservationFinishDateTime.isAfter(performanceDateTime)) throw BusinessException(INVALID_RESERVATION_FINISH_DATE)
     }
 
     companion object {

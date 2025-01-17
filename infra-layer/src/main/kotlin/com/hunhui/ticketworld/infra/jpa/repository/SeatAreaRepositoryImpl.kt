@@ -14,7 +14,8 @@ import java.util.UUID
 internal class SeatAreaRepositoryImpl(
     private val seatAreaJpaRepository: SeatAreaJpaRepository,
 ) : SeatAreaRepository {
-    override fun getById(id: UUID): SeatArea? = seatAreaJpaRepository.findByIdOrNull(id)?.domain ?: throw SeatAreaNotFoundException()
+    override fun getById(id: UUID): SeatArea? =
+        seatAreaJpaRepository.findByIdOrNull(id)?.domain ?: throw BusinessException(SeatErrorCode.AREA_NOT_FOUND)
 
     override fun findByPerformanceId(performanceId: UUID): List<SeatArea> =
         seatAreaJpaRepository.findByPerformanceId(performanceId).map {

@@ -1,13 +1,13 @@
 package com.hunhui.ticketworld.domain.performance
 
-import com.hunhui.ticketworld.domain.performance.exception.InvalidPerformanceException
+import com.hunhui.ticketworld.common.error.AssertUtil.assertErrorCode
 import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode
+import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode.TICKET_GRADE_IS_EMPTY
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -26,21 +26,17 @@ class PerformanceTest {
     @Test
     fun `좌석 등급이 비어있으면 예외가 발생한다`() {
         // when & then
-        val exception =
-            assertThrows<InvalidPerformanceException> {
-                PerformanceFixtureFactory.createValidPerformance(ticketGrades = emptyList())
-            }
-        assertEquals(PerformanceErrorCode.TICKET_GRADE_IS_EMPTY, exception.errorCode)
+        assertErrorCode(TICKET_GRADE_IS_EMPTY) {
+            PerformanceFixtureFactory.createValidPerformance(ticketGrades = emptyList())
+        }
     }
 
     @Test
     fun `공연 회차가 비어있으면 예외가 발생한다`() {
         // when & then
-        val exception =
-            assertThrows<InvalidPerformanceException> {
-                PerformanceFixtureFactory.createValidPerformance(rounds = emptyList())
-            }
-        assertEquals(PerformanceErrorCode.ROUND_IS_EMPTY, exception.errorCode)
+        assertErrorCode(PerformanceErrorCode.ROUND_IS_EMPTY) {
+            PerformanceFixtureFactory.createValidPerformance(rounds = emptyList())
+        }
     }
 
     @Test

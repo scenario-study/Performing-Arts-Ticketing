@@ -1,7 +1,9 @@
 package com.hunhui.ticketworld.domain.seat
 
-import com.hunhui.ticketworld.domain.seat.exception.InvalidSeatAreaException
-import com.hunhui.ticketworld.domain.seat.exception.SeatErrorCode
+import com.hunhui.ticketworld.common.error.BusinessException
+import com.hunhui.ticketworld.domain.seat.exception.SeatErrorCode.SEAT_IS_EMPTY
+import com.hunhui.ticketworld.domain.seat.exception.SeatErrorCode.SEAT_NOT_CONTAINED
+import com.hunhui.ticketworld.domain.seat.exception.SeatErrorCode.WIDTH_HEIGHT_IS_NOT_POSITIVE
 import java.util.UUID
 
 class SeatArea(
@@ -14,9 +16,9 @@ class SeatArea(
     val seats: List<Seat>,
 ) {
     init {
-        require(width > 0 && height > 0) { throw InvalidSeatAreaException(SeatErrorCode.WIDTH_HEIGHT_NOT_POSITIVE) }
-        require(seats.isNotEmpty()) { throw InvalidSeatAreaException(SeatErrorCode.SEAT_IS_EMPTY) }
-        require(allSeatsContained) { throw InvalidSeatAreaException(SeatErrorCode.SEAT_NOT_CONTAINED) }
+        if (width <= 0 || height <= 0) throw BusinessException(WIDTH_HEIGHT_IS_NOT_POSITIVE)
+        if (seats.isEmpty()) throw BusinessException(SEAT_IS_EMPTY)
+        if (allSeatsContained.not()) throw BusinessException(SEAT_NOT_CONTAINED)
     }
 
     /**

@@ -1,7 +1,7 @@
 package com.hunhui.ticketworld.domain.seat
 
-import com.hunhui.ticketworld.domain.seat.exception.InvalidSeatException
-import com.hunhui.ticketworld.domain.seat.exception.SeatErrorCode
+import com.hunhui.ticketworld.common.error.BusinessException
+import com.hunhui.ticketworld.domain.seat.exception.SeatErrorCode.POSITION_IS_NEGATIVE
 import java.util.UUID
 
 class Seat(
@@ -12,6 +12,6 @@ class Seat(
     val y: Int,
 ) {
     init {
-        require(x >= 0 && y >= 0) { throw InvalidSeatException(SeatErrorCode.POSITION_NEGATIVE) }
+        if (x < 0 || y < 0) throw BusinessException(POSITION_IS_NEGATIVE)
     }
 }

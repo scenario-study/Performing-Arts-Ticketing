@@ -1,14 +1,14 @@
 package com.hunhui.ticketworld.domain.performance
 
-import com.hunhui.ticketworld.domain.performance.exception.InvalidPerformanceRoundException
-import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode
+import com.hunhui.ticketworld.common.error.AssertUtil.assertErrorCode
+import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode.INVALID_RESERVATION_FINISH_DATE
+import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode.INVALID_RESERVATION_START_DATE
 import io.mockk.every
 import io.mockk.mockkStatic
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -41,16 +41,14 @@ class PerformanceRoundTest {
         val now = LocalDateTime.now()
 
         // when & then
-        val exception =
-            assertThrows<InvalidPerformanceRoundException> {
-                PerformanceRound.create(
-                    performanceDateTime = now.plusDays(1),
-                    // 일부러 늦게 설정
-                    reservationStartDateTime = now.plusDays(2),
-                    reservationFinishDateTime = now.plusDays(1),
-                )
-            }
-        assertEquals(PerformanceErrorCode.RESERVATION_START_DATE_IS_AFTER_FINISH_DATE, exception.errorCode)
+        assertErrorCode(INVALID_RESERVATION_START_DATE) {
+            PerformanceRound.create(
+                performanceDateTime = now.plusDays(1),
+                // 일부러 늦게 설정
+                reservationStartDateTime = now.plusDays(2),
+                reservationFinishDateTime = now.plusDays(1),
+            )
+        }
     }
 
     @Test
@@ -59,16 +57,14 @@ class PerformanceRoundTest {
         val now = LocalDateTime.now()
 
         // when & then
-        val exception =
-            assertThrows<InvalidPerformanceRoundException> {
-                PerformanceRound.create(
-                    performanceDateTime = now.plusDays(1),
-                    reservationStartDateTime = now,
-                    // 공연 시간보다 늦음
-                    reservationFinishDateTime = now.plusDays(2),
-                )
-            }
-        assertEquals(PerformanceErrorCode.RESERVATION_FINISH_DATE_IS_AFTER_PERFORMANCE_DATE, exception.errorCode)
+        assertErrorCode(INVALID_RESERVATION_FINISH_DATE) {
+            PerformanceRound.create(
+                performanceDateTime = now.plusDays(1),
+                reservationStartDateTime = now,
+                // 공연 시간보다 늦음
+                reservationFinishDateTime = now.plusDays(2),
+            )
+        }
     }
 
     @Test

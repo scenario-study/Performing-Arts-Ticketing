@@ -1,8 +1,9 @@
 package com.hunhui.ticketworld.domain.performance
 
+import com.hunhui.ticketworld.common.error.BusinessException
 import com.hunhui.ticketworld.common.vo.Money
-import com.hunhui.ticketworld.domain.performance.exception.InvalidPerformanceException
-import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode
+import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode.ROUND_IS_EMPTY
+import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode.TICKET_GRADE_IS_EMPTY
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.UUID
@@ -18,8 +19,8 @@ class Performance(
     val rounds: List<PerformanceRound>,
 ) {
     init {
-        require(ticketGrades.isNotEmpty()) { throw InvalidPerformanceException(PerformanceErrorCode.TICKET_GRADE_IS_EMPTY) }
-        require(rounds.isNotEmpty()) { throw InvalidPerformanceException(PerformanceErrorCode.ROUND_IS_EMPTY) }
+        if (ticketGrades.isEmpty()) throw BusinessException(TICKET_GRADE_IS_EMPTY)
+        if (rounds.isEmpty()) throw BusinessException(ROUND_IS_EMPTY)
     }
 
     companion object {

@@ -1,5 +1,7 @@
 package com.hunhui.ticketworld.common.error
 
-open class BusinessException(
+class BusinessException(
     val errorCode: ErrorCode,
-) : RuntimeException(errorCode.message)
+) : RuntimeException(errorCode.message) {
+    override fun toString(): String = "[${errorCode.code}] ${errorCode.message}"
+}
