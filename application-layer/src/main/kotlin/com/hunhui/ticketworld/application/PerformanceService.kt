@@ -6,6 +6,9 @@ import com.hunhui.ticketworld.application.dto.response.PerformanceResponse
 import com.hunhui.ticketworld.application.dto.response.PerformanceSummaryListResponse
 import com.hunhui.ticketworld.application.dto.response.SeatAreasResponse
 import com.hunhui.ticketworld.domain.performance.PerformanceRepository
+import com.hunhui.ticketworld.domain.performance.PerformanceRound
+import com.hunhui.ticketworld.domain.reservation.ReservationStatus
+import com.hunhui.ticketworld.domain.reservation.ReservationStatusRepository
 import com.hunhui.ticketworld.domain.seat.SeatArea
 import com.hunhui.ticketworld.domain.seat.SeatAreaRepository
 import org.springframework.stereotype.Service
@@ -16,6 +19,7 @@ import java.util.UUID
 class PerformanceService(
     private val performanceRepository: PerformanceRepository,
     private val seatAreaRepository: SeatAreaRepository,
+    private val reservationStatusRepository: ReservationStatusRepository,
 ) {
     fun getPerformance(performanceId: UUID): PerformanceResponse = PerformanceResponse.from(performanceRepository.getById(performanceId))
 
@@ -32,6 +36,24 @@ class PerformanceService(
         val (performance, seatAreas) = performanceCreateRequest.toDomain()
         performanceRepository.save(performance)
         seatAreaRepository.saveAll(seatAreas)
+        val performanceRounds: List<PerformanceRound> = performance.rounds
+        val reservationStatuses =
+            seatAreas.flatMap { seatArea ->
+                seatArea.seats.flatMap { seat ->
+                    performanceRounds.map { round ->
+                        ReservationStatus(
+                            id = UUID.randomUUID(),
+                            roundId = round.id,
+                            seatAreaId = seatArea.id,
+                            seatId = seat.id,
+                            tempUserId = null,
+                            tempReservationExpireTime = null,
+                            isPaid = false,
+                        )
+                    }
+                }
+            }
+        reservationStatusRepository.saveAll(reservationStatuses)
         return PerformanceCreateResponse(performance.id)
     }
 

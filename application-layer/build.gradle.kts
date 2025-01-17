@@ -12,6 +12,7 @@ dependencies {
     implementation(project(":domain-layer:performance-context"))
     implementation(project(":domain-layer:seat-context"))
     implementation(project(":domain-layer:user-context"))
+    implementation(project(":domain-layer:reservation-context"))
 }
 
 tasks {
