@@ -7,7 +7,7 @@ object SeatFixtureFactory {
         id: UUID = UUID.randomUUID(),
         gradeId: UUID = UUID.randomUUID(),
         seatName: String = "A1",
-        x: Int = 1,
+        x: Int = 0,
         y: Int = 1,
     ): Seat =
         Seat(

@@ -24,7 +24,7 @@ class SeatTest {
             SeatFixtureFactory.createValidSeat(x = -1, y = 5)
         }
         assertErrorCode(SeatErrorCode.POSITION_IS_NEGATIVE) {
-            SeatFixtureFactory.createValidSeat(x = 5, y = -1)
+            SeatFixtureFactory.createValidSeat(x = 0, y = -1)
         }
     }
 }
