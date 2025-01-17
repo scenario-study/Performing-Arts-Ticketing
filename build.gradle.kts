@@ -13,6 +13,7 @@ plugins {
 
 dependencies {
     jacocoAggregation(project(":domain-layer:performance-context"))
+    jacocoAggregation(project(":domain-layer:seat-context"))
 }
 
 allprojects {
