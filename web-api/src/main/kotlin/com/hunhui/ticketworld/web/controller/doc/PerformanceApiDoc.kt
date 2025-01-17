@@ -1,6 +1,7 @@
 package com.hunhui.ticketworld.web.controller.doc
 
 import com.hunhui.ticketworld.application.dto.request.PerformanceCreateRequest
+import com.hunhui.ticketworld.application.dto.response.PerformanceCreateResponse
 import com.hunhui.ticketworld.application.dto.response.PerformanceResponse
 import com.hunhui.ticketworld.application.dto.response.PerformanceSummaryListResponse
 import com.hunhui.ticketworld.application.dto.response.SeatAreasResponse
@@ -28,7 +29,7 @@ interface PerformanceApiDoc {
     @Operation(summary = "공연 생성 API")
     fun createPerformance(
         @RequestBody performanceCreateRequest: PerformanceCreateRequest,
-    ): ResponseEntity<Unit>
+    ): ResponseEntity<PerformanceCreateResponse>
 
     @Operation(summary = "좌석 영역 목록 조회 API")
     fun getSeatAreas(

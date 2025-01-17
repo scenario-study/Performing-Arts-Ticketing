@@ -1,6 +1,7 @@
 package com.hunhui.ticketworld.application
 
 import com.hunhui.ticketworld.application.dto.request.PerformanceCreateRequest
+import com.hunhui.ticketworld.application.dto.response.PerformanceCreateResponse
 import com.hunhui.ticketworld.application.dto.response.PerformanceResponse
 import com.hunhui.ticketworld.application.dto.response.PerformanceSummaryListResponse
 import com.hunhui.ticketworld.application.dto.response.SeatAreasResponse
@@ -27,10 +28,11 @@ class PerformanceService(
     }
 
     @Transactional
-    fun createPerformance(performanceCreateRequest: PerformanceCreateRequest) {
+    fun createPerformance(performanceCreateRequest: PerformanceCreateRequest): PerformanceCreateResponse {
         val (performance, seatAreas) = performanceCreateRequest.toDomain()
         performanceRepository.save(performance)
         seatAreaRepository.saveAll(seatAreas)
+        return PerformanceCreateResponse(performance.id)
     }
 
     fun getSeatAreas(performanceId: UUID): SeatAreasResponse {

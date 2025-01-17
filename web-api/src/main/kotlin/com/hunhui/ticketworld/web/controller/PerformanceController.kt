@@ -2,6 +2,7 @@ package com.hunhui.ticketworld.web.controller
 
 import com.hunhui.ticketworld.application.PerformanceService
 import com.hunhui.ticketworld.application.dto.request.PerformanceCreateRequest
+import com.hunhui.ticketworld.application.dto.response.PerformanceCreateResponse
 import com.hunhui.ticketworld.application.dto.response.PerformanceResponse
 import com.hunhui.ticketworld.application.dto.response.PerformanceSummaryListResponse
 import com.hunhui.ticketworld.application.dto.response.SeatAreasResponse
@@ -35,7 +36,7 @@ class PerformanceController(
     @PostMapping
     override fun createPerformance(
         @RequestBody performanceCreateRequest: PerformanceCreateRequest,
-    ): ResponseEntity<Unit> = ResponseEntity.ok(performanceService.createPerformance(performanceCreateRequest))
+    ): ResponseEntity<PerformanceCreateResponse> = ResponseEntity.ok(performanceService.createPerformance(performanceCreateRequest))
 
     @GetMapping("/{performanceId}/seat-areas")
     override fun getSeatAreas(
