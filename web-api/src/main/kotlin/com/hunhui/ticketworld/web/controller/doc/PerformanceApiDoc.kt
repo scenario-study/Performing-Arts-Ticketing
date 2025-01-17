@@ -3,6 +3,7 @@ package com.hunhui.ticketworld.web.controller.doc
 import com.hunhui.ticketworld.application.dto.request.PerformanceCreateRequest
 import com.hunhui.ticketworld.application.dto.response.PerformanceResponse
 import com.hunhui.ticketworld.application.dto.response.PerformanceSummaryListResponse
+import com.hunhui.ticketworld.application.dto.response.SeatAreasResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
@@ -28,4 +29,9 @@ interface PerformanceApiDoc {
     fun createPerformance(
         @RequestBody performanceCreateRequest: PerformanceCreateRequest,
     ): ResponseEntity<Unit>
+
+    @Operation(summary = "좌석 영역 목록 조회 API")
+    fun getSeatAreas(
+        @PathVariable("performanceId") performanceId: UUID,
+    ): ResponseEntity<SeatAreasResponse>
 }

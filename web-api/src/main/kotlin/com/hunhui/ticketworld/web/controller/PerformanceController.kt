@@ -4,6 +4,7 @@ import com.hunhui.ticketworld.application.PerformanceService
 import com.hunhui.ticketworld.application.dto.request.PerformanceCreateRequest
 import com.hunhui.ticketworld.application.dto.response.PerformanceResponse
 import com.hunhui.ticketworld.application.dto.response.PerformanceSummaryListResponse
+import com.hunhui.ticketworld.application.dto.response.SeatAreasResponse
 import com.hunhui.ticketworld.web.controller.doc.PerformanceApiDoc
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -35,4 +36,9 @@ class PerformanceController(
     override fun createPerformance(
         @RequestBody performanceCreateRequest: PerformanceCreateRequest,
     ): ResponseEntity<Unit> = ResponseEntity.ok(performanceService.createPerformance(performanceCreateRequest))
+
+    @GetMapping("/{performanceId}/seat-areas")
+    override fun getSeatAreas(
+        @PathVariable("performanceId") performanceId: UUID,
+    ): ResponseEntity<SeatAreasResponse> = ResponseEntity.ok(performanceService.getSeatAreas(performanceId))
 }
