@@ -21,21 +21,26 @@ internal class ReservationStatusRepositoryImpl(
         seatAreaId: UUID,
     ): List<ReservationStatus> =
         reservationStatusJpaRepository
-            .findAllByRoundIdAndSeatId(performanceRoundId, seatAreaId)
+            .findAllByPerformanceRoundIdAndSeatAreaId(performanceRoundId, seatAreaId)
             .map { it.domain }
 
     override fun save(reservationStatus: ReservationStatus) {
         reservationStatusJpaRepository.save(reservationStatus.entity)
     }
 
+    override fun saveAll(reservationStatuses: List<ReservationStatus>) {
+        reservationStatusJpaRepository.saveAll(reservationStatuses.map { it.entity })
+    }
+
     private val ReservationStatus.entity: ReservationStatusEntity
         get() =
             ReservationStatusEntity(
                 id = id,
-                roundId = roundId,
+                performanceRoundId = roundId,
+                seatAreaId = seatAreaId,
                 seatId = seatId,
-                tempUserId = tempUserId,
-                tempReservationExpireTime = tempReservationExpireTime,
+                userId = tempUserId,
+                reservationExpireTime = tempReservationExpireTime,
                 isPaid = isPaid,
             )
 
@@ -43,10 +48,11 @@ internal class ReservationStatusRepositoryImpl(
         get() =
             ReservationStatus(
                 id = id,
-                roundId = roundId,
+                roundId = performanceRoundId,
+                seatAreaId = seatAreaId,
                 seatId = seatId,
-                tempUserId = tempUserId,
-                tempReservationExpireTime = tempReservationExpireTime,
+                tempUserId = userId,
+                tempReservationExpireTime = reservationExpireTime,
                 isPaid = isPaid,
             )
 }

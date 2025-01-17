@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.util.UUID
 
 internal interface ReservationStatusJpaRepository : JpaRepository<ReservationStatusEntity, UUID> {
-    fun findAllByRoundIdAndSeatId(
-        roundId: UUID,
-        seatId: UUID,
+    fun findAllByPerformanceRoundIdAndSeatAreaId(
+        performanceRoundId: UUID,
+        seatAreaId: UUID,
     ): List<ReservationStatusEntity>
 }

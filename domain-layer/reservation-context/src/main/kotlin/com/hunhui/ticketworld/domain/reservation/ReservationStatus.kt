@@ -8,6 +8,7 @@ import java.util.UUID
 class ReservationStatus(
     val id: UUID,
     val roundId: UUID,
+    val seatAreaId: UUID,
     val seatId: UUID,
     val tempUserId: UUID?,
     val tempReservationExpireTime: LocalDateTime?,
@@ -27,6 +28,7 @@ class ReservationStatus(
         return ReservationStatus(
             id = id,
             roundId = roundId,
+            seatAreaId = seatAreaId,
             seatId = seatId,
             tempUserId = userId,
             tempReservationExpireTime = getExpireTime(),

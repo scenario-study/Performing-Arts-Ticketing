@@ -13,14 +13,16 @@ internal class ReservationStatusEntity(
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     val id: UUID = UUID.randomUUID(),
-    @Column(name = "roundId", nullable = false)
-    val roundId: UUID,
+    @Column(name = "performanceRoundId", nullable = false)
+    val performanceRoundId: UUID,
+    @Column(name = "seatAreaId", nullable = false)
+    val seatAreaId: UUID,
     @Column(name = "seatId", nullable = false)
     val seatId: UUID,
-    @Column(name = "tempUserId", nullable = true)
-    val tempUserId: UUID?,
-    @Column(name = "tempReservationExpireTime", nullable = true)
-    val tempReservationExpireTime: LocalDateTime?,
+    @Column(name = "userId", nullable = true)
+    val userId: UUID?,
+    @Column(name = "reservationExpireTime", nullable = true)
+    val reservationExpireTime: LocalDateTime?,
     @Column(name = "isPaid", nullable = false)
     val isPaid: Boolean,
 ) : BaseTimeEntity()

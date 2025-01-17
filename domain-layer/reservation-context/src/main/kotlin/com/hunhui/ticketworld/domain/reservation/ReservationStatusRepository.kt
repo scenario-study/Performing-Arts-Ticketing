@@ -11,4 +11,6 @@ interface ReservationStatusRepository {
     ): List<ReservationStatus>
 
     fun save(reservationStatus: ReservationStatus)
+
+    fun saveAll(reservationStatuses: List<ReservationStatus>)
 }
