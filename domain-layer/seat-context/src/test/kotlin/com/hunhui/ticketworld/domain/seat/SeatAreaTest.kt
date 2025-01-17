@@ -14,7 +14,7 @@ class SeatAreaTest {
         val seats =
             listOf(
                 SeatFixtureFactory.createValidSeat(x = 2, y = 3),
-                SeatFixtureFactory.createValidSeat(x = 4, y = 5),
+                SeatFixtureFactory.createValidSeat(x = 9, y = 5),
             )
         val seatArea = SeatFixtureFactory.createValidSeatArea(width = 10, height = 10, seats = seats)
 
@@ -24,11 +24,11 @@ class SeatAreaTest {
     }
 
     @Test
-    fun `너비나 높이가 음수면 InvalidSeatAreaException 발생`() {
+    fun `너비나 높이가 0 이하면 InvalidSeatAreaException 발생`() {
         // when & then
         val exception1 =
             assertThrows<InvalidSeatAreaException> {
-                SeatFixtureFactory.createValidSeatArea(width = -1, height = 5)
+                SeatFixtureFactory.createValidSeatArea(width = 0, height = 5)
             }
 
         val exception2 =
@@ -36,8 +36,8 @@ class SeatAreaTest {
                 SeatFixtureFactory.createValidSeatArea(width = 5, height = -1)
             }
 
-        assertEquals(SeatErrorCode.GRID_NEGATIVE, exception1.errorCode)
-        assertEquals(SeatErrorCode.GRID_NEGATIVE, exception2.errorCode)
+        assertEquals(SeatErrorCode.WIDTH_HEIGHT_NOT_POSITIVE, exception1.errorCode)
+        assertEquals(SeatErrorCode.WIDTH_HEIGHT_NOT_POSITIVE, exception2.errorCode)
     }
 
     @Test
@@ -57,12 +57,12 @@ class SeatAreaTest {
         val seats1 =
             listOf(
                 SeatFixtureFactory.createValidSeat(x = 2, y = 3),
-                SeatFixtureFactory.createValidSeat(x = 11, y = 12),
+                SeatFixtureFactory.createValidSeat(x = 10, y = 9),
             )
         val seats2 =
             listOf(
                 SeatFixtureFactory.createValidSeat(x = 2, y = 3),
-                SeatFixtureFactory.createValidSeat(x = 1, y = 12),
+                SeatFixtureFactory.createValidSeat(x = 9, y = 10),
             )
 
         // when & then
