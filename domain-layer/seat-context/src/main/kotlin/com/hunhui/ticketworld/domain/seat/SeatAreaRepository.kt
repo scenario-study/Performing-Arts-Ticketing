@@ -7,5 +7,5 @@ interface SeatAreaRepository {
 
     fun findByPerformanceId(performanceId: UUID): List<SeatArea>
 
-    fun save(seatArea: SeatArea)
+    fun saveAll(seatAreas: List<SeatArea>)
 }

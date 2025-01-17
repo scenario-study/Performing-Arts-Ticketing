@@ -8,6 +8,7 @@ plugins {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.25")
 
     implementation(project(":domain-layer:performance-context"))
     implementation(project(":domain-layer:seat-context"))

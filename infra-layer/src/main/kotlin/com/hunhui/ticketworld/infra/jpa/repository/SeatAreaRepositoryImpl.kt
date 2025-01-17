@@ -1,9 +1,10 @@
 package com.hunhui.ticketworld.infra.jpa.repository
 
+import com.hunhui.ticketworld.common.error.BusinessException
 import com.hunhui.ticketworld.domain.seat.Seat
 import com.hunhui.ticketworld.domain.seat.SeatArea
 import com.hunhui.ticketworld.domain.seat.SeatAreaRepository
-import com.hunhui.ticketworld.domain.seat.exception.SeatAreaNotFoundException
+import com.hunhui.ticketworld.domain.seat.exception.SeatErrorCode
 import com.hunhui.ticketworld.infra.jpa.entity.SeatAreaEntity
 import com.hunhui.ticketworld.infra.jpa.entity.SeatEntity
 import org.springframework.data.repository.findByIdOrNull
@@ -22,8 +23,8 @@ internal class SeatAreaRepositoryImpl(
             it.domain
         }
 
-    override fun save(seatArea: SeatArea) {
-        seatAreaJpaRepository.save(seatArea.entity)
+    override fun saveAll(seatAreas: List<SeatArea>) {
+        seatAreaJpaRepository.saveAll(seatAreas.map { it.entity })
     }
 
     private val SeatAreaEntity.domain: SeatArea
@@ -60,6 +61,7 @@ internal class SeatAreaRepositoryImpl(
                     seats.map {
                         SeatEntity(
                             id = it.id,
+                            seatAreaId = id,
                             gradeId = it.gradeId,
                             seatName = it.seatName,
                             x = it.x,

@@ -4,12 +4,15 @@ import com.hunhui.ticketworld.application.dto.request.PerformanceCreateRequest
 import com.hunhui.ticketworld.application.dto.response.PerformanceResponse
 import com.hunhui.ticketworld.application.dto.response.PerformanceSummaryListResponse
 import com.hunhui.ticketworld.domain.performance.PerformanceRepository
+import com.hunhui.ticketworld.domain.seat.SeatAreaRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.UUID
 
 @Service
 class PerformanceService(
     private val performanceRepository: PerformanceRepository,
+    private val seatAreaRepository: SeatAreaRepository,
 ) {
     fun getPerformance(performanceId: UUID): PerformanceResponse = PerformanceResponse.from(performanceRepository.getById(performanceId))
 
@@ -21,7 +24,10 @@ class PerformanceService(
         return PerformanceSummaryListResponse.from(performances)
     }
 
+    @Transactional
     fun createPerformance(performanceCreateRequest: PerformanceCreateRequest) {
-        performanceRepository.save(performanceCreateRequest.toDomain())
+        val (performance, seatAreas) = performanceCreateRequest.toDomain()
+        performanceRepository.save(performance)
+        seatAreaRepository.saveAll(seatAreas)
     }
 }

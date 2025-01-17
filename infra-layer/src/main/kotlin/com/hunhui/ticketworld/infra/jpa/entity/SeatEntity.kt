@@ -12,6 +12,8 @@ internal class SeatEntity(
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     val id: UUID = UUID.randomUUID(),
+    @Column(name = "seatAreaId", nullable = false)
+    val seatAreaId: UUID,
     @Column(name = "gradeId", nullable = false)
     val gradeId: UUID,
     @Column(name = "seatName", nullable = false)
