@@ -1,13 +1,10 @@
 package com.hunhui.ticketworld.infra.jpa.repository
 
-import com.hunhui.ticketworld.common.error.BusinessException
 import com.hunhui.ticketworld.domain.seat.Seat
 import com.hunhui.ticketworld.domain.seat.SeatArea
 import com.hunhui.ticketworld.domain.seat.SeatAreaRepository
-import com.hunhui.ticketworld.domain.seat.exception.SeatErrorCode
 import com.hunhui.ticketworld.infra.jpa.entity.SeatAreaEntity
 import com.hunhui.ticketworld.infra.jpa.entity.SeatEntity
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 import java.util.UUID
 
@@ -15,9 +12,6 @@ import java.util.UUID
 internal class SeatAreaRepositoryImpl(
     private val seatAreaJpaRepository: SeatAreaJpaRepository,
 ) : SeatAreaRepository {
-    override fun getById(id: UUID): SeatArea? =
-        seatAreaJpaRepository.findByIdOrNull(id)?.domain ?: throw BusinessException(SeatErrorCode.AREA_NOT_FOUND)
-
     override fun findByPerformanceId(performanceId: UUID): List<SeatArea> =
         seatAreaJpaRepository.findByPerformanceId(performanceId).map {
             it.domain
