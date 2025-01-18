@@ -1,12 +1,9 @@
 spring:
-  config:
-    activate:
-      on-profile: "jpa-local"
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     generate-ddl: false
-    database: mysql
+#    database: mysql
     properties:
       hibernate:
         format_sql: true
@@ -17,27 +14,4 @@ logging:
     org:
       hibernate:
         SQL: debug
-        type: info
-
----
-
-spring:
-  config:
-    activate:
-      on-profile: "jpa-real"
-  jpa:
-    hibernate:
-      ddl-auto: none
-    generate-ddl: false
-    show-sql: false
-    database: mysql
-    properties:
-      hibernate:
-        format_sql: false
-    open-in-view: false
-
-logging:
-  level:
-    org:
-      hibernate:
         type: info
