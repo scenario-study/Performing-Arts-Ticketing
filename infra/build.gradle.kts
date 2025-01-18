@@ -21,8 +21,6 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":domain"))
 
-    implementation("org.springframework.boot:spring-boot-starter-web")
-
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.3.0")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:2.18.0")
 
