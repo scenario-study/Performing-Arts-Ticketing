@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.targets.js.npm.importedPackageDir
-
 plugins {
     kotlin("plugin.spring")
     id("org.springframework.boot")
@@ -16,5 +14,6 @@ tasks.bootJar {
 
 dependencies {
     implementation(project(":common"))
-    implementation("org.springframework.boot:spring-boot-starter-web")
+    compileOnly("org.springframework:spring-context")
+    compileOnly("org.springframework:spring-web")
 }
