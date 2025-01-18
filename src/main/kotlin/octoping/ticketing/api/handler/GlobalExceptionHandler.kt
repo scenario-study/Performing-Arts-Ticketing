@@ -4,11 +4,13 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.servlet.ServletException
 import jakarta.validation.ConstraintViolationException
 import octoping.ticketing.api.config.web.ErrorResponse
+import octoping.ticketing.domain.exception.DomainException
+import octoping.ticketing.domain.exception.NotFoundException
+import octoping.ticketing.domain.exception.ValidationException
 import octoping.ticketing.utils.StacktraceParser
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageConversionException
-import org.springframework.security.access.AccessDeniedException
 import org.springframework.validation.BindException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -29,10 +31,25 @@ class GlobalExceptionHandler {
     @ExceptionHandler(
         IllegalStateException::class,
         IllegalArgumentException::class,
+        ValidationException::class,
     )
     fun handleIllegalArgumentException(exception: Exception): ResponseEntity<ErrorResponse> =
         ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
+            .body(ErrorResponse(exception.message))
+
+    @ExceptionHandler(
+        NotFoundException::class,
+    )
+    fun handleNotFoundException(exception: NotFoundException): ResponseEntity<ErrorResponse> =
+        ResponseEntity
+            .status(HttpStatus.NOT_FOUND)
+            .body(ErrorResponse(exception.message))
+
+    @ExceptionHandler(DomainException::class)
+    fun handleDomainException(exception: DomainException): ResponseEntity<ErrorResponse> =
+        ResponseEntity
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(ErrorResponse(exception.message))
 
     @ExceptionHandler(

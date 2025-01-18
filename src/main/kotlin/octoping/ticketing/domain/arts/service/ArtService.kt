@@ -1,5 +1,6 @@
 package octoping.ticketing.domain.arts.service
 
+import octoping.ticketing.api.controller.art.schema.ArtItemSchema
 import octoping.ticketing.domain.arts.repository.ArtRepository
 import octoping.ticketing.domain.arts.schema.ArtInfo
 import octoping.ticketing.domain.exception.NotFoundException
@@ -28,6 +29,19 @@ class ArtService(
             startDate = art.startDate,
             endDate = art.endDate,
         )
+    }
+
+    fun getList(page: Int): List<ArtItemSchema> {
+        val arts = artRepository.findAllBy(page)
+
+        return arts.map {
+            ArtItemSchema(
+                id = it.id,
+                name = it.name,
+                startDate = it.startDate,
+                endDate = it.endDate,
+            )
+        }
     }
     /*
     TODO: 공연이란, 읽기는 많지만 쓰기는 많지 않은 작업. (공연을 예매하려는 사람은 많아도 하는 사람은 적으니)

@@ -1,12 +1,10 @@
 package octoping.ticketing.api.controller.art.schema
 
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 data class ArtItemSchema(
     val id: Long,
-    val title: String,
-    val basePrice: Long,
-    val discountedPrice: Long,
-    val artDate: LocalDateTime,
-    val createdAt: LocalDateTime,
+    val name: String,
+    val startDate: LocalDate,
+    val endDate: LocalDate?,
 )

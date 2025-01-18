@@ -33,6 +33,15 @@ class ArtController(
         )
     }
 
+    @Operation(summary = "공연 목록 조회")
+    @GetMapping("/arts")
+    fun getArts(
+        @RequestParam(value = "page", defaultValue = "0") page: Int,
+    ): ArtListResponseDTO {
+        val arts = artService.getList(page)
+        return ArtListResponseDTO(arts, page)
+    }
+
     @Operation(summary = "공연 가격 변경")
     @PutMapping("/arts/{artId}/price")
     fun changePrice(

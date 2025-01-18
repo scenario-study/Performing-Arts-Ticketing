@@ -11,8 +11,8 @@ interface ArtViewJpaRepository : JpaRepository<ArtViewEntity, Long> {
         """
         SELECT a
         FROM ArtViewEntity a
-        WHERE a.userIP = :userId
-        AND a.visitedAt BETWEEN :startDate AND :endDate
+        WHERE a.userIP = :userIP
+        AND a.visitedAt = :date
     """,
     )
     fun findByUserIPAndDate(
@@ -25,7 +25,7 @@ interface ArtViewJpaRepository : JpaRepository<ArtViewEntity, Long> {
         SELECT a
         FROM ArtViewEntity a
         WHERE a.userId = :userId
-        AND a.visitedAt BETWEEN :startDate AND :endDate
+        AND a.visitedAt = :date
     """,
     )
     fun findByUserIdAndDate(
