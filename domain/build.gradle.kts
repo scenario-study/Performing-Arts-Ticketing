@@ -13,5 +13,7 @@ tasks.bootJar {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation(project(":common"))
+    compileOnly("org.springframework:spring-context")
+    compileOnly("org.springframework:spring-web")
 }
