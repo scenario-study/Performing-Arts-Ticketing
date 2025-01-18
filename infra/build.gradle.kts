@@ -29,6 +29,12 @@ dependencies {
     kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
     kapt("jakarta.annotation:jakarta.annotation-api")
     kapt("jakarta.persistence:jakarta.persistence-api")
+
+    // Database
+    runtimeOnly("com.mysql:mysql-connector-j:8.4.0")
+    implementation("com.zaxxer:HikariCP")
+    implementation("org.hibernate.validator:hibernate-validator:8.0.1.Final")
+    implementation("org.glassfish:jakarta.el:4.0.2")
 }
 
 val generated = file("src/main/generated")
