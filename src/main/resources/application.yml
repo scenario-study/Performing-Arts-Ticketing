@@ -18,6 +18,7 @@ spring:
       - jpa
       - jwt
       - file
+      - schedule
 
 springdoc:
   swagger-ui:
