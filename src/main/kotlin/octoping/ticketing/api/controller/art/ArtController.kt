@@ -1,9 +1,12 @@
 package octoping.ticketing.api.controller.art
 
+import io.swagger.v3.oas.annotations.Operation
+import jakarta.servlet.http.HttpServletRequest
 import octoping.ticketing.api.controller.art.request.ArtChangePriceRequestDTO
 import octoping.ticketing.api.controller.art.request.ArtInfoResponseDTO
 import octoping.ticketing.api.controller.art.request.ArtListResponseDTO
 import octoping.ticketing.domain.arts.service.ArtService
+import octoping.ticketing.domain.artview.service.ArtViewService
 import octoping.ticketing.domain.price.service.ArtPriceService
 import org.springframework.web.bind.annotation.*
 
@@ -11,31 +14,55 @@ import org.springframework.web.bind.annotation.*
 class ArtController(
     private val artService: ArtService,
     private val priceService: ArtPriceService,
+    private val artViewService: ArtViewService,
 ) {
+    @Operation(summary = "공연 상세 조회")
     @GetMapping("/arts/{artId}")
     fun getArtsInfo(
-        @PathVariable artId: String,
+        @PathVariable artId: Long,
     ): ArtInfoResponseDTO {
-        TODO()
+        val artInfo = artService.getInfoById(artId)
+
+        return ArtInfoResponseDTO(
+            id = artInfo.id,
+            name = artInfo.name,
+            basePrice = artInfo.basePrice,
+            discountedPrice = artInfo.discountedPrice,
+            startDate = artInfo.startDate,
+            endDate = artInfo.endDate,
+        )
     }
 
+    @Operation(summary = "공연 가격 변경")
     @PutMapping("/arts/{artId}/price")
     fun changePrice(
         @PathVariable artId: Long,
-        @RequestBody request: ArtChangePriceRequestDTO
+        @RequestBody request: ArtChangePriceRequestDTO,
     ) {
         priceService.changeArtPrice(
             artId = artId,
             basePrice = request.basePrice,
-            discountedPrice = request.discountPrice
+            discountedPrice = request.discountPrice,
         )
     }
 
+    @Operation(summary = "인기 공연 조회")
     @GetMapping("/arts/ranking/popular")
     fun getPopularArts(
         @RequestParam(value = "page", defaultValue = "0") page: Int,
         @RequestParam(value = "range", defaultValue = "WEEK") range: String,
-    ): ArtListResponseDTO {
-        return ArtListResponseDTO(emptyList(), page)
+    ): ArtListResponseDTO = ArtListResponseDTO(emptyList(), page)
+
+    @Operation(summary = "공연 조회")
+    @PostMapping("/arts/{artId}/view")
+    fun viewArt(
+        @PathVariable artId: Long,
+        request: HttpServletRequest,
+    ) {
+        artViewService.plusArtView(
+            userIP = request.remoteAddr,
+            userId = null, // TODO: 로그인 기능 추가되면 수정
+            artId = artId,
+        )
     }
 }

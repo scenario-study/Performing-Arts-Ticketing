@@ -1,8 +1,8 @@
-package octoping.ticketing.api.controller.art.request
+package octoping.ticketing.domain.arts.schema
 
 import java.time.LocalDate
 
-data class ArtInfoResponseDTO(
+data class ArtInfo(
     val id: Long,
     val name: String,
     val basePrice: Long,
