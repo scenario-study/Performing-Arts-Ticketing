@@ -10,6 +10,8 @@ import com.cd18.infra.persistence.config.applyPagination
 import com.cd18.infra.persistence.model.QPerformanceDiscount.performanceDiscount
 import com.cd18.infra.persistence.model.QPerformanceInfo.performanceInfo
 import com.cd18.infra.persistence.model.QPerformancePrice.performancePrice
+import com.cd18.infra.persistence.repository.extensions.leftJoinPerformanceDiscount
+import com.cd18.infra.persistence.repository.extensions.leftJoinPerformancePrice
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
@@ -31,10 +33,8 @@ class PerformanceInfoRepositoryImpl(
                 performanceInfo.endDate,
             ),
         ).from(performanceInfo)
-            .leftJoin(performancePrice)
-            .on(performanceInfo.id.eq(performancePrice.performanceInfoId))
-            .leftJoin(performanceDiscount)
-            .on(performanceInfo.id.eq(performanceDiscount.performanceInfoId))
+            .leftJoinPerformancePrice()
+            .leftJoinPerformanceDiscount()
             .orderBy(performanceInfo.id.desc())
             .applyPagination(pageParam)
             .fetch()
@@ -54,10 +54,8 @@ class PerformanceInfoRepositoryImpl(
                 performanceInfo.endDate,
             ),
         ).from(performanceInfo)
-            .leftJoin(performancePrice)
-            .on(performanceInfo.id.eq(performancePrice.performanceInfoId))
-            .leftJoin(performanceDiscount)
-            .on(performanceInfo.id.eq(performanceDiscount.performanceInfoId))
+            .leftJoinPerformancePrice()
+            .leftJoinPerformanceDiscount()
             .where(performanceInfo.id.eq(id))
             .fetchFirst()
             ?: throw BaseException(PerformanceInfoErrorCode.NOT_FOUND)
