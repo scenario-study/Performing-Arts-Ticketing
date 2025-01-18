@@ -20,7 +20,7 @@ class Art(
     private var _name: ArtName
     private var _description: String
     private var _onePersonBuyLimit: Int
-    private var _artDate: ArtDate
+    private var artDate: ArtDate
 
     init {
         validate(description)
@@ -28,7 +28,7 @@ class Art(
         this._name = ArtName(name)
         this._description = description
         this._onePersonBuyLimit = onePersonBuyLimit
-        this._artDate = ArtDate(startDate, endDate)
+        this.artDate = ArtDate(startDate, endDate)
     }
 
     val id get() = _id
@@ -36,7 +36,14 @@ class Art(
     val description get() = _description
     val onePersonBuyLimit get() = _onePersonBuyLimit
 
-    fun buyTicket(user: User, price: ArtPrice, discountCoupon: DiscountCoupon = NoDiscountCoupon()): Ticket {
+    val startDate get() = artDate.startDate
+    val endDate get() = artDate.endDate
+
+    fun buyTicket(
+        user: User,
+        price: ArtPrice,
+        discountCoupon: DiscountCoupon = NoDiscountCoupon(),
+    ): Ticket {
         if (user.isNew()) {
             throw ValidationException("저장되지 않은 유저입니다")
         }
@@ -58,7 +65,6 @@ class Art(
             throw ValidationException("Description cannot be greater than max description: $description")
         }
     }
-
 
     companion object {
         private const val MAX_DESCRIPTION_LENGTH = 100000

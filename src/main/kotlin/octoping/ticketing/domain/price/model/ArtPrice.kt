@@ -6,12 +6,19 @@ import java.time.LocalDateTime
 private const val MAX_PRICE = 10_000_000_000
 
 class ArtPrice(
-    private val artId: Long,
+    id: Long = 0,
+    val artId: Long,
     val basePrice: Long,
     val discountedPrice: Long,
-    private val startDate: LocalDateTime = LocalDateTime.now(),
-    private var endDate: LocalDateTime? = null,
+    val startDate: LocalDateTime = LocalDateTime.now(),
+    endDate: LocalDateTime? = null,
 ) {
+    private var _id: Long
+    private var _endDate: LocalDateTime?
+
+    val id get() = _id
+    val endDate get() = _endDate
+
     init {
         if (basePrice < 0) {
             throw ValidationException("Price cannot be negative: $basePrice")
@@ -28,9 +35,16 @@ class ArtPrice(
         if (discountedPrice > basePrice) {
             throw ValidationException("Discount cannot be less than max price: $discountedPrice")
         }
+
+        _id = id
+        _endDate = endDate
     }
 
-    fun changePrice(basePrice: Long, discountedPrice: Long, now: LocalDateTime = LocalDateTime.now()): ArtPrice {
+    fun changePrice(
+        basePrice: Long,
+        discountedPrice: Long,
+        now: LocalDateTime = LocalDateTime.now(),
+    ): ArtPrice {
         if (!this.isCurrentlyApplied()) {
             throw ValidationException("현재 가격이 변경되었습니다")
         }
@@ -39,7 +53,7 @@ class ArtPrice(
             return this
         }
 
-        this.endDate = now
+        this._endDate = now
 
         return ArtPrice(
             artId = artId,

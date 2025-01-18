@@ -1,12 +1,34 @@
 package octoping.ticketing.domain.arts.service
 
 import octoping.ticketing.domain.arts.repository.ArtRepository
+import octoping.ticketing.domain.arts.schema.ArtInfo
+import octoping.ticketing.domain.exception.NotFoundException
+import octoping.ticketing.domain.price.repository.ArtPriceRepository
 import org.springframework.stereotype.Service
 
 @Service
 class ArtService(
     private val artRepository: ArtRepository,
+    private val artPriceRepository: ArtPriceRepository,
 ) {
+    fun getInfoById(artId: Long): ArtInfo {
+        val art =
+            artRepository.findById(artId)
+                ?: throw NotFoundException("Art not found. id: $artId")
+
+        val price =
+            artPriceRepository.findRecentByArtId(artId)
+                ?: throw NotFoundException("Price not found. artId: $artId")
+
+        return ArtInfo(
+            id = art.id,
+            name = art.name,
+            basePrice = price.basePrice,
+            discountedPrice = price.discountedPrice,
+            startDate = art.startDate,
+            endDate = art.endDate,
+        )
+    }
     /*
     TODO: 공연이란, 읽기는 많지만 쓰기는 많지 않은 작업. (공연을 예매하려는 사람은 많아도 하는 사람은 적으니)
      공연 정보가 쉽게 바뀌는 것도 아니니, 캐싱을 적극 활용하자.
