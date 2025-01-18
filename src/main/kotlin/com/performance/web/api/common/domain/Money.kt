@@ -1,6 +1,7 @@
 package com.performance.web.api.common.domain
 
 import java.math.BigDecimal
+import java.util.Objects
 
 data class Money(
     private val amount: BigDecimal
@@ -18,13 +19,38 @@ data class Money(
         }
     }
 
+    fun plus(amount: Money): Money = Money(this.amount.add(amount.amount))
 
-    fun plus(money: Money): Money {
-        return Money(amount.add(money.amount))
+    fun minus(amount: Money): Money = Money(this.amount.subtract(amount.amount))
+
+    fun times(percent: Double): Money = Money(this.amount.multiply(BigDecimal.valueOf(percent)))
+
+    fun times(percent: Int): Money = Money(this.amount.multiply(BigDecimal(percent)))
+
+    fun divide(divisor: Double): Money = Money(this.amount.divide(BigDecimal.valueOf(divisor)))
+
+    fun isLessThan(other: Money): Boolean = amount < other.amount
+
+    fun isGreaterThanOrEqual(other: Money): Boolean = amount >= other.amount
+
+    fun longValue(): Long {
+        return this.amount.toLong()
     }
 
-    fun minus(money: Money): Money {
-        return Money(amount.subtract(money.amount))
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+
+        other as Money
+        return this.amount.toDouble() == other.amount.toDouble()
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hash(amount.toDouble())
+    }
+
+    override fun toString(): String {
+        return this.amount.toString() + " 원"
     }
 
 }
