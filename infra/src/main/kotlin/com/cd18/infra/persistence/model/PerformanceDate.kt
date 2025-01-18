@@ -7,7 +7,7 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import java.sql.Date
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "performance_date")
@@ -18,5 +18,5 @@ class PerformanceDate(
     @Column(name = "perf_id")
     var performanceInfoId: Long,
     @Column(name = "perf_time")
-    var startTime: Date,
+    var startTime: LocalDateTime,
 ) : BaseTimeEntity()
