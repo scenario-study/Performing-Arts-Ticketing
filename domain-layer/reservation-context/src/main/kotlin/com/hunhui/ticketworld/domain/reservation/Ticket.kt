@@ -5,7 +5,7 @@ import com.hunhui.ticketworld.domain.reservation.exception.ReservationErrorCode
 import java.time.LocalDateTime
 import java.util.UUID
 
-class ReservationStatus(
+class Ticket(
     val id: UUID,
     val roundId: UUID,
     val seatAreaId: UUID,
@@ -23,9 +23,9 @@ class ReservationStatus(
     val canReserve: Boolean
         get() = isTempReservationExpired && !isPaid
 
-    fun tempReserve(userId: UUID): ReservationStatus {
+    fun tempReserve(userId: UUID): Ticket {
         if (!canReserve) throw BusinessException(ReservationErrorCode.CANNOT_RESERVE)
-        return ReservationStatus(
+        return Ticket(
             id = id,
             roundId = roundId,
             seatAreaId = seatAreaId,

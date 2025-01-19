@@ -1,8 +1,8 @@
 package com.hunhui.ticketworld.application
 
-import com.hunhui.ticketworld.application.dto.response.ReservationStatusListResponse
-import com.hunhui.ticketworld.domain.reservation.ReservationStatus
-import com.hunhui.ticketworld.domain.reservation.ReservationStatusRepository
+import com.hunhui.ticketworld.application.dto.response.TicketListResponse
+import com.hunhui.ticketworld.domain.reservation.Ticket
+import com.hunhui.ticketworld.domain.reservation.TicketRepository
 import com.hunhui.ticketworld.domain.user.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -10,25 +10,25 @@ import java.util.UUID
 
 @Service
 class ReservationService(
-    private val reservationStatusRepository: ReservationStatusRepository,
+    private val ticketRepository: TicketRepository,
     private val userRepository: UserRepository,
 ) {
-    fun findAllReservationStatus(
+    fun findAllTicket(
         roundId: UUID,
         areaId: UUID,
-    ): ReservationStatusListResponse {
-        val reservationStatusList: List<ReservationStatus> = reservationStatusRepository.findAllByRoundIdAndAreaId(roundId, areaId)
-        return ReservationStatusListResponse.from(reservationStatusList)
+    ): TicketListResponse {
+        val ticketList: List<Ticket> = ticketRepository.findAllByRoundIdAndAreaId(roundId, areaId)
+        return TicketListResponse.from(ticketList)
     }
 
     @Transactional
     fun tempReserve(
-        reservationStatusId: UUID,
+        ticketId: UUID,
         userId: UUID,
     ) {
         userRepository.getById(userId)
-        val reservationStatus: ReservationStatus = reservationStatusRepository.getById(reservationStatusId)
-        val updatedReservationStatus: ReservationStatus = reservationStatus.tempReserve(userId)
-        reservationStatusRepository.save(updatedReservationStatus)
+        val ticket: Ticket = ticketRepository.getById(ticketId)
+        val updatedTicket: Ticket = ticket.tempReserve(userId)
+        ticketRepository.save(updatedTicket)
     }
 }
