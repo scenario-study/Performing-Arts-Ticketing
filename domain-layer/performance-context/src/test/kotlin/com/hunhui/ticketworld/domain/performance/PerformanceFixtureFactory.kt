@@ -9,7 +9,7 @@ object PerformanceFixtureFactory {
         imageUrl: String = "test_image.png",
         location: String = "테스트 장소",
         description: String = "테스트 공연 설명",
-        ticketGrades: List<TicketGrade> = listOf(createValidTicketGrade(), createValidTicketGrade("R석", 80000)),
+        performancePrices: List<PerformancePrice> = listOf(createValidPerformancePrice(), createValidPerformancePrice("R석", 80000)),
         rounds: List<PerformanceRound> =
             listOf(
                 createValidPerformanceRound(),
@@ -26,14 +26,14 @@ object PerformanceFixtureFactory {
             imageUrl = imageUrl,
             location = location,
             description = description,
-            ticketGrades = ticketGrades,
+            performancePrices = performancePrices,
             rounds = rounds,
         )
 
-    private fun createValidTicketGrade(
-        gradeName: String = "VIP",
+    private fun createValidPerformancePrice(
+        priceName: String = "VIP",
         price: Long = 100000,
-    ): TicketGrade = TicketGrade.create(gradeName, price)
+    ): PerformancePrice = PerformancePrice.create(priceName, price)
 
     private fun createValidPerformanceRound(
         performanceDateTime: LocalDateTime = LocalDateTime.now().plusDays(3),

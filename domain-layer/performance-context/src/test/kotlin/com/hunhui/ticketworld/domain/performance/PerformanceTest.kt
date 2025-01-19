@@ -2,7 +2,7 @@ package com.hunhui.ticketworld.domain.performance
 
 import com.hunhui.ticketworld.common.error.AssertUtil.assertErrorCode
 import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode
-import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode.TICKET_GRADE_IS_EMPTY
+import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode.PERFORMANCE_PRICE_IS_EMPTY
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -19,15 +19,15 @@ class PerformanceTest {
 
         // then
         assertNotNull(performance.id)
-        assertTrue(performance.ticketGrades.isNotEmpty())
+        assertTrue(performance.performancePrices.isNotEmpty())
         assertTrue(performance.rounds.isNotEmpty())
     }
 
     @Test
-    fun `좌석 등급이 비어있으면 예외가 발생한다`() {
+    fun `공연의 가격이 비어있으면 예외가 발생한다`() {
         // when & then
-        assertErrorCode(TICKET_GRADE_IS_EMPTY) {
-            PerformanceFixtureFactory.createValidPerformance(ticketGrades = emptyList())
+        assertErrorCode(PERFORMANCE_PRICE_IS_EMPTY) {
+            PerformanceFixtureFactory.createValidPerformance(performancePrices = emptyList())
         }
     }
 
@@ -157,12 +157,12 @@ class PerformanceTest {
     }
 
     @Test
-    fun `minimumPrice는 ticketGrades 중 가장 낮은 금액을 반환한다`() {
+    fun `minimumPrice는 performancePrices 중 가장 낮은 금액을 반환한다`() {
         // given
-        val ticketGrade1 = TicketGrade.create("VIP", 50000)
-        val ticketGrade2 = TicketGrade.create("R석", 40000)
+        val performancePrice1 = PerformancePrice.create("VIP", 50000)
+        val performancePrice2 = PerformancePrice.create("R석", 40000)
         val performance =
-            PerformanceFixtureFactory.createValidPerformance(ticketGrades = listOf(ticketGrade1, ticketGrade2))
+            PerformanceFixtureFactory.createValidPerformance(performancePrices = listOf(performancePrice1, performancePrice2))
 
         // when
         val minPrice = performance.minimumPrice

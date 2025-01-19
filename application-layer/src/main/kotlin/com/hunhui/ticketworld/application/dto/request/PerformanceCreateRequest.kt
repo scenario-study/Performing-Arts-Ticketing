@@ -2,8 +2,8 @@ package com.hunhui.ticketworld.application.dto.request
 
 import com.hunhui.ticketworld.domain.performance.Performance
 import com.hunhui.ticketworld.domain.performance.PerformanceGenre
+import com.hunhui.ticketworld.domain.performance.PerformancePrice
 import com.hunhui.ticketworld.domain.performance.PerformanceRound
-import com.hunhui.ticketworld.domain.performance.TicketGrade
 import com.hunhui.ticketworld.domain.seat.Seat
 import com.hunhui.ticketworld.domain.seat.SeatArea
 import java.time.LocalDateTime
@@ -15,13 +15,13 @@ data class PerformanceCreateRequest(
     val imageUrl: String,
     val location: String,
     val description: String,
-    val ticketGrades: List<TicketGradeRequest>,
+    val performancePrices: List<PerformancePriceRequest>,
     val rounds: List<PerformanceRoundRequest>,
     val seatAreas: List<SeatAreaRequest>,
 ) {
     fun toDomain(): Pair<Performance, List<SeatArea>> {
         val performance = getPerformance()
-        val seatAreas = getSeatAreas(performance.id, performance.ticketGrades)
+        val seatAreas = getSeatAreas(performance.id, performance.performancePrices)
         return performance to seatAreas
     }
 
@@ -32,10 +32,10 @@ data class PerformanceCreateRequest(
             imageUrl = imageUrl,
             location = location,
             description = description,
-            ticketGrades =
-                ticketGrades.map {
-                    TicketGrade.create(
-                        gradeName = it.gradeName,
+            performancePrices =
+                performancePrices.map {
+                    PerformancePrice.create(
+                        priceName = it.priceName,
                         price = it.price,
                     )
                 },
@@ -51,7 +51,7 @@ data class PerformanceCreateRequest(
 
     private fun getSeatAreas(
         performanceId: UUID,
-        ticketGrades: List<TicketGrade>,
+        performancePrices: List<PerformancePrice>,
     ): List<SeatArea> =
         seatAreas.map {
             SeatArea(
@@ -65,7 +65,7 @@ data class PerformanceCreateRequest(
                     it.seats.map { seat ->
                         Seat(
                             id = UUID.randomUUID(),
-                            gradeId = ticketGrades[seat.gradeIndex].id,
+                            performancePriceId = performancePrices[seat.priceIndex].id,
                             seatName = seat.seatName,
                             x = seat.x,
                             y = seat.y,
@@ -74,8 +74,8 @@ data class PerformanceCreateRequest(
             )
         }
 
-    data class TicketGradeRequest(
-        val gradeName: String,
+    data class PerformancePriceRequest(
+        val priceName: String,
         val price: Long,
     )
 
@@ -94,7 +94,7 @@ data class PerformanceCreateRequest(
     )
 
     data class SeatRequest(
-        val gradeIndex: Int,
+        val priceIndex: Int,
         val seatName: String,
         val x: Int,
         val y: Int,

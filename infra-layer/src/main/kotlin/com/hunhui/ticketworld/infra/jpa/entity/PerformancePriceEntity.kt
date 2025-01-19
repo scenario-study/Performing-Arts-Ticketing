@@ -7,13 +7,13 @@ import jakarta.persistence.Table
 import java.util.UUID
 
 @Entity
-@Table(name = "ticket_grade")
-internal class TicketGradeEntity(
+@Table(name = "performance_price")
+internal class PerformancePriceEntity(
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     val id: UUID = UUID.randomUUID(),
-    @Column(name = "gradeName", nullable = false)
-    val gradeName: String,
+    @Column(name = "priceName", nullable = false)
+    val priceName: String,
     @Column(name = "price", nullable = false)
     val price: Long,
     @Column(name = "performanceId", nullable = false)

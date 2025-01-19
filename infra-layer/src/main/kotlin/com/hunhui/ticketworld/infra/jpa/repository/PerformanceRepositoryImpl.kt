@@ -3,13 +3,13 @@ package com.hunhui.ticketworld.infra.jpa.repository
 import com.hunhui.ticketworld.common.error.BusinessException
 import com.hunhui.ticketworld.common.vo.Money
 import com.hunhui.ticketworld.domain.performance.Performance
+import com.hunhui.ticketworld.domain.performance.PerformancePrice
 import com.hunhui.ticketworld.domain.performance.PerformanceRepository
 import com.hunhui.ticketworld.domain.performance.PerformanceRound
-import com.hunhui.ticketworld.domain.performance.TicketGrade
 import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode
 import com.hunhui.ticketworld.infra.jpa.entity.PerformanceEntity
+import com.hunhui.ticketworld.infra.jpa.entity.PerformancePriceEntity
 import com.hunhui.ticketworld.infra.jpa.entity.PerformanceRoundEntity
-import com.hunhui.ticketworld.infra.jpa.entity.TicketGradeEntity
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
@@ -47,7 +47,7 @@ internal class PerformanceRepositoryImpl(
                 genre = genre,
                 imageUrl = imageUrl,
                 location = location,
-                ticketGrades = ticketGrades.map { it.domain },
+                performancePrices = performancePrices.map { it.domain },
                 rounds = rounds.map { it.domain },
             )
 
@@ -60,11 +60,11 @@ internal class PerformanceRepositoryImpl(
                 reservationFinishDateTime = reservationFinishDateTime,
             )
 
-    private val TicketGradeEntity.domain: TicketGrade
+    private val PerformancePriceEntity.domain: PerformancePrice
         get() =
-            TicketGrade(
+            PerformancePrice(
                 id = id,
-                gradeName = gradeName,
+                priceName = priceName,
                 price = Money(price),
             )
 
@@ -77,11 +77,11 @@ internal class PerformanceRepositoryImpl(
                 genre = genre,
                 imageUrl = imageUrl,
                 location = location,
-                ticketGrades =
-                    ticketGrades.map {
-                        TicketGradeEntity(
+                performancePrices =
+                    performancePrices.map {
+                        PerformancePriceEntity(
                             id = it.id,
-                            gradeName = it.gradeName,
+                            priceName = it.priceName,
                             price = it.price.amount,
                             performanceId = this.id,
                         )

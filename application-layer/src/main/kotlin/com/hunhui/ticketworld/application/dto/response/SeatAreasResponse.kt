@@ -20,7 +20,7 @@ data class SeatAreasResponse(
                             seatArea.seats.map { seat ->
                                 SeatResponse(
                                     id = seat.id,
-                                    gradeId = seat.gradeId,
+                                    performancePriceId = seat.performancePriceId,
                                     seatName = seat.seatName,
                                     x = seat.x,
                                     y = seat.y,
@@ -42,7 +42,7 @@ data class SeatAreasResponse(
 
     data class SeatResponse(
         val id: UUID,
-        val gradeId: UUID,
+        val performancePriceId: UUID,
         val seatName: String,
         val x: Int,
         val y: Int,

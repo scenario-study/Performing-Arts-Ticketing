@@ -3,18 +3,18 @@ package com.hunhui.ticketworld.domain.performance
 import com.hunhui.ticketworld.common.vo.Money
 import java.util.UUID
 
-class TicketGrade(
+class PerformancePrice(
     val id: UUID,
-    val gradeName: String,
+    val priceName: String,
     val price: Money,
 ) {
     companion object {
         fun create(
-            gradeName: String,
+            priceName: String,
             price: Long,
-        ) = TicketGrade(
+        ) = PerformancePrice(
             id = UUID.randomUUID(),
-            gradeName = gradeName,
+            priceName = priceName,
             price = Money(price),
         )
     }

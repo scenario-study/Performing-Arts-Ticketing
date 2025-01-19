@@ -16,7 +16,7 @@ data class PerformanceResponse(
     val location: String,
     val description: String,
     val minimumReservationStartDateTime: LocalDateTime,
-    val ticketGrades: List<TicketGradeResponse>,
+    val performancePrices: List<PerformancePriceResponse>,
     val rounds: List<PerformanceRoundResponse>,
 ) {
     companion object {
@@ -31,10 +31,10 @@ data class PerformanceResponse(
                 location = performance.location,
                 description = performance.description,
                 minimumReservationStartDateTime = performance.minimumReservationStartDateTime,
-                ticketGrades =
-                    performance.ticketGrades.map {
-                        TicketGradeResponse(
-                            gradeName = it.gradeName,
+                performancePrices =
+                    performance.performancePrices.map {
+                        PerformancePriceResponse(
+                            priceName = it.priceName,
                             price = it.price.amount,
                         )
                     },
@@ -48,8 +48,8 @@ data class PerformanceResponse(
             )
     }
 
-    data class TicketGradeResponse(
-        val gradeName: String,
+    data class PerformancePriceResponse(
+        val priceName: String,
         val price: Long,
     )
 

@@ -2,8 +2,8 @@ package com.hunhui.ticketworld.domain.performance
 
 import com.hunhui.ticketworld.common.error.BusinessException
 import com.hunhui.ticketworld.common.vo.Money
+import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode.PERFORMANCE_PRICE_IS_EMPTY
 import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode.ROUND_IS_EMPTY
-import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode.TICKET_GRADE_IS_EMPTY
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.UUID
@@ -15,11 +15,11 @@ class Performance(
     val imageUrl: String,
     val location: String,
     val description: String,
-    val ticketGrades: List<TicketGrade>,
+    val performancePrices: List<PerformancePrice>,
     val rounds: List<PerformanceRound>,
 ) {
     init {
-        if (ticketGrades.isEmpty()) throw BusinessException(TICKET_GRADE_IS_EMPTY)
+        if (performancePrices.isEmpty()) throw BusinessException(PERFORMANCE_PRICE_IS_EMPTY)
         if (rounds.isEmpty()) throw BusinessException(ROUND_IS_EMPTY)
     }
 
@@ -30,7 +30,7 @@ class Performance(
             imageUrl: String,
             location: String,
             description: String,
-            ticketGrades: List<TicketGrade>,
+            performancePrices: List<PerformancePrice>,
             rounds: List<PerformanceRound>,
         ): Performance =
             Performance(
@@ -40,7 +40,7 @@ class Performance(
                 imageUrl = imageUrl,
                 location = location,
                 description = description,
-                ticketGrades = ticketGrades,
+                performancePrices = performancePrices,
                 rounds = rounds,
             )
     }
@@ -54,5 +54,5 @@ class Performance(
     val minimumReservationStartDateTime: LocalDateTime
         get() = rounds.minOf { it.reservationStartDateTime }
     val minimumPrice: Money
-        get() = ticketGrades.minOf { it.price }
+        get() = performancePrices.minOf { it.price }
 }

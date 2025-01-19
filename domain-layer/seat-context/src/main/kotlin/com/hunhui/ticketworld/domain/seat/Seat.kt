@@ -6,7 +6,7 @@ import java.util.UUID
 
 class Seat(
     val id: UUID,
-    val gradeId: UUID,
+    val performancePriceId: UUID,
     val seatName: String,
     val x: Int,
     val y: Int,
