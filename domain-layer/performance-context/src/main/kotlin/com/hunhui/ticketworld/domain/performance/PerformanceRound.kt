@@ -8,31 +8,31 @@ import java.util.UUID
 
 class PerformanceRound(
     val id: UUID,
-    val performanceDateTime: LocalDateTime,
-    val reservationStartDateTime: LocalDateTime,
-    val reservationFinishDateTime: LocalDateTime,
+    val roundStartTime: LocalDateTime,
+    val reservationStartTime: LocalDateTime,
+    val reservationEndTime: LocalDateTime,
 ) {
     init {
-        if (reservationStartDateTime.isAfter(reservationFinishDateTime)) throw BusinessException(INVALID_RESERVATION_START_DATE)
-        if (reservationFinishDateTime.isAfter(performanceDateTime)) throw BusinessException(INVALID_RESERVATION_FINISH_DATE)
+        if (reservationStartTime.isAfter(reservationEndTime)) throw BusinessException(INVALID_RESERVATION_START_DATE)
+        if (reservationEndTime.isAfter(roundStartTime)) throw BusinessException(INVALID_RESERVATION_FINISH_DATE)
     }
 
     companion object {
         fun create(
-            performanceDateTime: LocalDateTime,
-            reservationStartDateTime: LocalDateTime,
-            reservationFinishDateTime: LocalDateTime,
+            roundStartTime: LocalDateTime,
+            reservationStartTime: LocalDateTime,
+            reservationEndTime: LocalDateTime,
         ) = PerformanceRound(
             id = UUID.randomUUID(),
-            performanceDateTime = performanceDateTime,
-            reservationStartDateTime = reservationStartDateTime,
-            reservationFinishDateTime = reservationFinishDateTime,
+            roundStartTime = roundStartTime,
+            reservationStartTime = reservationStartTime,
+            reservationEndTime = reservationEndTime,
         )
     }
 
     val isReservationAvailable: Boolean
         get() =
             LocalDateTime.now().let {
-                it.isBefore(reservationFinishDateTime) && it.isAfter(reservationStartDateTime)
+                it.isBefore(reservationEndTime) && it.isAfter(reservationStartTime)
             }
 }

@@ -55,9 +55,9 @@ internal class PerformanceRepositoryImpl(
         get() =
             PerformanceRound(
                 id = id,
-                performanceDateTime = performanceDateTime,
-                reservationStartDateTime = reservationStartDateTime,
-                reservationFinishDateTime = reservationFinishDateTime,
+                roundStartTime = roundStartTime,
+                reservationStartTime = reservationStartTime,
+                reservationEndTime = reservationEndTime,
             )
 
     private val PerformancePriceEntity.domain: PerformancePrice
@@ -90,9 +90,9 @@ internal class PerformanceRepositoryImpl(
                     rounds.map {
                         PerformanceRoundEntity(
                             id = it.id,
-                            performanceDateTime = it.performanceDateTime,
-                            reservationStartDateTime = it.reservationStartDateTime,
-                            reservationFinishDateTime = it.reservationFinishDateTime,
+                            roundStartTime = it.roundStartTime,
+                            reservationStartTime = it.reservationStartTime,
+                            reservationEndTime = it.reservationEndTime,
                             performanceId = this.id,
                         )
                     },

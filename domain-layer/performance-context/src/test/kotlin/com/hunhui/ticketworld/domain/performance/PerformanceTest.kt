@@ -123,25 +123,25 @@ class PerformanceTest {
     }
 
     @Test
-    fun `minimumReservationStartDateTime는 rounds 중 가장 이전인 예약 시작 시간을 반환한다`() {
+    fun `minimumReservationStartTime는 rounds 중 가장 이전인 예약 시작 시간을 반환한다`() {
         // given
         val round1 =
             PerformanceRound.create(
-                performanceDateTime = LocalDateTime.of(2025, 1, 10, 18, 0),
-                reservationStartDateTime = LocalDateTime.of(2025, 1, 1, 0, 0),
-                reservationFinishDateTime = LocalDateTime.of(2025, 1, 5, 0, 0),
+                roundStartTime = LocalDateTime.of(2025, 1, 10, 18, 0),
+                reservationStartTime = LocalDateTime.of(2025, 1, 1, 0, 0),
+                reservationEndTime = LocalDateTime.of(2025, 1, 5, 0, 0),
             )
         val round2 =
             PerformanceRound.create(
-                performanceDateTime = LocalDateTime.of(2025, 1, 15, 18, 0),
-                reservationStartDateTime = LocalDateTime.of(2025, 1, 2, 0, 0),
-                reservationFinishDateTime = LocalDateTime.of(2025, 1, 6, 0, 0),
+                roundStartTime = LocalDateTime.of(2025, 1, 15, 18, 0),
+                reservationStartTime = LocalDateTime.of(2025, 1, 2, 0, 0),
+                reservationEndTime = LocalDateTime.of(2025, 1, 6, 0, 0),
             )
         val round3 =
             PerformanceRound.create(
-                performanceDateTime = LocalDateTime.of(2025, 1, 20, 18, 0),
-                reservationStartDateTime = LocalDateTime.of(2025, 1, 3, 0, 0),
-                reservationFinishDateTime = LocalDateTime.of(2025, 1, 7, 0, 0),
+                roundStartTime = LocalDateTime.of(2025, 1, 20, 18, 0),
+                reservationStartTime = LocalDateTime.of(2025, 1, 3, 0, 0),
+                reservationEndTime = LocalDateTime.of(2025, 1, 7, 0, 0),
             )
 
         val performance =
@@ -150,7 +150,7 @@ class PerformanceTest {
             )
 
         // when
-        val earliestReservationStart = performance.minimumReservationStartDateTime
+        val earliestReservationStart = performance.minimumReservationStartTime
 
         // then
         assertEquals(LocalDateTime.of(2025, 1, 1, 0, 0), earliestReservationStart)

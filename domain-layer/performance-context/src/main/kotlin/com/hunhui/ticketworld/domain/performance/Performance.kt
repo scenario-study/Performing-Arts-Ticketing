@@ -46,13 +46,13 @@ class Performance(
     }
 
     val startDate: LocalDate
-        get() = rounds.minOf { it.performanceDateTime.toLocalDate() }
+        get() = rounds.minOf { it.roundStartTime.toLocalDate() }
     val finishDate: LocalDate
-        get() = rounds.maxOf { it.performanceDateTime.toLocalDate() }
+        get() = rounds.maxOf { it.roundStartTime.toLocalDate() }
     val availableRounds: List<PerformanceRound>
         get() = rounds.filter { it.isReservationAvailable }
-    val minimumReservationStartDateTime: LocalDateTime
-        get() = rounds.minOf { it.reservationStartDateTime }
+    val minimumReservationStartTime: LocalDateTime
+        get() = rounds.minOf { it.reservationStartTime }
     val minimumPrice: Money
         get() = performancePrices.minOf { it.price }
 }

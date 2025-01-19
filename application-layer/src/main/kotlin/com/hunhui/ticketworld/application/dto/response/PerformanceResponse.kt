@@ -15,7 +15,7 @@ data class PerformanceResponse(
     val imageUrl: String,
     val location: String,
     val description: String,
-    val minimumReservationStartDateTime: LocalDateTime,
+    val minimumReservationStartTime: LocalDateTime,
     val performancePrices: List<PerformancePriceResponse>,
     val rounds: List<PerformanceRoundResponse>,
 ) {
@@ -30,7 +30,7 @@ data class PerformanceResponse(
                 imageUrl = performance.imageUrl,
                 location = performance.location,
                 description = performance.description,
-                minimumReservationStartDateTime = performance.minimumReservationStartDateTime,
+                minimumReservationStartTime = performance.minimumReservationStartTime,
                 performancePrices =
                     performance.performancePrices.map {
                         PerformancePriceResponse(
@@ -42,7 +42,7 @@ data class PerformanceResponse(
                     performance.availableRounds.map {
                         PerformanceRoundResponse(
                             id = it.id,
-                            performanceDateTime = it.performanceDateTime,
+                            roundStartTime = it.roundStartTime,
                         )
                     },
             )
@@ -55,6 +55,6 @@ data class PerformanceResponse(
 
     data class PerformanceRoundResponse(
         val id: UUID,
-        val performanceDateTime: LocalDateTime,
+        val roundStartTime: LocalDateTime,
     )
 }

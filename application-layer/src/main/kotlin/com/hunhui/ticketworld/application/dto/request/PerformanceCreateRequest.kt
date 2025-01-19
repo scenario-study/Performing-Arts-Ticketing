@@ -42,9 +42,9 @@ data class PerformanceCreateRequest(
             rounds =
                 rounds.map {
                     PerformanceRound.create(
-                        it.performanceDateTime,
-                        it.reservationStartDateTime,
-                        it.reservationFinishDateTime,
+                        it.roundStartTime,
+                        it.reservationStartTime,
+                        it.reservationEndTime,
                     )
                 },
         )
@@ -80,9 +80,9 @@ data class PerformanceCreateRequest(
     )
 
     data class PerformanceRoundRequest(
-        val performanceDateTime: LocalDateTime,
-        val reservationStartDateTime: LocalDateTime,
-        val reservationFinishDateTime: LocalDateTime,
+        val roundStartTime: LocalDateTime,
+        val reservationStartTime: LocalDateTime,
+        val reservationEndTime: LocalDateTime,
     )
 
     data class SeatAreaRequest(

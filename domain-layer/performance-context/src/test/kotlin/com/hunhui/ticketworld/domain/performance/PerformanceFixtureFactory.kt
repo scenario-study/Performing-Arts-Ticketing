@@ -36,13 +36,13 @@ object PerformanceFixtureFactory {
     ): PerformancePrice = PerformancePrice.create(priceName, price)
 
     private fun createValidPerformanceRound(
-        performanceDateTime: LocalDateTime = LocalDateTime.now().plusDays(3),
-        reservationStartDateTime: LocalDateTime = LocalDateTime.now(),
-        reservationFinishDateTime: LocalDateTime = LocalDateTime.now().plusDays(1),
+        roundStartTime: LocalDateTime = LocalDateTime.now().plusDays(3),
+        reservationStartTime: LocalDateTime = LocalDateTime.now(),
+        reservationEndTime: LocalDateTime = LocalDateTime.now().plusDays(1),
     ): PerformanceRound =
         PerformanceRound.create(
-            performanceDateTime,
-            reservationStartDateTime,
-            reservationFinishDateTime,
+            roundStartTime,
+            reservationStartTime,
+            reservationEndTime,
         )
 }

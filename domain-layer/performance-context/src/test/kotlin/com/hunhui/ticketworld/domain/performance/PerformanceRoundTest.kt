@@ -24,15 +24,15 @@ class PerformanceRoundTest {
         val now = LocalDateTime.now()
         val round =
             PerformanceRound.create(
-                performanceDateTime = now.plusDays(2),
-                reservationStartDateTime = now,
-                reservationFinishDateTime = now.plusDays(1),
+                roundStartTime = now.plusDays(2),
+                reservationStartTime = now,
+                reservationEndTime = now.plusDays(1),
             )
 
         // then
         assertEquals(uuid, round.id)
-        assertTrue(round.performanceDateTime.isAfter(now))
-        assertTrue(round.reservationStartDateTime.isBefore(round.reservationFinishDateTime))
+        assertTrue(round.roundStartTime.isAfter(now))
+        assertTrue(round.reservationStartTime.isBefore(round.reservationEndTime))
     }
 
     @Test
@@ -43,10 +43,10 @@ class PerformanceRoundTest {
         // when & then
         assertErrorCode(INVALID_RESERVATION_START_DATE) {
             PerformanceRound.create(
-                performanceDateTime = now.plusDays(1),
+                roundStartTime = now.plusDays(1),
                 // 일부러 늦게 설정
-                reservationStartDateTime = now.plusDays(2),
-                reservationFinishDateTime = now.plusDays(1),
+                reservationStartTime = now.plusDays(2),
+                reservationEndTime = now.plusDays(1),
             )
         }
     }
@@ -59,10 +59,10 @@ class PerformanceRoundTest {
         // when & then
         assertErrorCode(INVALID_RESERVATION_FINISH_DATE) {
             PerformanceRound.create(
-                performanceDateTime = now.plusDays(1),
-                reservationStartDateTime = now,
+                roundStartTime = now.plusDays(1),
+                reservationStartTime = now,
                 // 공연 시간보다 늦음
-                reservationFinishDateTime = now.plusDays(2),
+                reservationEndTime = now.plusDays(2),
             )
         }
     }
@@ -73,9 +73,9 @@ class PerformanceRoundTest {
         val now = LocalDateTime.now()
         val round =
             PerformanceRound.create(
-                performanceDateTime = now.plusDays(2),
-                reservationStartDateTime = now.minusHours(1),
-                reservationFinishDateTime = now.plusHours(1),
+                roundStartTime = now.plusDays(2),
+                reservationStartTime = now.minusHours(1),
+                reservationEndTime = now.plusHours(1),
             )
 
         // when
@@ -91,10 +91,10 @@ class PerformanceRoundTest {
         val now = LocalDateTime.now()
         val round =
             PerformanceRound.create(
-                performanceDateTime = now.plusDays(2),
-                reservationStartDateTime = now.minusDays(1),
+                roundStartTime = now.plusDays(2),
+                reservationStartTime = now.minusDays(1),
                 // 이미 종료됨
-                reservationFinishDateTime = now.minusHours(1),
+                reservationEndTime = now.minusHours(1),
             )
 
         // when
@@ -110,10 +110,10 @@ class PerformanceRoundTest {
         val now = LocalDateTime.now()
         val round =
             PerformanceRound.create(
-                performanceDateTime = now.plusDays(2),
+                roundStartTime = now.plusDays(2),
                 // 아직 예약 시작시간이 아님
-                reservationStartDateTime = now.plusHours(1),
-                reservationFinishDateTime = now.plusDays(1),
+                reservationStartTime = now.plusHours(1),
+                reservationEndTime = now.plusDays(1),
             )
 
         // when
