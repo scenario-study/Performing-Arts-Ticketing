@@ -3,7 +3,7 @@ package com.cd18.domain.performance.dto
 import com.cd18.domain.performance.model.PerformancePrice
 
 data class PerformanceInfoDto(
-    val performanceId: Long,
+    val id: Long,
     val performanceName: String,
     val performanceVenue: String,
     override val performanceOriginPrice: Int,
