@@ -8,4 +8,9 @@ interface PerformanceInfoService {
     fun getList(pageParam: PageParam): Result<List<PerformanceInfoDto>>
 
     fun getById(id: Long): Result<PerformanceInfoDetailDto>
+
+    fun changeDiscountPrice(
+        id: Long,
+        discountPrice: Int,
+    ): Result<Unit>
 }
