@@ -4,6 +4,7 @@ import com.cd18.common.exception.BaseException
 import com.cd18.domain.common.page.PageParam
 import com.cd18.domain.performance.dto.PerformanceInfoDetailDto
 import com.cd18.domain.performance.dto.PerformanceInfoDto
+import com.cd18.domain.performance.dto.PerformancePriceDto
 import com.cd18.domain.performance.enums.PerformanceInfoErrorCode
 import com.cd18.domain.performance.repository.PerformanceInfoRepository
 import com.cd18.infra.persistence.config.applyPagination
@@ -15,6 +16,7 @@ import com.cd18.infra.persistence.repository.extensions.leftJoinPerformancePrice
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
+import java.time.LocalDateTime
 
 @Repository
 class PerformanceInfoRepositoryImpl(
@@ -59,5 +61,38 @@ class PerformanceInfoRepositoryImpl(
             .where(performanceInfo.id.eq(id))
             .fetchFirst()
             ?: throw BaseException(PerformanceInfoErrorCode.NOT_FOUND)
+    }
+
+    override fun getPriceInfoByPerformanceId(performanceId: Long): PerformancePriceDto {
+        return queryFactory.select(
+            Projections.constructor(
+                PerformancePriceDto::class.java,
+                performanceInfo.id,
+                performancePrice.id,
+                performancePrice.price,
+                performanceDiscount.id,
+                performanceDiscount.discountPrice,
+            ),
+        ).from(performanceInfo)
+            .leftJoinPerformancePrice()
+            .leftJoinPerformanceDiscount()
+            .where(performanceInfo.id.eq(performanceId))
+            .fetchFirst()
+            ?: throw BaseException(PerformanceInfoErrorCode.NOT_FOUND)
+    }
+
+    override fun updateDiscountPrice(
+        performanceId: Long,
+        performanceDiscountId: Long,
+        discountPrice: Int,
+    ) {
+        queryFactory.update(performanceDiscount)
+            .set(performanceDiscount.discountPrice, discountPrice)
+            .set(performanceDiscount.updatedAt, LocalDateTime.now())
+            .where(
+                performanceDiscount.performanceInfoId.eq(performanceId),
+                performanceDiscount.id.eq(performanceDiscountId),
+            )
+            .execute()
     }
 }
