@@ -1,5 +1,6 @@
 package com.cd18.web.controller.admin
 
+import com.cd18.application.performance.PerformanceInfoService
 import com.cd18.common.http.response.ApiResponse
 import com.cd18.common.http.response.ApiStatus
 import com.cd18.domain.performance.enums.PerformanceInfoSuccessCode
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/admin/performance")
 @Tag(name = "[관리자용] 공연 정보", description = "공연 정보 APIs")
-class AdminPerformanceInfoController {
+class AdminPerformanceInfoController(
+    private val performanceInfoService: PerformanceInfoService,
+) {
     @PatchMapping("/{id}/discount-price")
     @Operation(
         summary = "공연 할인 금액 변경",
@@ -28,7 +31,7 @@ class AdminPerformanceInfoController {
         @Parameter(description = "공연 ID", required = true, example = "1") @PathVariable id: Long,
         @Valid @RequestBody request: ChangeDiscountPriceRequest,
     ): ApiResponse<Unit> {
-        TODO("Not implemented")
+        performanceInfoService.changeDiscountPrice(id, request.discountPrice).getOrThrow()
         return ApiResponse(status = ApiStatus.of(PerformanceInfoSuccessCode.CHANGE_DISCOUNT_PRICE))
     }
 }
