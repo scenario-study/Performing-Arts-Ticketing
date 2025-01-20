@@ -42,7 +42,7 @@ CREATE TABLE history_performance_discount
     id            bigint auto_increment primary key,
     perf_id       bigint not null,
     perf_dc_id    bigint not null,
-    seq           int unsigned not null,
     perf_dc_price int unsigned not null,
-    created_at    timestamp
+    created_at    timestamp,
+    updated_at    timestamp
 );

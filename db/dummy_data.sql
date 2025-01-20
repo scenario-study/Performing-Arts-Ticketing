@@ -76,7 +76,7 @@ VALUES (1, 1, 5000, NOW(), NOW()),
        (19, 19, 15000, NOW(), NOW()),
        (20, 20, 5000, NOW(), NOW());
 
-INSERT INTO history_performance_discount (id, perf_id, perf_dc_id, seq, perf_dc_price, created_at)
-VALUES (1, 1, 1, 1, 0, NOW(), NOW()),
-       (2, 1, 1, 2, 4000, NOW(), NOW()),
-       (3, 1, 1, 3, 5000, NOW(), NOW());
+INSERT INTO history_performance_discount (id, perf_id, perf_dc_id, perf_dc_price, created_at, updated_at)
+VALUES (1, 1, 1, 0, NOW(), NOW()),
+       (2, 1, 1, 4000, NOW(), NOW()),
+       (3, 1, 1, 5000, NOW(), NOW());
