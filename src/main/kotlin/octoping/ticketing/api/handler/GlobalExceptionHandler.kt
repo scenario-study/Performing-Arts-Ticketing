@@ -1,7 +1,6 @@
 package octoping.ticketing.api.handler
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import jakarta.servlet.ServletException
 import jakarta.validation.ConstraintViolationException
 import octoping.ticketing.api.config.web.ErrorResponse
 import octoping.ticketing.domain.exception.DomainException
@@ -10,14 +9,12 @@ import octoping.ticketing.domain.exception.ValidationException
 import octoping.ticketing.utils.StacktraceParser
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.http.converter.HttpMessageConversionException
-import org.springframework.validation.BindException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 
 @RestControllerAdvice
-class GlobalExceptionHandler {
+class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
     private val log = KotlinLogging.logger {}
 
     @ExceptionHandler(
@@ -51,24 +48,6 @@ class GlobalExceptionHandler {
         ResponseEntity
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(ErrorResponse(exception.message))
-
-    @ExceptionHandler(
-        HttpMessageConversionException::class,
-        MethodArgumentTypeMismatchException::class,
-        ServletException::class,
-    )
-    fun handleBadRequestException(exception: Exception): ResponseEntity<ErrorResponse> {
-        log.error { exception.message }
-        return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .body(ErrorResponse("잘못된 요청입니다"))
-    }
-
-    @ExceptionHandler(BindException::class)
-    fun handleMethodArgumentNotValidException(exception: BindException): ResponseEntity<ErrorResponse> =
-        ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .body(ErrorResponse(exception.fieldError?.defaultMessage))
 
     @ExceptionHandler(ConstraintViolationException::class)
     fun handleConstraintViolationException(exception: ConstraintViolationException): ResponseEntity<ErrorResponse> =
