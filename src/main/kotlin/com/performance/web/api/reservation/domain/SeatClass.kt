@@ -1,8 +1,8 @@
-package com.performance.web.api.performance.domain
+package com.performance.web.api.reservation.domain
 
 import com.performance.web.api.common.domain.Money
-import com.performance.web.api.performance.domain.discount.DiscountFactor
-import com.performance.web.api.performance.domain.discount.DiscountPolicy
+import com.performance.web.api.discount.domain.DiscountFactor
+import com.performance.web.api.discount.domain.DiscountPolicy
 
 class SeatClass(
     price: Money,

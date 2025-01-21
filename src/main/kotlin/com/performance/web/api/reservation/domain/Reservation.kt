@@ -1,6 +1,8 @@
-package com.performance.web.api.performance.domain
+package com.performance.web.api.reservation.domain
 
 import com.performance.web.api.common.domain.Money
+import com.performance.web.api.common.domain.sum
+
 
 class Reservation(
     session: Session,
@@ -11,7 +13,7 @@ class Reservation(
     private val _session = session
     private val _customer = customer
     private val _tickets = tickets
-    private val _totalAmount: Money = tickets.sumOf { it.getTotalAmount().longValue() }.let { Money.of(it) }
+    private val _totalAmount: Money = tickets.map { it.getTotalAmount() }.toList().sum()
 
     fun getTickets(): List<Ticket> = _tickets
     fun getCustomer(): Customer = _customer

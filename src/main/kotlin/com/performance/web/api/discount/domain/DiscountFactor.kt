@@ -1,11 +1,9 @@
-package com.performance.web.api.performance.domain.discount
+package com.performance.web.api.discount.domain
 
-import com.performance.web.api.common.domain.Money
 import java.time.LocalDateTime
 
 class DiscountFactor(
     val reserveDateTime: LocalDateTime,
     val ticketTotalAmount: Int,
 ) {
-
 }

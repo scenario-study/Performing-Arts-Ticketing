@@ -1,4 +1,4 @@
-package com.performance.web.api.performance.domain
+package com.performance.web.api.reservation.domain
 
 class Customer(
     name: String

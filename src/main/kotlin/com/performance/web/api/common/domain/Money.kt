@@ -54,3 +54,6 @@ data class Money(
     }
 
 }
+fun List<Money>.sum(): Money {
+    return this.reduce { acc, curr -> acc.plus(curr) }
+}

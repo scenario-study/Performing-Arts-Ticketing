@@ -1,13 +1,13 @@
-package com.performance.web.api.performance.domain
+package com.performance.web.api.reservation.domain
 
-import com.performance.web.api.performance.domain.discount.DiscountFactor
-import com.performance.web.api.performance.domain.discount.DiscountPolicy
+import com.performance.web.api.discount.domain.DiscountFactor
+import com.performance.web.api.discount.domain.DiscountPolicy
 import java.time.LocalDateTime
 
 
 class Session(
     performance: Performance,
-    seats: List<Seat>
+    seats: List<Seat> = mutableListOf()
 ) {
 
     private val _performance: Performance = performance
@@ -18,7 +18,11 @@ class Session(
         val tickets = mutableListOf<Ticket>()
         for (seatCommand in command.seatCommands) {
             val seat = findSeatById(seatCommand.seatId)
-            val ticket = seat.reserve(seatCommand.discount, command.discountFactor)
+            val discountFactor = command.discountFactor
+            val ticket = seat.reserve(
+                discountPolicy = seatCommand.discountPolicy,
+                discountFactor = discountFactor,
+            )
             tickets.add(ticket)
         }
 
@@ -35,11 +39,11 @@ class Session(
     data class ReserveCommand(
         val customer: Customer,
         val seatCommands: List<SeatReserveCommand>,
-        val discountFactor: DiscountFactor
+        val discountFactor: DiscountFactor,
     )
 
     data class SeatReserveCommand(
         val seatId: Long,
-        val discount: DiscountPolicy
+        val discountPolicy: DiscountPolicy
     )
 }

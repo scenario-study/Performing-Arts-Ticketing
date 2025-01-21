@@ -1,6 +1,4 @@
-package com.performance.web.api.performance.domain
-
-import java.time.Period
+package com.performance.web.api.reservation.domain
 
 class Performance(
     name : String

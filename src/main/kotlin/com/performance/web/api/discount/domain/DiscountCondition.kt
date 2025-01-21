@@ -1,4 +1,4 @@
-package com.performance.web.api.performance.domain.discount
+package com.performance.web.api.discount.domain
 
 interface DiscountCondition {
 

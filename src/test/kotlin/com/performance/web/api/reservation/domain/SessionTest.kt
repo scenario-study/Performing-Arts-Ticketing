@@ -1,9 +1,9 @@
-package com.performance.web.api.performance.domain
+package com.performance.web.api.reservation.domain
 
 import com.performance.web.api.common.domain.Money
-import com.performance.web.api.performance.domain.discount.DateRangeCondition
-import com.performance.web.api.performance.domain.discount.DiscountFactor
-import com.performance.web.api.performance.domain.discount.PercentDiscountPolicy
+import com.performance.web.api.discount.domain.DateRangeCondition
+import com.performance.web.api.discount.domain.DiscountFactor
+import com.performance.web.api.discount.domain.PercentDiscountPolicy
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
