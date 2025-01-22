@@ -5,5 +5,4 @@ import java.time.LocalDateTime
 class DiscountFactor(
     val reserveDateTime: LocalDateTime,
     val ticketTotalAmount: Int,
-) {
-}
+)

@@ -2,7 +2,7 @@ package com.performance.web.api.customer.domain
 
 class Customer(
     id: Long = 0L,
-    name: String
+    name: String,
 ) {
 
     private val _id = id

@@ -7,11 +7,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class CustomerService(
-    private val customerRepository: CustomerRepository
+    private val customerRepository: CustomerRepository,
 ) {
 
-    fun findById(id: Long): Customer {
-        return customerRepository.findById(id)
+    fun findById(id: Long): Customer =
+        customerRepository.findById(id)
             .orElseThrow { throw ResourceNotFoundException("Customer with id $id not found") }
-    }
 }

@@ -4,7 +4,6 @@ import com.performance.web.api.common.domain.Money
 import com.performance.web.api.common.domain.sum
 import com.performance.web.api.customer.domain.Customer
 
-
 class Reservation(
     id: Long = 0L,
     session: Session,
@@ -19,8 +18,12 @@ class Reservation(
     private val _totalAmount: Money = tickets.map { it.getTotalAmount() }.toList().sum()
 
     fun getId(): Long = _id
+
     fun getTickets(): List<Ticket> = _tickets
+
     fun getCustomer(): Customer = _customer
+
     fun getSession(): Session = _session
+
     fun getTotalAmount(): Money = _totalAmount
 }

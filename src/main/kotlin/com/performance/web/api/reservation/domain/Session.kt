@@ -5,12 +5,11 @@ import com.performance.web.api.discount.domain.DiscountFactor
 import com.performance.web.api.discount.domain.DiscountPolicy
 import java.time.LocalDateTime
 
-
 class Session(
     id: Long = 0L,
     performance: Performance,
-    startDateTime : LocalDateTime,
-    seats: List<Seat> = mutableListOf()
+    startDateTime: LocalDateTime,
+    seats: List<Seat> = mutableListOf(),
 ) {
 
     private val _id: Long = id
@@ -19,22 +18,26 @@ class Session(
     private val _startDateTime: LocalDateTime = startDateTime
 
     fun getId(): Long = _id
+
     fun getPerformance(): Performance = _performance
+
     fun getSeats(): List<Seat> = _seats
+
     fun getStartDateTime(): LocalDateTime = _startDateTime
 
     fun reserve(
         customer: Customer,
         discountFactor: DiscountFactor,
-        seatCommands: List<SeatReserveCommand>
+        seatCommands: List<SeatReserveCommand>,
     ): Reservation {
         val tickets = mutableListOf<Ticket>()
         for (seatCommand in seatCommands) {
             val seat = findSeatById(seatCommand.seatId)
-            val ticket = seat.reserve(
-                discountPolicy = seatCommand.discountPolicy,
-                discountFactor = discountFactor,
-            )
+            val ticket =
+                seat.reserve(
+                    discountPolicy = seatCommand.discountPolicy,
+                    discountFactor = discountFactor,
+                )
             tickets.add(ticket)
         }
 
@@ -45,14 +48,12 @@ class Session(
         )
     }
 
-
-    private fun findSeatById(id: Long): Seat {
-        return this._seats.find { it.getId() == id }
+    private fun findSeatById(id: Long): Seat =
+        this._seats.find { it.getId() == id }
             ?: throw IllegalArgumentException("Seat with id $id not found")
-    }
 
     data class SeatReserveCommand(
         val seatId: Long,
-        val discountPolicy: DiscountPolicy
+        val discountPolicy: DiscountPolicy,
     )
 }

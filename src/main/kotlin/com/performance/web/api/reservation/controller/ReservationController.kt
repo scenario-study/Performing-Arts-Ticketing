@@ -16,17 +16,17 @@ import org.springframework.web.bind.annotation.RestController
 class ReservationController(
     private val reservationService: ReservationService,
     private val customerService: CustomerService,
-    private val discountService: DiscountService
+    private val discountService: DiscountService,
 ) {
 
-
     @PostMapping("")
-    fun createReservation(@RequestBody reservationApiRequest: ReservationApiRequest): ResponseEntity<ReservationApiResponse> {
+    fun createReservation(
+        @RequestBody reservationApiRequest: ReservationApiRequest,
+    ): ResponseEntity<ReservationApiResponse> {
         val customer = customerService.findById(reservationApiRequest.customerId)
         val discountPolicies = discountService.findAllByIdsOrDefault(reservationApiRequest.getDiscountPolicyIds())
-        val result = reservationService.reserve(reservationApiRequest.toServiceCommand(customer, discountPolicies));
+        val result = reservationService.reserve(reservationApiRequest.toServiceCommand(customer, discountPolicies))
         return ResponseEntity.status(201)
             .body(ReservationApiResponse.from(result))
     }
-
 }

@@ -7,30 +7,30 @@ import com.performance.web.api.reservation.service.dto.ReservationCommand
 class ReservationApiRequest(
     val customerId: Long,
     val sessionId: Long,
-    val seatRequests: List<ReserveSeatApiRequest>
+    val seatRequests: List<ReserveSeatApiRequest>,
 ) {
 
     data class ReserveSeatApiRequest(
         val seatId: Long,
-        val discountPolicyId: Long? // nullable
+        val discountPolicyId: Long?, // nullable
     )
 
+    fun getDiscountPolicyIds(): List<Long?> = seatRequests.map { it.discountPolicyId }
 
-    fun getDiscountPolicyIds(): List<Long?> {
-        return seatRequests.map { it.discountPolicyId }
-    }
-
-    fun toServiceCommand(customer: Customer, policies: List<DiscountPolicy>): ReservationCommand {
-        return ReservationCommand(
+    fun toServiceCommand(
+        customer: Customer,
+        policies: List<DiscountPolicy>,
+    ): ReservationCommand =
+        ReservationCommand(
             customer = customer,
             sessionId = sessionId,
-            seatCommands = seatRequests.map { request ->
-                val requestDiscountId = request.discountPolicyId ?: 0L
-                ReservationCommand.ReservationSeatCommand(
-                    seatId = request.seatId,
-                    discountPolicy = policies.find { it.getId() == requestDiscountId }!!, // 절대 예외가 발생하지 않음.
-                )
-            },
+            seatCommands =
+                seatRequests.map { request ->
+                    val requestDiscountId = request.discountPolicyId ?: 0L
+                    ReservationCommand.ReservationSeatCommand(
+                        seatId = request.seatId,
+                        discountPolicy = policies.find { it.getId() == requestDiscountId }!!, // 절대 예외가 발생하지 않음.
+                    )
+                },
         )
-    }
 }

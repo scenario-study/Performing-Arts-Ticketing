@@ -4,7 +4,7 @@ import java.math.BigDecimal
 import java.util.Objects
 
 data class Money(
-    private val amount: BigDecimal
+    private val amount: BigDecimal,
 ) {
 
     companion object {
@@ -45,15 +45,9 @@ data class Money(
         return this.amount.toDouble() == other.amount.toDouble()
     }
 
-    override fun hashCode(): Int {
-        return Objects.hash(amount.toDouble())
-    }
+    override fun hashCode(): Int = Objects.hash(amount.toDouble())
 
-    override fun toString(): String {
-        return this.amount.toString() + " 원"
-    }
+    override fun toString(): String = this.amount.toString() + " 원"
+}
 
-}
-fun List<Money>.sum(): Money {
-    return this.reduce { acc, curr -> acc.plus(curr) }
-}
+fun List<Money>.sum(): Money = this.reduce { acc, curr -> acc.plus(curr) }

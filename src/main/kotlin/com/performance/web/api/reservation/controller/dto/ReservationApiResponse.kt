@@ -12,25 +12,25 @@ data class ReservationApiResponse(
     val startDate: LocalDate,
     val starTime: LocalTime,
     val endTime: LocalTime,
-    val tickets: List<TicketApiResponse>
+    val tickets: List<TicketApiResponse>,
 ) {
 
-
     companion object {
-        fun from(reservation: Reservation): ReservationApiResponse {
-            return ReservationApiResponse(
+        fun from(reservation: Reservation): ReservationApiResponse =
+            ReservationApiResponse(
                 id = reservation.getId(),
                 performanceName = reservation.getSession().getPerformance().getName(),
                 startDate = reservation.getSession().getStartDateTime().toLocalDate(),
                 starTime = reservation.getSession().getStartDateTime().toLocalTime(),
-                endTime = reservation.getSession().getStartDateTime().plusMinutes(
-                    reservation.getSession().getPerformance().getRunTime(),
-                ).toLocalTime(),
-                tickets = reservation.getTickets().map { ticket ->
-                    TicketApiResponse.from(ticket)
-                },
+                endTime =
+                    reservation.getSession().getStartDateTime().plusMinutes(
+                        reservation.getSession().getPerformance().getRunTime(),
+                    ).toLocalTime(),
+                tickets =
+                    reservation.getTickets().map { ticket ->
+                        TicketApiResponse.from(ticket)
+                    },
             )
-        }
     }
 
     data class TicketApiResponse(
@@ -42,18 +42,16 @@ data class ReservationApiResponse(
     ) {
         companion object {
 
-            fun from(ticket: Ticket): TicketApiResponse {
-                return TicketApiResponse(
+            fun from(ticket: Ticket): TicketApiResponse =
+                TicketApiResponse(
                     id = ticket.getId(),
                     seatInfo = SeatInfoApiResponse.from(ticket.getSeat()),
                     totalAmount = ticket.getTotalAmount().longValue(),
                     regularPrice = ticket.getRegularPrice().longValue(),
                     discountName = ticket.getAppliedDiscountPolicy().getName(),
                 )
-            }
         }
     }
-
 
     data class SeatInfoApiResponse(
         val id: Long,
@@ -63,17 +61,14 @@ data class ReservationApiResponse(
         val column: Int,
     ) {
         companion object {
-            fun from(seat: Seat): SeatInfoApiResponse {
-                return SeatInfoApiResponse(
+            fun from(seat: Seat): SeatInfoApiResponse =
+                SeatInfoApiResponse(
                     id = seat.getId(),
                     seatClassType = seat.getSeatClass().getClassType(),
                     floor = seat.getSeatPosition().floor,
                     row = seat.getSeatPosition().row,
                     column = seat.getSeatPosition().column,
                 )
-            }
         }
     }
-
-
 }

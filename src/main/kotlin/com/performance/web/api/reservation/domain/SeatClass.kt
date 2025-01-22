@@ -13,10 +13,14 @@ class SeatClass(
     private val _classType: String = classType
 
     fun getPrice(): Money = _price
+
     fun getClassType() = _classType
 
-
-    fun calculateTotalAmount(discount: DiscountPolicy, discountFactor: DiscountFactor): Money {
-        return _price.minus(discount.calculateFee(_price, discountFactor))
-    }
+    fun calculateTotalAmount(
+        discount: DiscountPolicy,
+        discountFactor: DiscountFactor,
+    ): Money =
+        _price.minus(
+            discount.calculateFee(_price, discountFactor),
+        )
 }

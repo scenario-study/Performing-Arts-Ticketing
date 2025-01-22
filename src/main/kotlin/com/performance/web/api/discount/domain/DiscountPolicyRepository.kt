@@ -5,5 +5,4 @@ import java.util.Optional
 interface DiscountPolicyRepository {
 
     fun findById(id: Long): Optional<DiscountPolicy>
-
 }

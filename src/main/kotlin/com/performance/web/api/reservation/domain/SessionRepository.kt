@@ -9,5 +9,4 @@ interface SessionRepository {
     fun findByIdWithSeatAnsClassAndPerformance(id: Long): Optional<Session>
 
     fun save(session: Session)
-
 }

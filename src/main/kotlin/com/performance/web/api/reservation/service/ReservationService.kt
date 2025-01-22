@@ -18,14 +18,16 @@ class ReservationService(
     fun reserve(reservationCommand: ReservationCommand): Reservation {
         val (customer, sessionId, seatCommands) = reservationCommand
 
-        val session = sessionRepository.findByIdWithSeatAnsClassAndPerformance(sessionId)
-            .orElseThrow { throw ResourceNotFoundException("$sessionId id의 session을  찾을 수 없습니다") }
+        val session =
+            sessionRepository.findByIdWithSeatAnsClassAndPerformance(sessionId)
+                .orElseThrow { throw ResourceNotFoundException("$sessionId id의 session을  찾을 수 없습니다") }
 
-        val reservation = session.reserve(
-            customer = customer,
-            seatCommands = seatCommands.map { it.toEntityCommand() }.toMutableList(),
-            discountFactor = DiscountFactor(LocalDateTime.now(), seatCommands.size),
-        )
+        val reservation =
+            session.reserve(
+                customer = customer,
+                seatCommands = seatCommands.map { it.toEntityCommand() }.toMutableList(),
+                discountFactor = DiscountFactor(LocalDateTime.now(), seatCommands.size),
+            )
 
         return reservationRepository.save(reservation)
     }

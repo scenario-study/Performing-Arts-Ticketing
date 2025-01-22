@@ -6,12 +6,10 @@ class PercentDiscountPolicy(
     id: Long = 0L,
     name: String,
     vararg conditions: DiscountCondition,
-    percent: Double
+    percent: Double,
 ) : DiscountPolicy(id, name, *conditions) {
 
     private val _percent = percent
 
-    override fun getDiscountAmount(price: Money): Money {
-        return price.times(_percent)
-    }
+    override fun getDiscountAmount(price: Money): Money = price.times(_percent)
 }

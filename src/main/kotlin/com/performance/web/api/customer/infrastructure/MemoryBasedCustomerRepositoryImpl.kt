@@ -9,14 +9,12 @@ import java.util.Optional
 @Component
 class MemoryBasedCustomerRepositoryImpl : CustomerRepository {
 
-    private final val store = Collections.synchronizedMap(
-        mutableMapOf<Long, Customer>(
-            1L to Customer(1L, "조인혁"),
-        ),
-    )
+    private final val store =
+        Collections.synchronizedMap(
+            mutableMapOf<Long, Customer>(
+                1L to Customer(1L, "조인혁"),
+            ),
+        )
 
-    override fun findById(id: Long): Optional<Customer> {
-        return Optional.ofNullable(store[id])
-    }
-
+    override fun findById(id: Long): Optional<Customer> = Optional.ofNullable(store[id])
 }
