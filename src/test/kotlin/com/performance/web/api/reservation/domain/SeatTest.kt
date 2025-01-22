@@ -1,8 +1,9 @@
 package com.performance.web.api.reservation.domain
 
-import com.performance.web.api.common.domain.Money
+import com.performance.web.api.common.domain.BusinessException
 import com.performance.web.api.discount.domain.DiscountFactor
 import com.performance.web.api.discount.domain.NoneDiscountPolicy
+import com.performance.web.api.fixtures.SeatFixture
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
@@ -13,14 +14,8 @@ class SeatTest {
     fun `이미 예약된 좌석은 예매할 수 없다`() {
         // given
         val seat =
-            Seat(
-                seatClass =
-                    SeatClass(
-                        price = Money.of(10000),
-                        classType = "VIP",
-                    ),
+            SeatFixture.create(
                 seatStatus = SeatStatus.RESERVED,
-                seatPosition = SeatPosition(1, 1),
             )
 
         // when
@@ -34,6 +29,6 @@ class SeatTest {
                         ticketTotalAmount = 1,
                     ),
             )
-        }.isInstanceOf(IllegalArgumentException::class.java)
+        }.isInstanceOf(BusinessException::class.java).hasMessageContaining("이미 예약된 좌석입니다.")
     }
 }
