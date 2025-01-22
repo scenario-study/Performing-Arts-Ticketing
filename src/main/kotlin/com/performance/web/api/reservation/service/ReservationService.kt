@@ -1,18 +1,32 @@
 package com.performance.web.api.reservation.service
 
+import com.performance.web.api.common.domain.ResourceNotFoundException
+import com.performance.web.api.discount.domain.DiscountFactor
 import com.performance.web.api.reservation.domain.Reservation
+import com.performance.web.api.reservation.domain.ReservationRepository
+import com.performance.web.api.reservation.domain.SessionRepository
+import com.performance.web.api.reservation.service.dto.ReservationCommand
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
-class ReservationService {
+class ReservationService(
+    private val sessionRepository: SessionRepository,
+    private val reservationRepository: ReservationRepository,
+) {
 
-    fun reserve(): Reservation {
+    fun reserve(reservationCommand: ReservationCommand): Reservation {
+        val (customer, sessionId, seatCommands) = reservationCommand
 
-        // Session 을 받아와서 호출한다
+        val session = sessionRepository.findByIdWithSeatAnsClassAndPerformance(sessionId)
+            .orElseThrow { throw ResourceNotFoundException("$sessionId id의 session을  찾을 수 없습니다") }
 
-        // 데이터를 어느정도까지 가져와야 하나?
+        val reservation = session.reserve(
+            customer = customer,
+            seatCommands = seatCommands.map { it.toEntityCommand() }.toMutableList(),
+            discountFactor = DiscountFactor(LocalDateTime.now(), seatCommands.size),
+        )
 
-        // discount 와 격리를 수행함
-        TODO()
+        return reservationRepository.save(reservation)
     }
 }

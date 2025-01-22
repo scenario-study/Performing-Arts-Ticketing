@@ -1,6 +1,7 @@
 package com.performance.web.api.reservation.domain
 
 import com.performance.web.api.common.domain.Money
+import com.performance.web.api.customer.domain.Customer
 import com.performance.web.api.discount.domain.DateRangeCondition
 import com.performance.web.api.discount.domain.DiscountFactor
 import com.performance.web.api.discount.domain.PercentDiscountPolicy
@@ -16,10 +17,11 @@ class SessionTest {
     fun `비율할인 금액을 적용한 후 할인된 가격으로 예매를 생성할 수 있다`() {
         //given
         val seat = seatFixtures(1L, Money.of(10000))
-        val performance = Performance(name = "공연공연")
+        val performance = Performance(name = "공연공연", runTimeInMinutes = 180)
         val session = Session(
             performance = performance,
             seats = listOf(seat),
+            startDateTime = LocalDateTime.now(),
         )
         val discountPolicy = PercentDiscountPolicy(
             percent = 0.3,
@@ -35,18 +37,16 @@ class SessionTest {
         // when
 
         val reservation: Reservation = session.reserve(
-            Session.ReserveCommand(
-                customer = Customer("김철수"),
-                seatCommands = listOf(
-                    Session.SeatReserveCommand(
-                        seatId = 1L,
-                        discountPolicy,
-                    ),
+            customer = Customer(1L, "김철수"),
+            seatCommands = listOf(
+                Session.SeatReserveCommand(
+                    seatId = 1L,
+                    discountPolicy,
                 ),
-                discountFactor = DiscountFactor(
-                    reserveDateTime = LocalDateTime.of(2025, 1, 1, 0, 0),
-                    ticketTotalAmount = 1,
-                ),
+            ),
+            discountFactor = DiscountFactor(
+                reserveDateTime = LocalDateTime.of(2025, 1, 1, 0, 0),
+                ticketTotalAmount = 1,
             ),
         )
 
@@ -59,10 +59,11 @@ class SessionTest {
     @Test
     fun `여러 티켓을 한번에 예매를 생성할 수 있다`() {
         //given
-        val performance = Performance(name = "공연공연")
+        val performance = Performance(name = "공연공연", runTimeInMinutes = 180)
         val session = Session(
             performance = performance,
             seats = listOf(seatFixtures(1L, Money.of(10000)), seatFixtures(2L, Money.of(10000))),
+            startDateTime = LocalDateTime.now(),
         )
         val discountPolicy = PercentDiscountPolicy(
             percent = 0.3,
@@ -78,22 +79,20 @@ class SessionTest {
         // when
 
         val reservation: Reservation = session.reserve(
-            Session.ReserveCommand(
-                customer = Customer("김철수"),
-                seatCommands = listOf(
-                    Session.SeatReserveCommand(
-                        seatId = 1L,
-                        discountPolicy,
-                    ),
-                    Session.SeatReserveCommand(
-                        seatId = 2L,
-                        discountPolicy,
-                    ),
+            customer = Customer(1L, "김철수"),
+            seatCommands = listOf(
+                Session.SeatReserveCommand(
+                    seatId = 1L,
+                    discountPolicy,
                 ),
-                discountFactor = DiscountFactor(
-                    reserveDateTime = LocalDateTime.of(2025, 1, 1, 0, 0),
-                    ticketTotalAmount = 1,
+                Session.SeatReserveCommand(
+                    seatId = 2L,
+                    discountPolicy,
                 ),
+            ),
+            discountFactor = DiscountFactor(
+                reserveDateTime = LocalDateTime.of(2025, 1, 1, 0, 0),
+                ticketTotalAmount = 1,
             ),
         )
 
@@ -105,10 +104,11 @@ class SessionTest {
     @Test
     fun `없는 좌석에 예매를 요청하면 예외를 반환한다`() {
         //given
-        val performance = Performance(name = "공연공연")
+        val performance = Performance(name = "공연공연", runTimeInMinutes = 180)
         val session = Session(
             performance = performance,
             seats = listOf(seatFixtures(1L, Money.of(10000)), seatFixtures(2L, Money.of(10000))),
+            startDateTime = LocalDateTime.now(),
         )
         val discountPolicy = PercentDiscountPolicy(
             percent = 0.3,
@@ -125,18 +125,16 @@ class SessionTest {
         // then
         Assertions.assertThatThrownBy {
             session.reserve(
-                Session.ReserveCommand(
-                    customer = Customer("김철수"),
-                    seatCommands = listOf(
-                        Session.SeatReserveCommand(
-                            seatId = 3L,
-                            discountPolicy,
-                        ),
+                customer = Customer(1L, "김철수"),
+                seatCommands = listOf(
+                    Session.SeatReserveCommand(
+                        seatId = 3L,
+                        discountPolicy,
                     ),
-                    discountFactor = DiscountFactor(
-                        reserveDateTime = LocalDateTime.of(2025, 1, 1, 0, 0),
-                        ticketTotalAmount = 1,
-                    ),
+                ),
+                discountFactor = DiscountFactor(
+                    reserveDateTime = LocalDateTime.of(2025, 1, 1, 0, 0),
+                    ticketTotalAmount = 1,
                 ),
             )
         }.isInstanceOf(IllegalArgumentException::class.java)
@@ -148,7 +146,9 @@ class SessionTest {
             seatStatus = SeatStatus.UN_RESERVED,
             seatClass = SeatClass(
                 price = money,
+                classType = "VIP",
             ),
+            seatPosition = SeatPosition(1, 1),
         )
     }
 }

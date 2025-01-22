@@ -16,8 +16,10 @@ class SeatTest {
         val seat = Seat(
             seatClass = SeatClass(
                 price = Money.of(10000),
+                classType = "VIP",
             ),
             seatStatus = SeatStatus.RESERVED,
+            seatPosition = SeatPosition(1, 1),
         )
 
         //when
