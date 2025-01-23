@@ -4,6 +4,7 @@ import com.performance.web.api.reservation.domain.Reservation
 import com.performance.web.api.reservation.domain.ReservationRepository
 import com.performance.web.api.reservation.domain.Ticket
 import org.springframework.stereotype.Component
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicLong
 
@@ -34,5 +35,9 @@ class MemoryBasedReservationRepositoryImpl : ReservationRepository {
             )
         reservationStore[key] = reservation
         return reservation
+    }
+
+    override fun findById(reservationId: Long): Optional<Reservation> {
+        return Optional.ofNullable(reservationStore[reservationId])
     }
 }

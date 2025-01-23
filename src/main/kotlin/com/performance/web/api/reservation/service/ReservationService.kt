@@ -31,4 +31,12 @@ class ReservationService(
 
         return reservationRepository.save(reservation)
     }
+
+
+    fun findById(reservationId: Long): Reservation {
+        val reservation = reservationRepository.findById(reservationId)
+            .orElseThrow { throw ResourceNotFoundException("${reservationId}의 Reservation을 찾을 수 없습니다.") }
+
+        return reservation
+    }
 }

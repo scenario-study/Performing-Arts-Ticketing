@@ -6,10 +6,7 @@ import com.performance.web.api.reservation.controller.dto.ReservationApiRequest
 import com.performance.web.api.reservation.controller.dto.ReservationApiResponse
 import com.performance.web.api.reservation.service.ReservationService
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/reservations")
@@ -28,5 +25,12 @@ class ReservationController(
         val result = reservationService.reserve(reservationApiRequest.toServiceCommand(customer, discountPolicies))
         return ResponseEntity.status(201)
             .body(ReservationApiResponse.from(result))
+    }
+
+
+    @GetMapping("/{reservationId}")
+    fun getReservation(@PathVariable("reservationId") reservationId: Long): ResponseEntity<ReservationApiResponse> {
+        val result = reservationService.findById(reservationId)
+        return ResponseEntity.ok(ReservationApiResponse.from(result))
     }
 }
