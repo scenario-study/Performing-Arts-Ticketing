@@ -3,7 +3,7 @@ package com.performance.web.api.discount.domain
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-class PeriodCondition(
+class TimeRangeCondition(
     startDateTime: LocalDateTime,
     endDateTime: LocalDateTime,
 ) : DiscountCondition {

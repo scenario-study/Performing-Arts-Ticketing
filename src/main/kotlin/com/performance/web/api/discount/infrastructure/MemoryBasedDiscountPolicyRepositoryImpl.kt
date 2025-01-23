@@ -41,7 +41,7 @@ class MemoryBasedDiscountPolicyRepositoryImpl : DiscountPolicyRepository {
                         name = "오전 공연 할인 (오전 5시~9시 시작 공연), 20% 할인",
                         conditions =
                             arrayOf(
-                                PeriodCondition(
+                                TimeRangeCondition(
                                     startDateTime = LocalDateTime.of(2025, 1, 1, 5, 0),
                                     endDateTime = LocalDateTime.of(2025, 1, 2, 9, 1),
                                 ),
