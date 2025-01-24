@@ -1,7 +1,7 @@
 package com.performance.web.api.reservation.controller
 
-import com.performance.web.api.discount.service.DiscountService
 import com.performance.web.api.reservation.controller.dto.PerformanceDetailApiResponse
+import com.performance.web.api.reservation.controller.dto.PerformanceDiscountApiResponse
 import com.performance.web.api.reservation.controller.dto.PerformanceListApiResponse
 import com.performance.web.api.reservation.service.PerformanceService
 import org.springframework.http.ResponseEntity
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/performances")
 class PerformanceController(
     private val performanceService: PerformanceService,
-    private val discountService: DiscountService
 ) {
 
     @GetMapping("/{performanceId}")
@@ -42,8 +41,10 @@ class PerformanceController(
     *  공연 좌석 할인 정보 API
     */
     @GetMapping("/{performanceId}/discount")
-    fun getDiscount(): ResponseEntity<Map<String, Any>> {
-        TODO()
+    fun getDiscount(@PathVariable performanceId: Long): ResponseEntity<List<PerformanceDiscountApiResponse>> {
+        val result = performanceService.findSeatClassByIdWithDiscounts(performanceId);
+        return ResponseEntity.ok()
+            .body(result.map { PerformanceDiscountApiResponse.from(it) })
     }
 
 }

@@ -1,11 +1,14 @@
 package com.performance.web.api.reservation.infrastructure.memory
 
 import com.performance.web.api.common.domain.Money
+import com.performance.web.api.discount.domain.DateRangeCondition
+import com.performance.web.api.discount.domain.PercentDiscountPolicy
 import com.performance.web.api.reservation.domain.Performance
 import com.performance.web.api.reservation.domain.PerformanceRepository
 import com.performance.web.api.reservation.domain.SeatClass
 import org.springframework.stereotype.Component
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
@@ -25,10 +28,47 @@ class MemoryBasedPerformanceRepositoryImpl : PerformanceRepository {
                     SeatClass(
                         price = Money.of(10000),
                         classType = "VIP",
+                        discountPolicies = listOf(
+                            PercentDiscountPolicy(
+                                id = 1L,
+                                name = "할인 1",
+                                percent = 0.5,
+                                conditions = arrayOf(
+                                    DateRangeCondition(
+                                        startDateTime = LocalDateTime.of(2024, 1, 1, 1, 1, 1),
+                                        endDateTime = LocalDateTime.of(2024, 1, 1, 1, 1, 1),
+                                    ),
+                                ),
+                            ),
+                            PercentDiscountPolicy(
+                                id = 3L,
+                                name = "할인 3",
+                                percent = 0.5,
+                                conditions = arrayOf(
+                                    DateRangeCondition(
+                                        startDateTime = LocalDateTime.of(2024, 1, 1, 1, 1, 1),
+                                        endDateTime = LocalDateTime.of(2024, 1, 1, 1, 1, 1),
+                                    ),
+                                ),
+                            ),
+                        ),
                     ),
                     SeatClass(
                         price = Money.of(8000),
                         classType = "R",
+                        discountPolicies = listOf(
+                            PercentDiscountPolicy(
+                                id = 2L,
+                                name = "할인 2",
+                                percent = 0.5,
+                                conditions = arrayOf(
+                                    DateRangeCondition(
+                                        startDateTime = LocalDateTime.of(2024, 1, 1, 1, 1, 1),
+                                        endDateTime = LocalDateTime.of(2024, 1, 1, 1, 1, 1),
+                                    ),
+                                ),
+                            ),
+                        ),
                     ),
                 ),
             ),
@@ -64,5 +104,9 @@ class MemoryBasedPerformanceRepositoryImpl : PerformanceRepository {
 
     override fun findAll(): List<Performance> {
         return store.values.toList()
+    }
+
+    override fun findByIdWithSeatClassAndDiscounts(id: Long): Optional<Performance> {
+        return Optional.ofNullable(store[id])
     }
 }

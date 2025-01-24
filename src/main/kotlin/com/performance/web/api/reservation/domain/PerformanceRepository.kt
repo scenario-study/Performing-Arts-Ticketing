@@ -9,4 +9,6 @@ interface PerformanceRepository {
     fun findByPage(pageNum: Int): List<Performance>
 
     fun findAll(): List<Performance>
+
+    fun findByIdWithSeatClassAndDiscounts(id: Long): Optional<Performance>
 }

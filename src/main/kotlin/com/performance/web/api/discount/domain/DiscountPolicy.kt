@@ -26,6 +26,10 @@ abstract class DiscountPolicy protected constructor( // 인텔리제이에서 cm
         return getDiscountAmount(price)
     }
 
+    fun calculateDiscountAmountWithoutCondition(price :Money) :Money{
+        return getDiscountAmount(price)
+    }
+
     fun getId(): Long = _id
 
     fun getName(): String = _name

@@ -19,6 +19,8 @@ class SeatClass(
 
     fun getClassType() = _classType
 
+    fun getDiscountPolicies(): List<DiscountPolicy> = _discountPolicies
+
     fun issueTicket(seat: Seat, discountFactor: DiscountFactor, discountPolicyId: Long?): Ticket {
         val discountPolicy = discountPolicyId?.let { findDiscountPolicyById(discountPolicyId) } ?: DiscountPolicy.none()
 
