@@ -1,9 +1,11 @@
 package com.hunhui.ticketworld.web.controller.doc
 
+import com.hunhui.ticketworld.application.dto.request.TempReserveRequest
 import com.hunhui.ticketworld.application.dto.response.TicketListResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import java.util.UUID
 
@@ -17,7 +19,6 @@ interface ReservationApiDoc {
 
     @Operation(summary = "임시 예매 API")
     fun tempReserve(
-        @RequestParam ticketId: UUID,
-        @RequestParam userId: UUID,
+        @RequestBody tempReserveRequest: TempReserveRequest,
     ): ResponseEntity<Unit>
 }
