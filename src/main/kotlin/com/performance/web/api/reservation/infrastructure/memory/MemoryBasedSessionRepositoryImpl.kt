@@ -1,6 +1,8 @@
 package com.performance.web.api.reservation.infrastructure.memory
 
 import com.performance.web.api.common.domain.Money
+import com.performance.web.api.discount.domain.DiscountPolicy
+import com.performance.web.api.discount.domain.PercentDiscountPolicy
 import com.performance.web.api.reservation.domain.*
 import org.springframework.stereotype.Component
 import java.time.LocalDate
@@ -14,7 +16,6 @@ class MemoryBasedSessionRepositoryImpl : SessionRepository {
 
     private val sessionKey = AtomicLong(1L)
     private val seatKey = AtomicLong(4L)
-
     private final val sessionStore =
         ConcurrentHashMap<Long, Session>(
             mapOf(
@@ -40,7 +41,13 @@ class MemoryBasedSessionRepositoryImpl : SessionRepository {
                     listOf(
                         Seat(
                             id = 1L,
-                            seatClass = SeatClass(Money.of(20000), "VIP"),
+                            seatClass = SeatClass(Money.of(20000), "VIP", listOf(
+                                PercentDiscountPolicy(
+                                    id = 1L,
+                                    percent = 0.5,
+                                    name = "할인 할인",
+                                )
+                            )),
                             seatStatus = SeatStatus.UN_RESERVED,
                             seatPosition = SeatPosition(1, 1),
                         ),

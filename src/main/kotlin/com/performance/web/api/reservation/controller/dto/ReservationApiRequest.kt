@@ -4,7 +4,7 @@ import com.performance.web.api.customer.domain.Customer
 import com.performance.web.api.discount.domain.DiscountPolicy
 import com.performance.web.api.reservation.service.dto.ReservationCommand
 
-class ReservationApiRequest(
+data class ReservationApiRequest(
     val customerId: Long,
     val sessionId: Long,
     val seatRequests: List<ReserveSeatApiRequest>,
@@ -15,21 +15,17 @@ class ReservationApiRequest(
         val discountPolicyId: Long?, // nullable
     )
 
-    fun getDiscountPolicyIds(): List<Long?> = seatRequests.map { it.discountPolicyId }
-
     fun toServiceCommand(
         customer: Customer,
-        policies: List<DiscountPolicy>,
     ): ReservationCommand =
         ReservationCommand(
             customer = customer,
             sessionId = sessionId,
             seatCommands =
                 seatRequests.map { request ->
-                    val requestDiscountId = request.discountPolicyId ?: 0L
                     ReservationCommand.ReservationSeatCommand(
                         seatId = request.seatId,
-                        discountPolicy = policies.find { it.getId() == requestDiscountId }!!, // 절대 예외가 발생하지 않음.
+                        discountPolicyId = request.discountPolicyId
                     )
                 },
         )

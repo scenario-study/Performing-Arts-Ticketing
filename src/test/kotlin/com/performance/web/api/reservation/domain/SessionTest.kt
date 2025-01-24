@@ -16,40 +16,48 @@ class SessionTest {
     @Test
     fun `비율할인 금액을 적용한 후 할인된 가격으로 예매를 생성할 수 있다`() {
         // given
-        val seat = SeatFixture.create(1L, seatClass = SeatClassFixture.create(price = Money.of(10000)))
+        val discountPolicy =
+            PercentDiscountPolicy(
+                id = 1L,
+                percent = 0.3,
+                name = "2025년 새해 기념 30% 할인 ",
+                conditions =
+                arrayOf(
+                    DateRangeCondition(
+                        startDateTime = LocalDateTime.of(2025, 1, 1, 0, 0),
+                        endDateTime = LocalDateTime.of(2025, 1, 10, 0, 0),
+                    ),
+                ),
+            )
+        val seat = SeatFixture.create(
+            id = 1L,
+            seatClass = SeatClassFixture.create(
+                price = Money.of(10000),
+                discountPolicies = listOf(discountPolicy),
+            ),
+        )
         val session =
             SessionFixture.create(
                 seats = listOf(seat),
             )
-        val discountPolicy =
-            PercentDiscountPolicy(
-                percent = 0.3,
-                name = "2025년 새해 기념 30% 할인 ",
-                conditions =
-                    arrayOf(
-                        DateRangeCondition(
-                            startDateTime = LocalDateTime.of(2025, 1, 1, 0, 0),
-                            endDateTime = LocalDateTime.of(2025, 1, 10, 0, 0),
-                        ),
-                    ),
-            )
+
 
         // when
         val reservation: Reservation =
             session.reserve(
                 customer = Customer(1L, "김철수"),
                 seatCommands =
-                    listOf(
-                        Session.SeatReserveCommand(
-                            seatId = 1L,
-                            discountPolicy,
-                        ),
+                listOf(
+                    Session.SeatReserveCommand(
+                        seatId = 1L,
+                        discountPolicyId = 1L,
                     ),
+                ),
                 discountFactor =
-                    DiscountFactor(
-                        reserveDateTime = LocalDateTime.of(2025, 1, 1, 0, 0),
-                        ticketTotalAmount = 1,
-                    ),
+                DiscountFactor(
+                    reserveDateTime = LocalDateTime.of(2025, 1, 1, 0, 0),
+                    ticketTotalAmount = 1,
+                ),
             )
 
         // then
@@ -60,54 +68,64 @@ class SessionTest {
     @Test
     fun `여러 티켓을 한번에 예매를 생성할 수 있다`() {
         // given
-        val session =
-            SessionFixture.create(
-                seats =
-                    listOf(
-                        SeatFixture.create(
-                            id = 1L,
-                            seatClass = SeatClassFixture.create(Money.of(10000)),
-                        ),
-                        SeatFixture.create(
-                            id = 2L,
-                            seatClass = SeatClassFixture.create(Money.of(10000)),
-                        ),
-                    ),
-            )
-
         val discountPolicy =
             PercentDiscountPolicy(
+                id = 1L,
                 percent = 0.3,
                 name = "2025년 새해 기념 30% 할인 ",
                 conditions =
-                    arrayOf(
-                        DateRangeCondition(
-                            startDateTime = LocalDateTime.of(2025, 1, 1, 0, 0),
-                            endDateTime = LocalDateTime.of(2025, 1, 10, 0, 0),
+                arrayOf(
+                    DateRangeCondition(
+                        startDateTime = LocalDateTime.of(2025, 1, 1, 0, 0),
+                        endDateTime = LocalDateTime.of(2025, 1, 10, 0, 0),
+                    ),
+                ),
+            )
+
+        val session =
+            SessionFixture.create(
+                seats =
+                listOf(
+                    SeatFixture.create(
+                        id = 1L,
+                        seatClass = SeatClassFixture.create(
+                            price = Money.of(10000),
+                            discountPolicies =
+                            listOf(discountPolicy),
                         ),
                     ),
+                    SeatFixture.create(
+                        id = 2L,
+                        seatClass = SeatClassFixture.create(
+                            price = Money.of(10000),
+                            discountPolicies =
+                            listOf(discountPolicy),
+                        ),
+                    ),
+                ),
             )
+
 
         // when
         val reservation: Reservation =
             session.reserve(
                 customer = Customer(1L, "김철수"),
                 seatCommands =
-                    listOf(
-                        Session.SeatReserveCommand(
-                            seatId = 1L,
-                            discountPolicy,
-                        ),
-                        Session.SeatReserveCommand(
-                            seatId = 2L,
-                            discountPolicy,
-                        ),
+                listOf(
+                    Session.SeatReserveCommand(
+                        seatId = 1L,
+                        discountPolicyId = 1L,
                     ),
+                    Session.SeatReserveCommand(
+                        seatId = 2L,
+                        discountPolicyId = 1L,
+                    ),
+                ),
                 discountFactor =
-                    DiscountFactor(
-                        reserveDateTime = LocalDateTime.of(2025, 1, 1, 0, 0),
-                        ticketTotalAmount = 1,
-                    ),
+                DiscountFactor(
+                    reserveDateTime = LocalDateTime.of(2025, 1, 1, 0, 0),
+                    ticketTotalAmount = 1,
+                ),
             )
 
         // then
@@ -121,19 +139,17 @@ class SessionTest {
         val session =
             SessionFixture.create(
                 seats =
-                    listOf(
-                        SeatFixture.create(
-                            id = 1L,
-                            seatClass = SeatClassFixture.create(Money.of(10000)),
-                        ),
-                        SeatFixture.create(
-                            id = 2L,
-                            seatClass = SeatClassFixture.create(Money.of(10000)),
-                        ),
+                listOf(
+                    SeatFixture.create(
+                        id = 1L,
+                        seatClass = SeatClassFixture.create(Money.of(10000)),
                     ),
+                    SeatFixture.create(
+                        id = 2L,
+                        seatClass = SeatClassFixture.create(Money.of(10000)),
+                    ),
+                ),
             )
-
-        val discountPolicy = DiscountPolicyFixture.createPercent()
 
         // when
         // then
@@ -141,17 +157,17 @@ class SessionTest {
             session.reserve(
                 customer = Customer(1L, "김철수"),
                 seatCommands =
-                    listOf(
-                        Session.SeatReserveCommand(
-                            seatId = 3L,
-                            discountPolicy,
-                        ),
+                listOf(
+                    Session.SeatReserveCommand(
+                        seatId = 3L,
+                        discountPolicyId = 1L,
                     ),
+                ),
                 discountFactor =
-                    DiscountFactor(
-                        reserveDateTime = LocalDateTime.of(2025, 1, 1, 0, 0),
-                        ticketTotalAmount = 1,
-                    ),
+                DiscountFactor(
+                    reserveDateTime = LocalDateTime.of(2025, 1, 1, 0, 0),
+                    ticketTotalAmount = 1,
+                ),
             )
         }.isInstanceOf(IllegalArgumentException::class.java)
     }

@@ -17,7 +17,7 @@ class Seat(
     private val _seatPosition: SeatPosition = seatPosition
 
     fun reserve(
-        discountPolicy: DiscountPolicy,
+        discountPolicyId: Long?,
         discountFactor: DiscountFactor,
     ): Ticket {
         if (!_seatStatus.canReserve()) {
@@ -25,12 +25,7 @@ class Seat(
         }
         _seatStatus = SeatStatus.RESERVED
 
-        return Ticket(
-            totalAmount = _seatClass.calculateTotalAmount(discountPolicy, discountFactor), // 티켓을 구매한 당시의 가격
-            regularPrice = _seatClass.getPrice(), // Ticket 을 구매한 당시의 정가
-            seat = this,
-            appliedDiscountPolicy = discountPolicy,
-        )
+        return _seatClass.issueTicket(this, discountFactor, discountPolicyId)
     }
 
     fun getId(): Long = _id

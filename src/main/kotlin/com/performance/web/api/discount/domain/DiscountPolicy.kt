@@ -3,7 +3,7 @@ package com.performance.web.api.discount.domain
 import com.performance.web.api.common.domain.BusinessException
 import com.performance.web.api.common.domain.Money
 
-abstract class DiscountPolicy(
+abstract class DiscountPolicy protected constructor( // 인텔리제이에서 cmd + p로 추상클래스인데 추천해줘서 아예 protected 로 변경함
     id: Long,
     name: String,
     vararg conditions: DiscountCondition,
@@ -31,4 +31,11 @@ abstract class DiscountPolicy(
     fun getName(): String = _name
 
     protected abstract fun getDiscountAmount(price: Money): Money
+
+    companion object {
+
+        fun none(): DiscountPolicy {
+            return NoneDiscountPolicy()
+        }
+    }
 }

@@ -1,7 +1,6 @@
 package com.performance.web.api.reservation.service.dto
 
 import com.performance.web.api.customer.domain.Customer
-import com.performance.web.api.discount.domain.DiscountPolicy
 import com.performance.web.api.reservation.domain.Session
 
 data class ReservationCommand(
@@ -12,13 +11,13 @@ data class ReservationCommand(
 
     data class ReservationSeatCommand(
         val seatId: Long,
-        val discountPolicy: DiscountPolicy,
+        val discountPolicyId: Long?,
     ) {
 
         fun toEntityCommand(): Session.SeatReserveCommand =
             Session.SeatReserveCommand(
                 seatId = seatId,
-                discountPolicy = discountPolicy,
+                discountPolicyId = discountPolicyId
             )
     }
 }

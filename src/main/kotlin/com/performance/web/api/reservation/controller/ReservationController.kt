@@ -1,7 +1,6 @@
 package com.performance.web.api.reservation.controller
 
 import com.performance.web.api.customer.service.CustomerService
-import com.performance.web.api.discount.service.DiscountService
 import com.performance.web.api.reservation.controller.dto.ReservationApiRequest
 import com.performance.web.api.reservation.controller.dto.ReservationApiResponse
 import com.performance.web.api.reservation.service.ReservationService
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*
 class ReservationController(
     private val reservationService: ReservationService,
     private val customerService: CustomerService,
-    private val discountService: DiscountService,
 ) {
 
     @PostMapping("")
@@ -21,8 +19,7 @@ class ReservationController(
         @RequestBody reservationApiRequest: ReservationApiRequest,
     ): ResponseEntity<ReservationApiResponse> {
         val customer = customerService.findById(reservationApiRequest.customerId)
-        val discountPolicies = discountService.findAllByIdsOrDefault(reservationApiRequest.getDiscountPolicyIds())
-        val result = reservationService.reserve(reservationApiRequest.toServiceCommand(customer, discountPolicies))
+        val result = reservationService.reserve(reservationApiRequest.toServiceCommand(customer))
         return ResponseEntity.status(201)
             .body(ReservationApiResponse.from(result))
     }

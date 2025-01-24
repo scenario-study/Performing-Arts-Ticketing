@@ -22,7 +22,7 @@ class SeatTest {
         // then
         assertThatThrownBy {
             seat.reserve(
-                NoneDiscountPolicy(),
+                discountPolicyId = 1L,
                 discountFactor =
                     DiscountFactor(
                         reserveDateTime = LocalDateTime.of(2021, 1, 1, 0, 0),

@@ -35,7 +35,7 @@ class Session(
             val seat = findSeatById(seatCommand.seatId)
             val ticket =
                 seat.reserve(
-                    discountPolicy = seatCommand.discountPolicy,
+                    discountPolicyId = seatCommand.discountPolicyId,
                     discountFactor = discountFactor,
                 )
             tickets.add(ticket)
@@ -54,6 +54,6 @@ class Session(
 
     data class SeatReserveCommand(
         val seatId: Long,
-        val discountPolicy: DiscountPolicy,
+        val discountPolicyId: Long?,
     )
 }

@@ -41,7 +41,7 @@ class PerformanceController(
     /*
     *  공연 좌석 할인 정보 API
     */
-    @GetMapping("/{performanceId}/discount}")
+    @GetMapping("/{performanceId}/discount")
     fun getDiscount(): ResponseEntity<Map<String, Any>> {
         TODO()
     }
