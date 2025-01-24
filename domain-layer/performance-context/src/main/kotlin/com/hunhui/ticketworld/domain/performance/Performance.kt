@@ -15,7 +15,7 @@ class Performance(
     val imageUrl: String,
     val location: String,
     val description: String,
-    val reserveCount: Int,
+    val reservationCount: Int,
     val performancePrices: List<PerformancePrice>,
     val rounds: List<PerformanceRound>,
 ) {
@@ -31,7 +31,7 @@ class Performance(
             imageUrl: String,
             location: String,
             description: String,
-            reserveCount: Int,
+            reservationCount: Int,
             performancePrices: List<PerformancePrice>,
             rounds: List<PerformanceRound>,
         ): Performance =
@@ -42,7 +42,7 @@ class Performance(
                 imageUrl = imageUrl,
                 location = location,
                 description = description,
-                reserveCount = reserveCount,
+                reservationCount = reservationCount,
                 performancePrices = performancePrices,
                 rounds = rounds,
             )

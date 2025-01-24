@@ -47,7 +47,7 @@ internal class PerformanceRepositoryImpl(
                 genre = genre,
                 imageUrl = imageUrl,
                 location = location,
-                reserveCount = reserveCount,
+                reservationCount = reservationCount,
                 performancePrices = performancePrices.map { it.domain },
                 rounds = rounds.map { it.domain },
             )
@@ -78,7 +78,7 @@ internal class PerformanceRepositoryImpl(
                 genre = genre,
                 imageUrl = imageUrl,
                 location = location,
-                reserveCount = reserveCount,
+                reservationCount = reservationCount,
                 performancePrices =
                     performancePrices.map {
                         PerformancePriceEntity(

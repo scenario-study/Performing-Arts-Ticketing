@@ -15,7 +15,7 @@ data class PerformanceCreateRequest(
     val imageUrl: String,
     val location: String,
     val description: String,
-    val reserveCount: Int,
+    val reservationCount: Int,
     val performancePrices: List<PerformancePriceRequest>,
     val rounds: List<PerformanceRoundRequest>,
     val seatAreas: List<SeatAreaRequest>,
@@ -33,7 +33,7 @@ data class PerformanceCreateRequest(
             imageUrl = imageUrl,
             location = location,
             description = description,
-            reserveCount = reserveCount,
+            reservationCount = reservationCount,
             performancePrices =
                 performancePrices.map {
                     PerformancePrice.create(

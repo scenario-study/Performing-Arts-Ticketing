@@ -39,7 +39,7 @@ class ReservationService(
 
     private fun TempReserveRequest.validate() {
         userRepository.getById(userId)
-        val reserveCount = performanceRepository.getById(performanceId).reserveCount
-        if (reserveCount < ticketIdList.size) throw BusinessException(ReservationErrorCode.RESERVE_COUNT_EXCEED)
+        val reservationCount = performanceRepository.getById(performanceId).reservationCount
+        if (reservationCount < ticketIdList.size) throw BusinessException(ReservationErrorCode.RESERVATION_COUNT_EXCEED)
     }
 }
