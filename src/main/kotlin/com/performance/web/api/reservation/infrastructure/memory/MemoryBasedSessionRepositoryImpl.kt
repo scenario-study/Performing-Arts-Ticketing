@@ -3,6 +3,7 @@ package com.performance.web.api.reservation.infrastructure.memory
 import com.performance.web.api.common.domain.Money
 import com.performance.web.api.reservation.domain.*
 import org.springframework.stereotype.Component
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
@@ -20,7 +21,13 @@ class MemoryBasedSessionRepositoryImpl : SessionRepository {
                 1L to
                     Session(
                         id = 1L,
-                        performance = Performance("공연", runTimeInMinutes = 180L),
+                        performance = Performance(
+                            name = "공연",
+                            runTimeInMinutes = 180L,
+                            startDate = LocalDate.of(2025, 1, 1),
+                            endDate = LocalDate.of(2025, 2, 20),
+                            description = "설명설명",
+                        ),
                         startDateTime = LocalDateTime.of(2025, 1, 1, 15, 10),
                     ),
             ),
@@ -87,14 +94,14 @@ class MemoryBasedSessionRepositoryImpl : SessionRepository {
                 id = key,
                 performance = session.getPerformance(),
                 seats =
-                    session.getSeats().map { seat ->
-                        Seat(
-                            id = if (seat.getId() == 0L) seatKey.incrementAndGet() else seat.getId(),
-                            seatClass = seat.getSeatClass(),
-                            seatStatus = seat.getSeatStatus(),
-                            seatPosition = seat.getSeatPosition(),
-                        )
-                    },
+                session.getSeats().map { seat ->
+                    Seat(
+                        id = if (seat.getId() == 0L) seatKey.incrementAndGet() else seat.getId(),
+                        seatClass = seat.getSeatClass(),
+                        seatStatus = seat.getSeatStatus(),
+                        seatPosition = seat.getSeatPosition(),
+                    )
+                },
                 startDateTime = session.getStartDateTime(),
             )
     }
