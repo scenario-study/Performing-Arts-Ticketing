@@ -1,11 +1,11 @@
 package com.hunhui.ticketworld.application
 
 import com.hunhui.ticketworld.application.dto.request.TempReserveRequest
-import com.hunhui.ticketworld.application.dto.response.TicketListResponse
+import com.hunhui.ticketworld.application.dto.response.ReservationListResponse
 import com.hunhui.ticketworld.common.error.BusinessException
 import com.hunhui.ticketworld.domain.performance.PerformanceRepository
-import com.hunhui.ticketworld.domain.reservation.Ticket
-import com.hunhui.ticketworld.domain.reservation.TicketRepository
+import com.hunhui.ticketworld.domain.reservation.Reservation
+import com.hunhui.ticketworld.domain.reservation.ReservationRepository
 import com.hunhui.ticketworld.domain.reservation.exception.ReservationErrorCode
 import com.hunhui.ticketworld.domain.user.UserRepository
 import org.springframework.stereotype.Service
@@ -15,26 +15,26 @@ import java.util.UUID
 @Service
 class ReservationService(
     private val performanceRepository: PerformanceRepository,
-    private val ticketRepository: TicketRepository,
+    private val reservationRepository: ReservationRepository,
     private val userRepository: UserRepository,
 ) {
-    fun findAllTicket(
+    fun findAll(
         roundId: UUID,
         areaId: UUID,
-    ): TicketListResponse {
-        val ticketList: List<Ticket> = ticketRepository.findAllByRoundIdAndAreaId(roundId, areaId)
-        return TicketListResponse.from(ticketList)
+    ): ReservationListResponse {
+        val reservationList: List<Reservation> = reservationRepository.findAllByRoundIdAndAreaId(roundId, areaId)
+        return ReservationListResponse.from(reservationList)
     }
 
     @Transactional
     fun tempReserve(tempReserveRequest: TempReserveRequest) {
         tempReserveRequest.validate()
-        val updatedTickets: List<Ticket> =
+        val updatedReservations: List<Reservation> =
             tempReserveRequest.ticketIdList.map { ticketId ->
-                val ticket: Ticket = ticketRepository.getById(ticketId)
-                ticket.tempReserve(tempReserveRequest.userId)
+                val reservation: Reservation = reservationRepository.getById(ticketId)
+                reservation.tempReserve(tempReserveRequest.userId)
             }
-        ticketRepository.saveAll(updatedTickets)
+        reservationRepository.saveAll(updatedReservations)
     }
 
     private fun TempReserveRequest.validate() {

@@ -7,8 +7,8 @@ import com.hunhui.ticketworld.application.dto.response.PerformanceSummaryListRes
 import com.hunhui.ticketworld.application.dto.response.SeatAreasResponse
 import com.hunhui.ticketworld.domain.performance.PerformanceRepository
 import com.hunhui.ticketworld.domain.performance.PerformanceRound
-import com.hunhui.ticketworld.domain.reservation.Ticket
-import com.hunhui.ticketworld.domain.reservation.TicketRepository
+import com.hunhui.ticketworld.domain.reservation.Reservation
+import com.hunhui.ticketworld.domain.reservation.ReservationRepository
 import com.hunhui.ticketworld.domain.seat.SeatArea
 import com.hunhui.ticketworld.domain.seat.SeatAreaRepository
 import org.springframework.stereotype.Service
@@ -19,7 +19,7 @@ import java.util.UUID
 class PerformanceService(
     private val performanceRepository: PerformanceRepository,
     private val seatAreaRepository: SeatAreaRepository,
-    private val ticketRepository: TicketRepository,
+    private val reservationRepository: ReservationRepository,
 ) {
     fun getPerformance(performanceId: UUID): PerformanceResponse = PerformanceResponse.from(performanceRepository.getById(performanceId))
 
@@ -37,23 +37,23 @@ class PerformanceService(
         performanceRepository.save(performance)
         seatAreaRepository.saveAll(seatAreas)
         val performanceRounds: List<PerformanceRound> = performance.rounds
-        val tickets =
+        val reservations =
             seatAreas.flatMap { seatArea ->
                 seatArea.seats.flatMap { seat ->
                     performanceRounds.map { round ->
-                        Ticket(
+                        Reservation(
                             id = UUID.randomUUID(),
                             roundId = round.id,
                             seatAreaId = seatArea.id,
                             seatId = seat.id,
                             tempUserId = null,
+                            paymentId = null,
                             tempReservationExpireTime = null,
-                            isPaid = false,
                         )
                     }
                 }
             }
-        ticketRepository.saveAll(tickets)
+        reservationRepository.saveAll(reservations)
         return PerformanceCreateResponse(performance.id)
     }
 

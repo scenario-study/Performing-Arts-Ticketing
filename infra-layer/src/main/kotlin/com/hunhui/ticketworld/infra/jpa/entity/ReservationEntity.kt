@@ -8,8 +8,8 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 @Entity
-@Table(name = "ticket")
-internal class TicketEntity(
+@Table(name = "reservation")
+internal class ReservationEntity(
     @Id
     @Column(name = "id", updatable = false, nullable = false)
     val id: UUID = UUID.randomUUID(),
@@ -21,8 +21,8 @@ internal class TicketEntity(
     val seatId: UUID,
     @Column(name = "userId", nullable = true)
     val userId: UUID?,
+    @Column(name = "paymentId", nullable = true)
+    val paymentId: UUID?,
     @Column(name = "reservationExpireTime", nullable = true)
     val reservationExpireTime: LocalDateTime?,
-    @Column(name = "isPaid", nullable = false)
-    val isPaid: Boolean,
 ) : BaseTimeEntity()
