@@ -6,14 +6,18 @@ import com.performance.web.api.discount.domain.DiscountFactor
 import com.performance.web.api.discount.domain.DiscountPolicy
 
 class SeatClass(
+    id: Long = 0L,
     price: Money,
     classType: String,
     discountPolicies: List<DiscountPolicy> = mutableListOf()
 ) {
 
+    private val _id: Long = id
     private val _price: Money = price
     private val _classType: String = classType
     private val _discountPolicies: List<DiscountPolicy> = discountPolicies
+
+    fun getId(): Long = _id
 
     fun getPrice(): Money = _price
 

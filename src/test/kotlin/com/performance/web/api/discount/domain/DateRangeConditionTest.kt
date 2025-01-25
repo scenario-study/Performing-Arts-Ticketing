@@ -3,6 +3,7 @@ package com.performance.web.api.discount.domain
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 class DateRangeConditionTest {
@@ -23,8 +24,8 @@ class DateRangeConditionTest {
 
         // 1월 1일~ 1월 7일 23:59까지
         val condition = DateRangeCondition(
-            startDateTime = LocalDateTime.of(2025, 1, 1, 0, 0, 0),
-            endDateTime = LocalDateTime.of(2025, 1, 7, 0, 0, 0),
+            startDate = LocalDate.of(2025, 1, 1),
+            endDate = LocalDate.of(2025, 1, 7),
         )
 
         //when
@@ -50,8 +51,8 @@ class DateRangeConditionTest {
 
         // 1월 1일~ 1월 7일 23:59까지
         val condition = DateRangeCondition(
-            startDateTime = LocalDateTime.of(2025, 1, 1, 0, 0, 0),
-            endDateTime = LocalDateTime.of(2025, 1, 7, 0, 0, 0),
+            startDate = LocalDate.of(2025, 1, 1),
+            endDate = LocalDate.of(2025, 1, 7),
         )
 
         //when

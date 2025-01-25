@@ -1,20 +1,16 @@
 package com.performance.web.api.discount.domain
 
-import java.time.LocalDateTime
 import java.time.LocalTime
 
 class TimeRangeCondition(
-    startDateTime: LocalDateTime,
-    endDateTime: LocalDateTime,
+    id: Long = 0L,
+    startTime: LocalTime,
+    endTime: LocalTime,
 ) : DiscountCondition {
 
-    private val _startTime: LocalTime
-    private val _endTime: LocalTime
-
-    init {
-        this._startTime = startDateTime.toLocalTime()
-        this._endTime = endDateTime.toLocalTime()
-    }
+    private val _id: Long = id
+    private val _startTime: LocalTime = startTime
+    private val _endTime: LocalTime = endTime
 
     override fun isSatisfiedBy(discountFactor: DiscountFactor): Boolean {
         val reserveDateTime = discountFactor.reserveDateTime
@@ -24,4 +20,9 @@ class TimeRangeCondition(
 
         return isTimeInRange
     }
+
+
+    fun getId(): Long = _id
+    fun getStartTime(): LocalTime = _startTime
+    fun getEndTime(): LocalTime = _endTime
 }

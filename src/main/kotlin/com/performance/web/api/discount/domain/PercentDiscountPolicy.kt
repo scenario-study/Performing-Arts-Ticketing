@@ -11,5 +11,7 @@ class PercentDiscountPolicy(
 
     private val _percent = percent
 
+    fun getPercent() = _percent
+
     override fun getDiscountAmount(price: Money): Money = price.times(_percent)
 }

@@ -7,7 +7,9 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 
 
 class DiscountPolicyTest {
@@ -18,8 +20,8 @@ class DiscountPolicyTest {
         val discountPolicy = DiscountPolicyFixture.createPercent(
             conditions = arrayOf(
                 DateRangeCondition(
-                    startDateTime = LocalDateTime.of(2025, 1, 1, 0, 0, 0),
-                    endDateTime = LocalDateTime.of(2025, 1, 2, 0, 0, 0),
+                    startDate = LocalDate.of(2025, 1, 1),
+                    endDate = LocalDate.of(2025, 1, 2),
                 ),
             ),
         )
@@ -41,12 +43,12 @@ class DiscountPolicyTest {
         val discountPolicy = DiscountPolicyFixture.createPercent( // 1월 1일 06시~12시 사이의 할인
             conditions = arrayOf(
                 DateRangeCondition(
-                    startDateTime = LocalDateTime.of(2025, 1, 1, 0, 0, 0),
-                    endDateTime = LocalDateTime.of(2025, 1, 1, 0, 0, 0),
+                    startDate = LocalDate.of(2025, 1, 1),
+                    endDate = LocalDate.of(2025, 1, 1),
                 ),
                 TimeRangeCondition(
-                    startDateTime = LocalDateTime.of(2025, 1, 1, 6, 0, 0),
-                    endDateTime = LocalDateTime.of(2025, 1, 2, 12, 0, 0),
+                    startTime = LocalTime.of(6, 0, 0),
+                    endTime = LocalTime.of( 12, 0, 0),
                 )
             ),
         )
@@ -70,8 +72,8 @@ class DiscountPolicyTest {
             percent = 0.2,
             conditions = arrayOf(
                 DateRangeCondition(
-                    startDateTime = LocalDateTime.of(2025, 1, 1, 0, 0, 0),
-                    endDateTime = LocalDateTime.of(2025, 1, 2, 0, 0, 0),
+                    startDate = LocalDate.of(2025, 1, 1),
+                    endDate = LocalDate.of(2025, 1, 2),
                 ),
             ),
         )

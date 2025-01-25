@@ -9,6 +9,7 @@ import com.performance.web.api.fixtures.*
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 class SessionTest {
@@ -24,8 +25,8 @@ class SessionTest {
                 conditions =
                 arrayOf(
                     DateRangeCondition(
-                        startDateTime = LocalDateTime.of(2025, 1, 1, 0, 0),
-                        endDateTime = LocalDateTime.of(2025, 1, 10, 0, 0),
+                        startDate = LocalDate.of(2025, 1, 1),
+                        endDate = LocalDate.of(2025, 1, 10),
                     ),
                 ),
             )
@@ -76,8 +77,8 @@ class SessionTest {
                 conditions =
                 arrayOf(
                     DateRangeCondition(
-                        startDateTime = LocalDateTime.of(2025, 1, 1, 0, 0),
-                        endDateTime = LocalDateTime.of(2025, 1, 10, 0, 0),
+                        startDate = LocalDate.of(2025, 1, 1),
+                        endDate = LocalDate.of(2025, 1, 10),
                     ),
                 ),
             )

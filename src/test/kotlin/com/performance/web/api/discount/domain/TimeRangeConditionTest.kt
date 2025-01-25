@@ -19,8 +19,8 @@ class TimeRangeConditionTest {
         val requestTime = LocalTime.parse(datetime);
         val factor = DiscountFactor(reserveDateTime = LocalDateTime.of(LocalDate.now(), requestTime), ticketTotalAmount = 10)
         val condition = TimeRangeCondition( // 6~ 12시 사이의 할인 조건
-            startDateTime = LocalDateTime.of(2025,1,1,6,0,0,0),
-            endDateTime = LocalDateTime.of(2025,1,1,12,0,0,0),
+            startTime = LocalTime.of(6,0,0,0),
+            endTime = LocalTime.of(12,0,0,0),
         )
 
         //when
@@ -41,8 +41,8 @@ class TimeRangeConditionTest {
         val requestTime = LocalTime.parse(datetime);
         val factor = DiscountFactor(reserveDateTime = LocalDateTime.of(LocalDate.now(), requestTime), ticketTotalAmount = 10)
         val condition = TimeRangeCondition( // 6~ 12시 사이의 할인 조건
-            startDateTime = LocalDateTime.of(2025,1,1,6,0,0,0),
-            endDateTime = LocalDateTime.of(2025,1,1,12,0,0,0),
+            startTime = LocalTime.of(6,0,0,0),
+            endTime = LocalTime.of(12,0,0,0),
         )
 
         //when

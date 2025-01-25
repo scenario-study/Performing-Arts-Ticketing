@@ -8,7 +8,6 @@ import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicLong
 
-@Component
 class MemoryBasedReservationRepositoryImpl : ReservationRepository {
 
     private val reservationKey = AtomicLong(0L)

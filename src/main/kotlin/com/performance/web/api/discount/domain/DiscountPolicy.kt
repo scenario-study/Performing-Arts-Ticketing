@@ -34,6 +34,8 @@ abstract class DiscountPolicy protected constructor( // 인텔리제이에서 cm
 
     fun getName(): String = _name
 
+    fun getConditions(): List<DiscountCondition> = _conditions
+
     protected abstract fun getDiscountAmount(price: Money): Money
 
     companion object {

@@ -18,7 +18,7 @@ class PerformanceController(
 
     @GetMapping("/{performanceId}")
     fun getPerformance(@PathVariable performanceId: Long): ResponseEntity<PerformanceDetailApiResponse> {
-        val result = performanceService.findById(performanceId)
+        val result = performanceService.findByIdWithSeatClasses(performanceId)
         return ResponseEntity.ok()
             .body(PerformanceDetailApiResponse.from(result))
     }

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component
 import java.util.Collections
 import java.util.Optional
 
-@Component
 class MemoryBasedCustomerRepositoryImpl : CustomerRepository {
 
     private final val store =
