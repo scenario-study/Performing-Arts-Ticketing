@@ -46,3 +46,15 @@ CREATE TABLE history_performance_discount
     created_at    timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at    timestamp DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE user_action_log
+(
+    id            bigint auto_increment primary key,   -- 로그의 고유 id (자동 증가)
+    user_id       bigint null,                         -- 사용자 id (익명 사용자의 경우 null 허용)
+    action_type   varchar(50) not null,                -- 행동 유형 (예: 'VIEW_PERF', 'CREATE_COMMENT')
+    target_id     bigint null,                         -- 대상 id (예: performance_id, comment_id 등)
+    target_type   varchar(50) not null,                -- 대상 유형 (예: 'PERFORMANCE', 'COMMENT')
+    action_detail text,                                -- 행동 상세 정보 (json 형식 등)
+    created_at    datetime  DEFAULT current_timestamp, -- 로그 생성 시간 (기본값: 현재 시간)
+    updated_at    timestamp DEFAULT current_timestamp  -- 로그 수정 시간 (기본값: 현재 시간)
+);

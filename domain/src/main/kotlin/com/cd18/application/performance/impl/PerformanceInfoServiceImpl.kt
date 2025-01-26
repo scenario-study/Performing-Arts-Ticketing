@@ -2,6 +2,9 @@ package com.cd18.application.performance.impl
 
 import com.cd18.application.performance.PerformanceInfoService
 import com.cd18.domain.common.page.PageParam
+import com.cd18.domain.metrics.aspect.LogUserAction
+import com.cd18.domain.metrics.enums.ActionType
+import com.cd18.domain.metrics.enums.TargetType
 import com.cd18.domain.performance.dto.PerformanceInfoDetailDto
 import com.cd18.domain.performance.dto.PerformanceInfoDto
 import com.cd18.domain.performance.dto.toPerformancePrice
@@ -21,6 +24,12 @@ class PerformanceInfoServiceImpl(
             performanceInfoRepository.getList(pageParam)
         }
 
+    @LogUserAction(
+        actionType = ActionType.VIEW_PERF,
+        targetType = TargetType.PERF,
+        targetIdKey = "id",
+        description = "Performance Info view",
+    )
     override fun getById(id: Long): Result<PerformanceInfoDetailDto> =
         runCatching {
             performanceInfoRepository.getById(id)
