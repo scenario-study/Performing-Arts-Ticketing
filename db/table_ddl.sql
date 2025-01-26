@@ -6,8 +6,8 @@ CREATE TABLE performance_info
     perf_venue varchar(30),
     start_date timestamp,
     end_date   timestamp,
-    created_at timestamp,
-    updated_at timestamp
+    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE performance_date
@@ -15,8 +15,8 @@ CREATE TABLE performance_date
     id         bigint auto_increment primary key,
     perf_id    bigint    not null,
     perf_time  timestamp not null,
-    created_at timestamp,
-    updated_at    timestamp
+    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE performance_price
@@ -24,8 +24,8 @@ CREATE TABLE performance_price
     id         bigint auto_increment primary key,
     perf_id    bigint not null,
     perf_price int unsigned not null,
-    created_at timestamp,
-    updated_at timestamp
+    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE performance_discount
@@ -33,8 +33,8 @@ CREATE TABLE performance_discount
     id            bigint auto_increment primary key,
     perf_id       bigint not null,
     perf_dc_price int unsigned not null,
-    created_at    timestamp,
-    updated_at    timestamp
+    created_at    timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at    timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE history_performance_discount
@@ -43,6 +43,6 @@ CREATE TABLE history_performance_discount
     perf_id       bigint not null,
     perf_dc_id    bigint not null,
     perf_dc_price int unsigned not null,
-    created_at    timestamp,
-    updated_at    timestamp
+    created_at    timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at    timestamp DEFAULT CURRENT_TIMESTAMP
 );
