@@ -5,4 +5,5 @@ include(
     "domain",
     "infra",
     "web-api",
+    "batch",
 )
