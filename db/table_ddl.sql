@@ -58,3 +58,14 @@ CREATE TABLE user_action_log
     created_at    datetime  DEFAULT current_timestamp, -- 로그 생성 시간 (기본값: 현재 시간)
     updated_at    timestamp DEFAULT current_timestamp  -- 로그 수정 시간 (기본값: 현재 시간)
 );
+
+CREATE TABLE performance_hourly_view_stat
+(
+    id         bigint auto_increment primary key,
+    statistic_date  date not null,
+    statistic_hour  tinyint not null check (statistic_hour BETWEEN 0 AND 23),
+    perf_id    bigint not null,
+    view_count int unsigned not null,
+    created_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp DEFAULT CURRENT_TIMESTAMP
+);
