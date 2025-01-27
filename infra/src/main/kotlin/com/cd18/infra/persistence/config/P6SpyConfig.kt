@@ -63,6 +63,7 @@ internal class P6SpyPrettySqlFormatter : MessageFormattingStrategy {
     ): String {
         return getFormatter(sql, category).format(sql)
             .replace(SQL_KEYWORDS_REGEX) { it.value.uppercase() }
+            .replace("+0900", "")
     }
 
     private fun isDDLStatement(
