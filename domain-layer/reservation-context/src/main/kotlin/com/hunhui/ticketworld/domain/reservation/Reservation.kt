@@ -24,11 +24,13 @@ class Reservation(
     }
 
     /** 예약 가능 여부, 임시 예매가 만료되고 아직 결제되지 않은 경우 True */
-    val canReserve: Boolean
+    val canTempReserve: Boolean
         get() = isTempReservationExpired && !isPaid
 
+    fun canConfirmReserve(userId: UUID): Boolean = tempUserId == userId && !isPaid
+
     fun tempReserve(userId: UUID): Reservation {
-        if (!canReserve) throw BusinessException(ReservationErrorCode.CANNOT_RESERVE)
+        if (!canTempReserve) throw BusinessException(ReservationErrorCode.CANNOT_RESERVE)
         return Reservation(
             id = id,
             roundId = roundId,
@@ -39,6 +41,24 @@ class Reservation(
             tempUserId = userId,
             paymentId = paymentId,
             tempReservationExpireTime = getExpireTime(),
+        )
+    }
+
+    fun confirmReserve(
+        userId: UUID,
+        paymentId: UUID,
+    ): Reservation {
+        if (!canConfirmReserve(userId)) throw BusinessException(ReservationErrorCode.CANNOT_RESERVE)
+        return Reservation(
+            id = id,
+            roundId = roundId,
+            seatAreaId = seatAreaId,
+            seatId = seatId,
+            performancePriceId = performancePriceId,
+            price = price,
+            tempUserId = tempUserId,
+            paymentId = paymentId,
+            tempReservationExpireTime = null,
         )
     }
 
