@@ -26,12 +26,12 @@ class DiscountService(
         val roundId: UUID = discountFindRequest.performanceRoundId
         val priceIds: List<UUID> = discountFindRequest.reservePriceIds
         val discounts: List<Discount> = discountRepository.findAllByPerformanceId(performanceId)
-        val applicableDiscountsWithPriceIdList: MutableList<DiscountListResponse.DiscountsWithPriceIdResponse> = mutableListOf()
+        val applicableDiscountsWithPriceIds: MutableList<DiscountListResponse.DiscountsWithPriceIdResponse> = mutableListOf()
         for (priceId in priceIds) {
             val applicableDiscounts = discounts.findApplicable(priceId = priceId, roundId = roundId)
-            applicableDiscountsWithPriceIdList.add(applicableDiscounts.toDto(priceId = priceId))
+            applicableDiscountsWithPriceIds.add(applicableDiscounts.toDto(priceId = priceId))
         }
-        return DiscountListResponse(applicableDiscountsWithPriceIdList)
+        return DiscountListResponse(applicableDiscountsWithPriceIds)
     }
 
     private fun List<Discount>.findApplicable(

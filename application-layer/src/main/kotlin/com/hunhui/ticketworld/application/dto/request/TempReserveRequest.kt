@@ -5,5 +5,5 @@ import java.util.UUID
 data class TempReserveRequest(
     val performanceId: UUID,
     val userId: UUID,
-    val reservationIdList: List<UUID>,
+    val reservationIds: List<UUID>,
 )

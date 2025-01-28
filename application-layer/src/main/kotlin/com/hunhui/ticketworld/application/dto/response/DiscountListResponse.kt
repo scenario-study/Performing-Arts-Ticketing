@@ -5,7 +5,7 @@ import java.math.BigDecimal
 import java.util.UUID
 
 data class DiscountListResponse(
-    val discountsWithPriceIdList: List<DiscountsWithPriceIdResponse>,
+    val discountsWithPriceIds: List<DiscountsWithPriceIdResponse>,
 ) {
     data class DiscountsWithPriceIdResponse(
         val performancePriceId: UUID,

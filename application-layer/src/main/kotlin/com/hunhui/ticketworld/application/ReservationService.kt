@@ -37,7 +37,7 @@ class ReservationService(
     fun tempReserve(tempReserveRequest: TempReserveRequest) {
         tempReserveRequest.validate()
         val updatedReservations: List<Reservation> =
-            tempReserveRequest.reservationIdList.map { reservationId ->
+            tempReserveRequest.reservationIds.map { reservationId ->
                 val reservation: Reservation = reservationRepository.getById(reservationId)
                 reservation.tempReserve(tempReserveRequest.userId)
             }
@@ -110,7 +110,7 @@ class ReservationService(
     private fun TempReserveRequest.validate() {
         userRepository.getById(userId)
         val reservationCount = performanceRepository.getById(performanceId).reservationCount
-        if (reservationCount < reservationIdList.size) throw BusinessException(ReservationErrorCode.RESERVATION_COUNT_EXCEED)
+        if (reservationCount < reservationIds.size) throw BusinessException(ReservationErrorCode.RESERVATION_COUNT_EXCEED)
     }
 
     private fun List<Reservation>.checkAllCanReserve(userId: UUID) {
