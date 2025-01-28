@@ -1,6 +1,7 @@
 package com.hunhui.ticketworld.infra.jpa.repository
 
 import com.hunhui.ticketworld.common.error.BusinessException
+import com.hunhui.ticketworld.common.vo.Money
 import com.hunhui.ticketworld.domain.reservation.Reservation
 import com.hunhui.ticketworld.domain.reservation.ReservationRepository
 import com.hunhui.ticketworld.domain.reservation.exception.ReservationErrorCode
@@ -39,6 +40,8 @@ internal class ReservationRepositoryImpl(
                 performanceRoundId = roundId,
                 seatAreaId = seatAreaId,
                 seatId = seatId,
+                performancePriceId = performancePriceId,
+                price = price.amount,
                 userId = tempUserId,
                 paymentId = paymentId,
                 reservationExpireTime = tempReservationExpireTime,
@@ -51,6 +54,8 @@ internal class ReservationRepositoryImpl(
                 roundId = performanceRoundId,
                 seatAreaId = seatAreaId,
                 seatId = seatId,
+                performancePriceId = performancePriceId,
+                price = Money(price),
                 tempUserId = userId,
                 paymentId = paymentId,
                 tempReservationExpireTime = reservationExpireTime,

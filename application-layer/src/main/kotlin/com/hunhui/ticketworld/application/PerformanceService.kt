@@ -46,6 +46,8 @@ class PerformanceService(
                             roundId = round.id,
                             seatAreaId = seatArea.id,
                             seatId = seat.id,
+                            performancePriceId = seat.performancePriceId,
+                            price = performance.getPriceById(seat.performancePriceId),
                             tempUserId = null,
                             paymentId = null,
                             tempReservationExpireTime = null,

@@ -19,6 +19,10 @@ internal class ReservationEntity(
     val seatAreaId: UUID,
     @Column(name = "seatId", nullable = false)
     val seatId: UUID,
+    @Column(name = "performancePriceId", nullable = false)
+    val performancePriceId: UUID,
+    @Column(name = "price", nullable = false)
+    val price: Long,
     @Column(name = "userId", nullable = true)
     val userId: UUID?,
     @Column(name = "paymentId", nullable = true)

@@ -1,6 +1,7 @@
 package com.hunhui.ticketworld.domain.reservation
 
 import com.hunhui.ticketworld.common.error.BusinessException
+import com.hunhui.ticketworld.common.vo.Money
 import com.hunhui.ticketworld.domain.reservation.exception.ReservationErrorCode
 import java.time.LocalDateTime
 import java.util.UUID
@@ -10,6 +11,8 @@ class Reservation(
     val roundId: UUID,
     val seatAreaId: UUID,
     val seatId: UUID,
+    val performancePriceId: UUID,
+    val price: Money,
     val tempUserId: UUID?,
     val paymentId: UUID?,
     val tempReservationExpireTime: LocalDateTime?,
@@ -31,6 +34,8 @@ class Reservation(
             roundId = roundId,
             seatAreaId = seatAreaId,
             seatId = seatId,
+            performancePriceId = performancePriceId,
+            price = price,
             tempUserId = userId,
             paymentId = paymentId,
             tempReservationExpireTime = getExpireTime(),

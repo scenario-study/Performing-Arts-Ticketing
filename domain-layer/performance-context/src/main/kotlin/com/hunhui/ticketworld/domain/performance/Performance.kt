@@ -2,6 +2,7 @@ package com.hunhui.ticketworld.domain.performance
 
 import com.hunhui.ticketworld.common.error.BusinessException
 import com.hunhui.ticketworld.common.vo.Money
+import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode.INVALID_PRICE_ID
 import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode.PERFORMANCE_PRICE_IS_EMPTY
 import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode.ROUND_IS_EMPTY
 import java.time.LocalDate
@@ -58,4 +59,6 @@ class Performance(
         get() = rounds.minOf { it.reservationStartTime }
     val minimumPrice: Money
         get() = performancePrices.minOf { it.price }
+
+    fun getPriceById(priceId: UUID): Money = performancePrices.find { it.id == priceId }?.price ?: throw BusinessException(INVALID_PRICE_ID)
 }
