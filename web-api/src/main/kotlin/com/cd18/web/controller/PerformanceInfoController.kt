@@ -3,6 +3,7 @@ package com.cd18.web.controller
 import com.cd18.application.performance.PerformanceInfoService
 import com.cd18.common.http.response.ApiResponse
 import com.cd18.web.controller.request.PageRequest
+import com.cd18.web.controller.request.RankingRequest
 import com.cd18.web.controller.response.PerformanceInfoDetailResponse
 import com.cd18.web.controller.response.PerformanceInfoListResponse
 import io.swagger.v3.oas.annotations.Operation
@@ -43,5 +44,18 @@ class PerformanceInfoController(
     ): ApiResponse<PerformanceInfoDetailResponse> {
         val data = performanceInfoService.getById(id).getOrThrow()
         return ApiResponse(result = PerformanceInfoDetailResponse.of(data))
+    }
+
+    @GetMapping("/ranking")
+    @Operation(
+        summary = "공연 랭킹 정보",
+        description = "공연 랭킹 정보를 조회합니다.",
+    )
+    fun getRanking(
+        @Parameter(description = "페이지 정보")
+        rankingRequest: RankingRequest,
+    ): ApiResponse<Unit> {
+        TODO("not implemented")
+        return ApiResponse()
     }
 }
