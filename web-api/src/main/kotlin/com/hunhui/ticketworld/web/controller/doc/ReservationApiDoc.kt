@@ -1,5 +1,6 @@
 package com.hunhui.ticketworld.web.controller.doc
 
+import com.hunhui.ticketworld.application.dto.request.ConfirmReserveRequest
 import com.hunhui.ticketworld.application.dto.request.TempReserveRequest
 import com.hunhui.ticketworld.application.dto.response.ReservationListResponse
 import io.swagger.v3.oas.annotations.Operation
@@ -20,5 +21,10 @@ interface ReservationApiDoc {
     @Operation(summary = "임시 예매 API")
     fun tempReserve(
         @RequestBody tempReserveRequest: TempReserveRequest,
+    ): ResponseEntity<Unit>
+
+    @Operation(summary = "예매 확정 API")
+    fun confirmReserve(
+        @RequestBody confirmReserveRequest: ConfirmReserveRequest,
     ): ResponseEntity<Unit>
 }

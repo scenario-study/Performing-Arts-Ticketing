@@ -1,6 +1,7 @@
 package com.hunhui.ticketworld.web.controller
 
 import com.hunhui.ticketworld.application.ReservationService
+import com.hunhui.ticketworld.application.dto.request.ConfirmReserveRequest
 import com.hunhui.ticketworld.application.dto.request.TempReserveRequest
 import com.hunhui.ticketworld.application.dto.response.ReservationListResponse
 import com.hunhui.ticketworld.web.controller.doc.ReservationApiDoc
@@ -28,4 +29,9 @@ class ReservationController(
     override fun tempReserve(
         @RequestBody tempReserveRequest: TempReserveRequest,
     ): ResponseEntity<Unit> = ResponseEntity.ok(reservationService.tempReserve(tempReserveRequest))
+
+    @PatchMapping("/confirm-reserve")
+    override fun confirmReserve(
+        @RequestBody confirmReserveRequest: ConfirmReserveRequest,
+    ): ResponseEntity<Unit> = ResponseEntity.ok(reservationService.confirmReserve(confirmReserveRequest))
 }
