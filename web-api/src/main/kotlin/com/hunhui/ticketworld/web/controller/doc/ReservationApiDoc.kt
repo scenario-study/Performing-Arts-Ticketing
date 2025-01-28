@@ -2,6 +2,7 @@ package com.hunhui.ticketworld.web.controller.doc
 
 import com.hunhui.ticketworld.application.dto.request.ConfirmReserveRequest
 import com.hunhui.ticketworld.application.dto.request.TempReserveRequest
+import com.hunhui.ticketworld.application.dto.response.ConfirmReserveResponse
 import com.hunhui.ticketworld.application.dto.response.ReservationListResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -26,5 +27,5 @@ interface ReservationApiDoc {
     @Operation(summary = "예매 확정 API")
     fun confirmReserve(
         @RequestBody confirmReserveRequest: ConfirmReserveRequest,
-    ): ResponseEntity<Unit>
+    ): ResponseEntity<ConfirmReserveResponse>
 }

@@ -3,6 +3,7 @@ package com.hunhui.ticketworld.web.controller
 import com.hunhui.ticketworld.application.ReservationService
 import com.hunhui.ticketworld.application.dto.request.ConfirmReserveRequest
 import com.hunhui.ticketworld.application.dto.request.TempReserveRequest
+import com.hunhui.ticketworld.application.dto.response.ConfirmReserveResponse
 import com.hunhui.ticketworld.application.dto.response.ReservationListResponse
 import com.hunhui.ticketworld.web.controller.doc.ReservationApiDoc
 import org.springframework.http.ResponseEntity
@@ -33,5 +34,5 @@ class ReservationController(
     @PatchMapping("/confirm-reserve")
     override fun confirmReserve(
         @RequestBody confirmReserveRequest: ConfirmReserveRequest,
-    ): ResponseEntity<Unit> = ResponseEntity.ok(reservationService.confirmReserve(confirmReserveRequest))
+    ): ResponseEntity<ConfirmReserveResponse> = ResponseEntity.ok(reservationService.confirmReserve(confirmReserveRequest))
 }

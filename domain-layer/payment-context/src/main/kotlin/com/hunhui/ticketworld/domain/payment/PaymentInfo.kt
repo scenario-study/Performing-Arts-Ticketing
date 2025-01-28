@@ -1,4 +1,4 @@
-package com.hunhui.ticketworld.domain.reservation
+package com.hunhui.ticketworld.domain.payment
 
 import com.hunhui.ticketworld.common.vo.Money
 import java.util.UUID

@@ -16,6 +16,7 @@ dependencies {
     implementation(project(":domain-layer:user-context"))
     implementation(project(":domain-layer:reservation-context"))
     implementation(project(":domain-layer:discount-context"))
+    implementation(project(":domain-layer:payment-context"))
 }
 
 tasks {

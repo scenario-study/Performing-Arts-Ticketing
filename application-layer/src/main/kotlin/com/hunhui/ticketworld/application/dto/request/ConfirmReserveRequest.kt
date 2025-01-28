@@ -1,7 +1,7 @@
 package com.hunhui.ticketworld.application.dto.request
 
 import com.hunhui.ticketworld.common.error.BusinessException
-import com.hunhui.ticketworld.domain.reservation.PaymentMethod
+import com.hunhui.ticketworld.domain.payment.PaymentMethod
 import com.hunhui.ticketworld.domain.reservation.exception.ReservationErrorCode
 import java.util.UUID
 

@@ -1,4 +1,4 @@
-package com.hunhui.ticketworld.domain.reservation
+package com.hunhui.ticketworld.domain.payment
 
 enum class PaymentMethod {
     CREDIT_CARD,
