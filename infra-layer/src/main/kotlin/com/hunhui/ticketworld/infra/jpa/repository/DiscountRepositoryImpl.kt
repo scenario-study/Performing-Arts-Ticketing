@@ -3,6 +3,7 @@ package com.hunhui.ticketworld.infra.jpa.repository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import com.hunhui.ticketworld.common.error.BusinessException
 import com.hunhui.ticketworld.domain.discount.Certificate
 import com.hunhui.ticketworld.domain.discount.CertificateDiscount
 import com.hunhui.ticketworld.domain.discount.Discount
@@ -22,8 +23,10 @@ import com.hunhui.ticketworld.domain.discount.ReservationDate
 import com.hunhui.ticketworld.domain.discount.ReservationDateDiscount
 import com.hunhui.ticketworld.domain.discount.RoundIdDiscount
 import com.hunhui.ticketworld.domain.discount.RoundIds
+import com.hunhui.ticketworld.domain.discount.exception.DiscountErrorCode
 import com.hunhui.ticketworld.infra.jpa.entity.DiscountConditionEntity
 import com.hunhui.ticketworld.infra.jpa.entity.DiscountEntity
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 import java.util.UUID
 
@@ -33,6 +36,9 @@ internal class DiscountRepositoryImpl(
 ) : DiscountRepository {
     private val objectMapper =
         ObjectMapper().registerModule(JavaTimeModule()).registerKotlinModule()
+
+    override fun getById(id: UUID): Discount =
+        discountJpaRepository.findByIdOrNull(id)?.domain ?: throw BusinessException(DiscountErrorCode.NOT_FOUND)
 
     override fun findAllByPerformanceId(performanceId: UUID): List<Discount> =
         discountJpaRepository
