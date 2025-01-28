@@ -4,6 +4,7 @@ import com.hunhui.ticketworld.common.error.BusinessException
 import com.hunhui.ticketworld.common.vo.Money
 import com.hunhui.ticketworld.domain.reservation.Reservation
 import com.hunhui.ticketworld.domain.reservation.ReservationRepository
+import com.hunhui.ticketworld.domain.reservation.Reservations
 import com.hunhui.ticketworld.domain.reservation.exception.ReservationErrorCode
 import com.hunhui.ticketworld.infra.jpa.entity.ReservationEntity
 import org.springframework.data.repository.findByIdOrNull
@@ -16,6 +17,15 @@ internal class ReservationRepositoryImpl(
 ) : ReservationRepository {
     override fun getById(id: UUID): Reservation =
         reservationJpaRepository.findByIdOrNull(id)?.domain ?: throw BusinessException(ReservationErrorCode.CANNOT_RESERVE)
+
+    override fun getReservations(
+        ids: List<UUID>,
+        tryReserveUserId: UUID,
+    ): Reservations =
+        Reservations(
+            tryReserveUserId = tryReserveUserId,
+            reservations = reservationJpaRepository.findAllById(ids).map { it.domain },
+        )
 
     override fun findAllByRoundIdAndAreaId(
         performanceRoundId: UUID,
@@ -31,6 +41,10 @@ internal class ReservationRepositoryImpl(
 
     override fun saveAll(reservations: List<Reservation>) {
         reservationJpaRepository.saveAll(reservations.map { it.entity })
+    }
+
+    override fun saveAll(reservations: Reservations) {
+        reservationJpaRepository.saveAll(reservations.reservations.map { it.entity })
     }
 
     private val Reservation.entity: ReservationEntity

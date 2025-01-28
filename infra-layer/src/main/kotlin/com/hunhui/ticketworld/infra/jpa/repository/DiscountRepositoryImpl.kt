@@ -40,6 +40,8 @@ internal class DiscountRepositoryImpl(
     override fun getById(id: UUID): Discount =
         discountJpaRepository.findByIdOrNull(id)?.domain ?: throw BusinessException(DiscountErrorCode.NOT_FOUND)
 
+    override fun findAllByIds(ids: List<UUID>): List<Discount> = discountJpaRepository.findAllById(ids).map { it.domain }
+
     override fun findAllByPerformanceId(performanceId: UUID): List<Discount> =
         discountJpaRepository
             .findAllByPerformanceId(performanceId)

@@ -20,7 +20,7 @@ import java.util.UUID
 class ReservationController(
     private val reservationService: ReservationService,
 ) : ReservationApiDoc {
-    @GetMapping("/status")
+    @GetMapping
     override fun findAllReservations(
         @RequestParam roundId: UUID,
         @RequestParam areaId: UUID,

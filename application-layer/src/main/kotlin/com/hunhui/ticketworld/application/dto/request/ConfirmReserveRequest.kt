@@ -16,11 +16,7 @@ data class ConfirmReserveRequest(
         if (paymentInfos.isDiscountIdDuplicatedInSamePriceId()) throw BusinessException(ReservationErrorCode.INVALID_RESERVE_REQUEST)
     }
 
-    data class PaymentInfoRequest(
-        val performancePriceId: UUID,
-        val reservationCount: Int,
-        val discountId: UUID?,
-    )
+    val discountIds: List<UUID> = paymentInfos.mapNotNull { it.discountId }.distinct()
 
     /** 같은 가격 내에서 할인 id가 겹치면 True */
     private fun List<PaymentInfoRequest>.isDiscountIdDuplicatedInSamePriceId(): Boolean =
@@ -30,3 +26,9 @@ data class ConfirmReserveRequest(
             discountIds.distinct().size != paymentInfos.size
         }
 }
+
+data class PaymentInfoRequest(
+    val performancePriceId: UUID,
+    val reservationCount: Int,
+    val discountId: UUID?,
+)
