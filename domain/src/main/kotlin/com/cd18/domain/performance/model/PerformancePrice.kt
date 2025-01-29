@@ -1,7 +1,7 @@
 package com.cd18.domain.performance.model
 
 import com.cd18.common.exception.BaseException
-import com.cd18.common.util.isPositive
+import com.cd18.common.util.isNotNegative
 import com.cd18.domain.performance.enums.PerformanceInfoErrorCode
 import kotlin.math.roundToInt
 
@@ -30,7 +30,7 @@ open class PerformancePrice(
     private fun calculateDiscountRate(): Int = ((performanceDiscountPrice.toDouble() / performanceOriginPrice) * 100).roundToInt()
 
     private fun validateDiscountPrice(discountPrice: Int) {
-        if (!discountPrice.isPositive()) {
+        if (!discountPrice.isNotNegative()) {
             throw BaseException(PerformanceInfoErrorCode.INVALID_DISCOUNT_PRICE_NOT_POSITIVE)
         }
 
