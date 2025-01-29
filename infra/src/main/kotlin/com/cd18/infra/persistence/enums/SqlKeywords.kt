@@ -7,6 +7,7 @@ enum class SqlKeywords {
     FROM,
     WHERE,
     INSERT,
+    INTO,
     UPDATE,
     DELETE,
     CREATE,
