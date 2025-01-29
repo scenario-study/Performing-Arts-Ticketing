@@ -34,7 +34,7 @@ data class PerformanceInfoListResponse(
                 performanceList =
                     performanceInfoDtoList.map {
                         PerformanceSummaryInfo(
-                            performanceId = it.performanceId,
+                            performanceId = it.id,
                             performanceName = it.performanceName,
                             performanceVenue = it.performanceVenue,
                             performanceOriginPrice = it.performanceOriginPrice,

@@ -18,8 +18,6 @@ class HistoryPerformanceDiscount(
     var performanceInfoId: Long,
     @Column(name = "perf_dc_id")
     var performanceDiscountId: Long,
-    @Column(name = "seq")
-    var sequence: Int,
     @Column(name = "perf_dc_price")
     var discountPrice: Int,
 ) : BaseTimeEntity()

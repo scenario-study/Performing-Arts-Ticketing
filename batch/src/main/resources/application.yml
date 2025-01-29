@@ -1,0 +1,23 @@
+server:
+  port: 9090
+spring:
+  application:
+    name: batch
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ticketing
+    username: root
+    password: pw@1234
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true

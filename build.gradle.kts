@@ -29,18 +29,17 @@ subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
     dependencies {
         implementation("org.jetbrains.kotlin:kotlin-reflect")
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+        implementation("io.github.oshai:kotlin-logging-jvm:7.0.3")
+
         testImplementation("org.springframework.boot:spring-boot-starter-test")
         testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+        testImplementation(kotlin("test"))
     }
-}
 
-dependencies {
-    testImplementation(kotlin("test"))
-}
-
-tasks.test {
-    useJUnitPlatform()
+    tasks.test {
+        useJUnitPlatform()
+    }
 }
 
 kotlin {

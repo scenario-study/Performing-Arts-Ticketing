@@ -11,4 +11,7 @@ data class PerformanceInfoDetailDto(
     override val performanceDiscountPrice: Int,
     val startDate: String,
     val endDate: String,
-) : PerformancePrice(performanceOriginPrice, performanceDiscountPrice)
+) : PerformancePrice(
+        performanceOriginPrice = performanceOriginPrice,
+        performanceDiscountPrice = performanceDiscountPrice,
+    )

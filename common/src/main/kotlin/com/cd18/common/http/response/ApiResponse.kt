@@ -3,9 +3,11 @@ package com.cd18.common.http.response
 import com.cd18.common.http.response.code.BaseSuccessCode
 import com.cd18.common.http.response.code.ErrorCode
 import com.cd18.common.http.response.code.SuccessCode
+import com.fasterxml.jackson.annotation.JsonInclude
 
 data class ApiResponse<T>(
     val status: ApiStatus = ApiStatus.of(BaseSuccessCode.OK),
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     val result: T? = null,
 )
 

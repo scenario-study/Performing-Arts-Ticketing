@@ -23,6 +23,7 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.3.0")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:2.18.0")
+    implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0")
 
     // querydsl
     implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
@@ -52,9 +53,4 @@ tasks.named("clean") {
     doLast {
         generated.deleteRecursively()
     }
-}
-
-
-kapt {
-    generateStubs = true
 }
