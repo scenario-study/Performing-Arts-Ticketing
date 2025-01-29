@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: scenario-study
+  profiles:
+    include:
+      - db
+      - jpa
+      - jwt
+      - file
+      - schedule
+
+springdoc:
+  swagger-ui:
+    path: /api-docs
