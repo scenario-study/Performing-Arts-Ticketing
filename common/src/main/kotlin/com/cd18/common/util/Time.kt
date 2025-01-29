@@ -5,13 +5,13 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-fun getCurrentTime(): LocalDateTime = LocalDateTime.now()
+fun getCurrentTime() = LocalDateTime.now()
 
-fun getTodayDate(): LocalDate = LocalDate.now()
+fun getTodayDate() = LocalDate.now()
 
-fun LocalDate.getStartOfDay(): LocalDateTime = LocalDateTime.of(this, LocalTime.MIN)
+fun LocalDate.getStartOfDay() = LocalDateTime.of(this, LocalTime.MIN)
 
-fun LocalDate.getEndOfDay(): LocalDateTime = LocalDateTime.of(this, LocalTime.MAX)
+fun LocalDate.getEndOfDay() = LocalDateTime.of(this, LocalTime.MAX)
 
 fun LocalDateTime.getStartOfHour(): LocalDateTime = this.withMinute(0).withSecond(0).withNano(0)
 
