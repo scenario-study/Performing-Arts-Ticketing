@@ -72,7 +72,7 @@ internal class P6SpyPrettySqlFormatter : MessageFormattingStrategy {
     ): Boolean {
         return category == Category.STATEMENT.name &&
             sql.trimStart().uppercase(Locale.ROOT).run {
-                SqlKeywords.getDdlKeywords().any { startsWith(it.upper()) }
+                SqlKeywords.DDL_KEYWORDS.any { startsWith(it.upper()) }
             }
     }
 

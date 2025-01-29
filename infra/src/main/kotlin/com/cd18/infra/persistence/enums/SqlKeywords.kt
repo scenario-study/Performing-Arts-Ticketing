@@ -39,33 +39,10 @@ enum class SqlKeywords {
     ;
 
     companion object {
-        fun getDdlKeywords(): Set<SqlKeywords> {
-            return setOf(
-                CREATE,
-                ALTER,
-                DROP,
-                COMMENT,
-                TRUNCATE,
-                RENAME,
-            )
-        }
-
-        fun getDmlKeywords(): Set<SqlKeywords> =
-            setOf(
-                INSERT,
-                UPDATE,
-                DELETE,
-            )
-
-        fun getDqlKeywords(): Set<SqlKeywords> =
-            setOf(
-                SELECT,
-            )
-
-        fun getTclKeywords(): Set<SqlKeywords> =
-            setOf(
-                COMMIT,
-            )
+        val DDL_KEYWORDS = setOf(CREATE, ALTER, DROP, COMMENT, TRUNCATE, RENAME)
+        val DML_KEYWORDS = setOf(INSERT, UPDATE, DELETE)
+        val DQL_KEYWORDS = setOf(SELECT)
+        val TCL_KEYWORDS = setOf(COMMIT)
     }
 
     fun upper(locale: Locale = Locale.ROOT): String = this.name.uppercase(locale)
