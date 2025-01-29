@@ -8,14 +8,14 @@ data class PerformancePriceDto(
     val originPrice: Int,
     val discountId: Long,
     val discountPrice: Int,
-)
-
-fun PerformancePriceDto.toPerformancePrice(): PerformancePrice {
-    return PerformancePrice(
-        performanceId = performanceId,
-        performancePriceId = priceId,
-        performanceOriginPrice = originPrice,
-        performanceDiscountId = discountId,
-        performanceDiscountPrice = discountPrice,
-    )
+) {
+    fun toPerformancePrice(): PerformancePrice {
+        return PerformancePrice(
+            performanceId = performanceId,
+            performancePriceId = priceId,
+            performanceOriginPrice = originPrice,
+            performanceDiscountId = discountId,
+            performanceDiscountPrice = discountPrice,
+        )
+    }
 }
