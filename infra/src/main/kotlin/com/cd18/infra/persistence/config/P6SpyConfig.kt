@@ -1,5 +1,6 @@
 package com.cd18.infra.persistence.config
 
+import com.cd18.common.util.Color
 import com.cd18.infra.persistence.enums.SqlKeywords
 import com.p6spy.engine.logging.Category
 import com.p6spy.engine.spy.P6SpyOptions
@@ -62,7 +63,9 @@ internal class P6SpyPrettySqlFormatter : MessageFormattingStrategy {
         category: String,
     ): String {
         return getFormatter(sql, category).format(sql)
-            .replace(SQL_KEYWORDS_REGEX) { it.value.uppercase() }
+            .replace(SQL_KEYWORDS_REGEX) {
+                "${Color.SEA_GREEN.ANSI}${it.value.uppercase()}${Color.RESET_ANSI_COLOR}"
+            }
             .replace("+0900", "")
     }
 
