@@ -1,4 +1,4 @@
-package com.cd18.domain.metrics.aspect
+package com.cd18.domain.metrics.annotation
 
 import com.cd18.domain.metrics.enums.ActionType
 import com.cd18.domain.metrics.enums.TargetType

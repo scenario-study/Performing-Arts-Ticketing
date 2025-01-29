@@ -2,7 +2,7 @@ package com.cd18.application.performance.impl
 
 import com.cd18.application.performance.PerformanceInfoService
 import com.cd18.domain.common.page.PageParam
-import com.cd18.domain.metrics.aspect.LogUserAction
+import com.cd18.domain.metrics.annotation.LogUserAction
 import com.cd18.domain.metrics.enums.ActionType
 import com.cd18.domain.metrics.enums.TargetType
 import com.cd18.domain.performance.dto.PerformanceInfoDetailDto

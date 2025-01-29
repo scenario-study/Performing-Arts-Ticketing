@@ -1,7 +1,7 @@
 package com.cd18.application.aspect
 
 import com.cd18.application.metrics.UserActionLogService
-import com.cd18.domain.metrics.aspect.LogUserAction
+import com.cd18.domain.metrics.annotation.LogUserAction
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
