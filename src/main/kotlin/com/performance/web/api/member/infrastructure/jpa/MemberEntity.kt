@@ -1,11 +1,11 @@
-package com.performance.web.api.customer.infrastructure.jpa
+package com.performance.web.api.member.infrastructure.jpa
 
-import com.performance.web.api.customer.domain.Customer
+import com.performance.web.api.member.domain.Member
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "customer")
-class CustomerEntity(
+@Table(name = "member")
+class MemberEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long,
@@ -13,9 +13,8 @@ class CustomerEntity(
 
 ) {
 
-
-    fun toDomain(): Customer {
-        return Customer(
+    fun toDomain(): Member {
+        return Member(
             id = id,
             name = name,
         )
@@ -23,8 +22,8 @@ class CustomerEntity(
 
 
     companion object {
-        fun fromDomain(customer: Customer): CustomerEntity {
-            return CustomerEntity(
+        fun fromDomain(customer: Member): MemberEntity {
+            return MemberEntity(
                 id = customer.getId(),
                 name = customer.getName(),
             )

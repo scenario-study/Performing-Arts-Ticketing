@@ -2,7 +2,6 @@ package com.performance.web.api.reservation.domain
 
 import com.performance.web.api.common.domain.Money
 import com.performance.web.api.common.domain.sum
-import com.performance.web.api.customer.domain.Customer
 
 class Reservation(
     id: Long = 0L,

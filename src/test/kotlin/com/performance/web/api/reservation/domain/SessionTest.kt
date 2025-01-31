@@ -1,7 +1,7 @@
 package com.performance.web.api.reservation.domain
 
 import com.performance.web.api.common.domain.Money
-import com.performance.web.api.customer.domain.Customer
+import com.performance.web.api.member.domain.Member
 import com.performance.web.api.discount.domain.DateRangeCondition
 import com.performance.web.api.discount.domain.DiscountFactor
 import com.performance.web.api.discount.domain.PercentDiscountPolicy
@@ -46,7 +46,7 @@ class SessionTest {
         // when
         val reservation: Reservation =
             session.reserve(
-                customer = Customer(1L, "김철수"),
+                customer = Customer(1L),
                 seatCommands =
                 listOf(
                     Session.SeatReserveCommand(
@@ -110,7 +110,7 @@ class SessionTest {
         // when
         val reservation: Reservation =
             session.reserve(
-                customer = Customer(1L, "김철수"),
+                customer = Customer(1L),
                 seatCommands =
                 listOf(
                     Session.SeatReserveCommand(
@@ -156,7 +156,7 @@ class SessionTest {
         // then
         Assertions.assertThatThrownBy {
             session.reserve(
-                customer = Customer(1L, "김철수"),
+                customer = Customer(1L),
                 seatCommands =
                 listOf(
                     Session.SeatReserveCommand(

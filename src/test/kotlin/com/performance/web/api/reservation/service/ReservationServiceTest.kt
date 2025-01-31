@@ -1,7 +1,6 @@
 package com.performance.web.api.reservation.service
 
 import com.performance.web.api.common.domain.Money
-import com.performance.web.api.customer.domain.Customer
 import com.performance.web.api.discount.domain.PercentDiscountPolicy
 import com.performance.web.api.mock.FakeReservationRepository
 import com.performance.web.api.mock.FakeSessionRepository
@@ -84,7 +83,7 @@ class ReservationServiceTest {
     fun `reserve 을 통해 예매를 생성할 수 있다`() {
         // given
         val command = ReservationCommand(
-            customer = Customer(id = 1L, name = "김철수"),
+            customer = Customer(id = 1L),
             sessionId = 1L,
             seatCommands = listOf(
                 ReservationCommand.ReservationSeatCommand(
@@ -112,7 +111,7 @@ class ReservationServiceTest {
     @Test
     fun `reserve 시 할인 입력을 안하면 기본 금액으로 예매를 생성한다`() {
         val command =  ReservationCommand(
-            customer = Customer(id = 1L, name = "김철수"),
+            customer = Customer(id = 1L),
             sessionId = 1L,
             seatCommands = listOf(
                 ReservationCommand.ReservationSeatCommand(

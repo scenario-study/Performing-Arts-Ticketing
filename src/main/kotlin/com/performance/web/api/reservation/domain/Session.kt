@@ -1,8 +1,6 @@
 package com.performance.web.api.reservation.domain
 
-import com.performance.web.api.customer.domain.Customer
 import com.performance.web.api.discount.domain.DiscountFactor
-import com.performance.web.api.discount.domain.DiscountPolicy
 import java.time.LocalDateTime
 
 class Session(

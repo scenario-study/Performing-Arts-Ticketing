@@ -1,6 +1,6 @@
 package com.performance.web.api.reservation.infrastructure.jpa
 
-import com.performance.web.api.customer.infrastructure.jpa.CustomerEntity
+import com.performance.web.api.member.infrastructure.jpa.MemberEntity
 import jakarta.persistence.*
 
 @Entity
@@ -17,7 +17,7 @@ class ReservationEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", foreignKey = ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
-    var customer: CustomerEntity,
+    var customer: MemberEntity,
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "reservation")
     var tickets: MutableList<TicketEntity> = mutableListOf()

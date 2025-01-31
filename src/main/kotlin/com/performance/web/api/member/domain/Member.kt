@@ -1,6 +1,6 @@
-package com.performance.web.api.customer.domain
+package com.performance.web.api.member.domain
 
-class Customer(
+class Member(
     id: Long = 0L,
     name: String,
 ) {

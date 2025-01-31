@@ -1,6 +1,6 @@
 package com.performance.web.api.reservation.service.dto
 
-import com.performance.web.api.customer.domain.Customer
+import com.performance.web.api.reservation.domain.Customer
 import com.performance.web.api.reservation.domain.Session
 
 data class ReservationCommand(
