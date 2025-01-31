@@ -1,13 +1,13 @@
 package com.hunhui.ticketworld.domain.performance
 
-import com.hunhui.ticketworld.domain.performance.exception.InvalidPerformanceException
+import com.hunhui.ticketworld.common.error.AssertUtil.assertErrorCode
 import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode
+import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode.PERFORMANCE_PRICE_IS_EMPTY
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -15,32 +15,28 @@ class PerformanceTest {
     @Test
     fun `모든 필드가 유효할 때 Performance 생성에 성공한다`() {
         // when
-        val performance = PerformanceFixtureFactory.performance()
+        val performance = PerformanceFixtureFactory.createValidPerformance()
 
         // then
         assertNotNull(performance.id)
-        assertTrue(performance.seatGrades.isNotEmpty())
+        assertTrue(performance.performancePrices.isNotEmpty())
         assertTrue(performance.rounds.isNotEmpty())
     }
 
     @Test
-    fun `좌석 등급이 비어있으면 예외가 발생한다`() {
+    fun `공연의 가격이 비어있으면 예외가 발생한다`() {
         // when & then
-        val exception =
-            assertThrows<InvalidPerformanceException> {
-                PerformanceFixtureFactory.performance(seatGrades = emptyList())
-            }
-        assertEquals(PerformanceErrorCode.SEAT_GRADE_IS_EMPTY, exception.errorCode)
+        assertErrorCode(PERFORMANCE_PRICE_IS_EMPTY) {
+            PerformanceFixtureFactory.createValidPerformance(performancePrices = emptyList())
+        }
     }
 
     @Test
     fun `공연 회차가 비어있으면 예외가 발생한다`() {
         // when & then
-        val exception =
-            assertThrows<InvalidPerformanceException> {
-                PerformanceFixtureFactory.performance(rounds = emptyList())
-            }
-        assertEquals(PerformanceErrorCode.ROUND_IS_EMPTY, exception.errorCode)
+        assertErrorCode(PerformanceErrorCode.ROUND_IS_EMPTY) {
+            PerformanceFixtureFactory.createValidPerformance(rounds = emptyList())
+        }
     }
 
     @Test
@@ -59,7 +55,7 @@ class PerformanceTest {
                 LocalDateTime.of(2025, 1, 5, 0, 0),
             )
         val performance =
-            PerformanceFixtureFactory.performance(
+            PerformanceFixtureFactory.createValidPerformance(
                 rounds = listOf(performanceRound1, performanceRound2),
             )
 
@@ -86,7 +82,7 @@ class PerformanceTest {
                 LocalDateTime.of(2025, 1, 5, 0, 0),
             )
         val performance =
-            PerformanceFixtureFactory.performance(
+            PerformanceFixtureFactory.createValidPerformance(
                 rounds = listOf(performanceRound1, performanceRound2),
             )
 
@@ -115,7 +111,7 @@ class PerformanceTest {
                 now.minusDays(2),
             )
         val performance =
-            PerformanceFixtureFactory.performance(rounds = listOf(availableRound, unavailableRound))
+            PerformanceFixtureFactory.createValidPerformance(rounds = listOf(availableRound, unavailableRound))
 
         // when
         val availableRounds = performance.availableRounds
@@ -127,12 +123,46 @@ class PerformanceTest {
     }
 
     @Test
-    fun `minimumPrice는 seatGrades 중 가장 낮은 금액을 반환한다`() {
+    fun `minimumReservationStartTime는 rounds 중 가장 이전인 예약 시작 시간을 반환한다`() {
         // given
-        val seatGrade1 = SeatGrade.create("VIP", 50000)
-        val seatGrade2 = SeatGrade.create("R석", 40000)
+        val round1 =
+            PerformanceRound.create(
+                roundStartTime = LocalDateTime.of(2025, 1, 10, 18, 0),
+                reservationStartTime = LocalDateTime.of(2025, 1, 1, 0, 0),
+                reservationEndTime = LocalDateTime.of(2025, 1, 5, 0, 0),
+            )
+        val round2 =
+            PerformanceRound.create(
+                roundStartTime = LocalDateTime.of(2025, 1, 15, 18, 0),
+                reservationStartTime = LocalDateTime.of(2025, 1, 2, 0, 0),
+                reservationEndTime = LocalDateTime.of(2025, 1, 6, 0, 0),
+            )
+        val round3 =
+            PerformanceRound.create(
+                roundStartTime = LocalDateTime.of(2025, 1, 20, 18, 0),
+                reservationStartTime = LocalDateTime.of(2025, 1, 3, 0, 0),
+                reservationEndTime = LocalDateTime.of(2025, 1, 7, 0, 0),
+            )
+
         val performance =
-            PerformanceFixtureFactory.performance(seatGrades = listOf(seatGrade1, seatGrade2))
+            PerformanceFixtureFactory.createValidPerformance(
+                rounds = listOf(round1, round2, round3),
+            )
+
+        // when
+        val earliestReservationStart = performance.minimumReservationStartTime
+
+        // then
+        assertEquals(LocalDateTime.of(2025, 1, 1, 0, 0), earliestReservationStart)
+    }
+
+    @Test
+    fun `minimumPrice는 performancePrices 중 가장 낮은 금액을 반환한다`() {
+        // given
+        val performancePrice1 = PerformancePrice.create("VIP", 50000)
+        val performancePrice2 = PerformancePrice.create("R석", 40000)
+        val performance =
+            PerformanceFixtureFactory.createValidPerformance(performancePrices = listOf(performancePrice1, performancePrice2))
 
         // when
         val minPrice = performance.minimumPrice

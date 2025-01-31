@@ -1,14 +1,15 @@
 package com.hunhui.ticketworld.infra.jpa.repository
 
+import com.hunhui.ticketworld.common.error.BusinessException
 import com.hunhui.ticketworld.common.vo.Money
 import com.hunhui.ticketworld.domain.performance.Performance
+import com.hunhui.ticketworld.domain.performance.PerformancePrice
 import com.hunhui.ticketworld.domain.performance.PerformanceRepository
 import com.hunhui.ticketworld.domain.performance.PerformanceRound
-import com.hunhui.ticketworld.domain.performance.SeatGrade
-import com.hunhui.ticketworld.domain.performance.exception.PerformanceNotFoundException
+import com.hunhui.ticketworld.domain.performance.exception.PerformanceErrorCode
 import com.hunhui.ticketworld.infra.jpa.entity.PerformanceEntity
+import com.hunhui.ticketworld.infra.jpa.entity.PerformancePriceEntity
 import com.hunhui.ticketworld.infra.jpa.entity.PerformanceRoundEntity
-import com.hunhui.ticketworld.infra.jpa.entity.SeatGradeEntity
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
@@ -19,7 +20,7 @@ internal class PerformanceRepositoryImpl(
     private val performanceJpaRepository: PerformanceJpaRepository,
 ) : PerformanceRepository {
     override fun getById(id: UUID): Performance =
-        performanceJpaRepository.findByIdOrNull(id)?.domain ?: throw PerformanceNotFoundException()
+        performanceJpaRepository.findByIdOrNull(id)?.domain ?: throw BusinessException(PerformanceErrorCode.NOT_FOUND)
 
     override fun findAll(
         page: Int,
@@ -46,7 +47,8 @@ internal class PerformanceRepositoryImpl(
                 genre = genre,
                 imageUrl = imageUrl,
                 location = location,
-                seatGrades = seatGrades.map { it.domain },
+                reservationCount = reservationCount,
+                performancePrices = performancePrices.map { it.domain },
                 rounds = rounds.map { it.domain },
             )
 
@@ -54,16 +56,16 @@ internal class PerformanceRepositoryImpl(
         get() =
             PerformanceRound(
                 id = id,
-                performanceDateTime = performanceDateTime,
-                reservationStartDateTime = reservationStartDateTime,
-                reservationFinishDateTime = reservationFinishDateTime,
+                roundStartTime = roundStartTime,
+                reservationStartTime = reservationStartTime,
+                reservationEndTime = reservationEndTime,
             )
 
-    private val SeatGradeEntity.domain: SeatGrade
+    private val PerformancePriceEntity.domain: PerformancePrice
         get() =
-            SeatGrade(
+            PerformancePrice(
                 id = id,
-                gradeName = gradeName,
+                priceName = priceName,
                 price = Money(price),
             )
 
@@ -76,11 +78,12 @@ internal class PerformanceRepositoryImpl(
                 genre = genre,
                 imageUrl = imageUrl,
                 location = location,
-                seatGrades =
-                    seatGrades.map {
-                        SeatGradeEntity(
+                reservationCount = reservationCount,
+                performancePrices =
+                    performancePrices.map {
+                        PerformancePriceEntity(
                             id = it.id,
-                            gradeName = it.gradeName,
+                            priceName = it.priceName,
                             price = it.price.amount,
                             performanceId = this.id,
                         )
@@ -89,9 +92,9 @@ internal class PerformanceRepositoryImpl(
                     rounds.map {
                         PerformanceRoundEntity(
                             id = it.id,
-                            performanceDateTime = it.performanceDateTime,
-                            reservationStartDateTime = it.reservationStartDateTime,
-                            reservationFinishDateTime = it.reservationFinishDateTime,
+                            roundStartTime = it.roundStartTime,
+                            reservationStartTime = it.reservationStartTime,
+                            reservationEndTime = it.reservationEndTime,
                             performanceId = this.id,
                         )
                     },

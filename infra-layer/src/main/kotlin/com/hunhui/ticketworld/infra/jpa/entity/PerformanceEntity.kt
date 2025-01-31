@@ -29,13 +29,15 @@ internal class PerformanceEntity(
     val location: String,
     @Column(name = "description", nullable = false)
     val description: String,
+    @Column(name = "reservationCount", nullable = false)
+    val reservationCount: Int,
     @OneToMany(
         mappedBy = "performanceId",
         cascade = [CascadeType.ALL],
         orphanRemoval = true,
         fetch = FetchType.LAZY,
     )
-    val seatGrades: List<SeatGradeEntity> = emptyList(),
+    val performancePrices: List<PerformancePriceEntity> = emptyList(),
     @OneToMany(
         mappedBy = "performanceId",
         cascade = [CascadeType.ALL],

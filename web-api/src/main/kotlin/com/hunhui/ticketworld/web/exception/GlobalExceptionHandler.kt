@@ -21,7 +21,7 @@ class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(BusinessException::class)
     protected fun handleRuntimeException(e: BusinessException): ResponseEntity<ErrorResponse.Body> {
-        logger.warn(e.message, e)
+        logger.warn(e.toString())
         return ErrorResponse(
             errorCode = e.errorCode,
             httpStatus = HttpStatus.BAD_REQUEST,

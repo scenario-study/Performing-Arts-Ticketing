@@ -15,7 +15,8 @@ data class PerformanceResponse(
     val imageUrl: String,
     val location: String,
     val description: String,
-    val seatGrades: List<SeatGradeResponse>,
+    val minimumReservationStartTime: LocalDateTime,
+    val performancePrices: List<PerformancePriceResponse>,
     val rounds: List<PerformanceRoundResponse>,
 ) {
     companion object {
@@ -29,10 +30,11 @@ data class PerformanceResponse(
                 imageUrl = performance.imageUrl,
                 location = performance.location,
                 description = performance.description,
-                seatGrades =
-                    performance.seatGrades.map {
-                        SeatGradeResponse(
-                            gradeName = it.gradeName,
+                minimumReservationStartTime = performance.minimumReservationStartTime,
+                performancePrices =
+                    performance.performancePrices.map {
+                        PerformancePriceResponse(
+                            priceName = it.priceName,
                             price = it.price.amount,
                         )
                     },
@@ -40,19 +42,19 @@ data class PerformanceResponse(
                     performance.availableRounds.map {
                         PerformanceRoundResponse(
                             id = it.id,
-                            performanceDateTime = it.performanceDateTime,
+                            roundStartTime = it.roundStartTime,
                         )
                     },
             )
     }
 
-    data class SeatGradeResponse(
-        val gradeName: String,
+    data class PerformancePriceResponse(
+        val priceName: String,
         val price: Long,
     )
 
     data class PerformanceRoundResponse(
         val id: UUID,
-        val performanceDateTime: LocalDateTime,
+        val roundStartTime: LocalDateTime,
     )
 }
