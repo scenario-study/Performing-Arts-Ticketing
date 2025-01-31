@@ -1,8 +1,9 @@
 package com.performance.web.api.reservation.infrastructure
 
-import com.performance.web.api.discount.infrastructure.jpa.DiscountPolicyJpaRepository
+import com.performance.web.api.common.domain.BusinessException
 import com.performance.web.api.reservation.domain.Session
 import com.performance.web.api.reservation.domain.SessionRepository
+import com.performance.web.api.reservation.infrastructure.jpa.SeatClassJpaRepository
 import com.performance.web.api.reservation.infrastructure.jpa.SessionJpaRepository
 import org.springframework.stereotype.Component
 import java.util.*
@@ -11,7 +12,7 @@ import java.util.*
 @Component
 class SessionRepositoryImpl(
     private val sessionJpaRepository: SessionJpaRepository,
-    private val discountPolicyJpaRepository: DiscountPolicyJpaRepository
+    private val seatClassJpaRepository: SeatClassJpaRepository
 ) : SessionRepository {
 
     override fun findById(id: Long): Optional<Session> {
@@ -25,13 +26,19 @@ class SessionRepositoryImpl(
 
     override fun findByIdWithSeatAnsClassAndPerformance(id: Long): Optional<Session> {
         val optionalSession = sessionJpaRepository.findSessionWithPerformanceAndSeats(id)
-        if(optionalSession.isEmpty) return Optional.empty()
+        if (optionalSession.isEmpty) return Optional.empty()
 
         val session = optionalSession.get()
 
         val seatClassIds = session.performance.seatClasses.map { it.id }
+        val seatClassWithDiscounts = seatClassJpaRepository.findSeatClassWithDiscounts(seatClassIds)
 
-        discountPolicyJpaRepository.findAllWithConditionsBySeatClassIds(seatClassIds)
+        session.seats.forEach { seat ->
+            val seatClass =
+                seatClassWithDiscounts.find { it.id == seat.seatClass.id } ?: throw BusinessException("좌석 클래스 정보 불일치")
+            seat.seatClass = seatClass
+        }
+
         return Optional.of(session.toDomain())
     }
 

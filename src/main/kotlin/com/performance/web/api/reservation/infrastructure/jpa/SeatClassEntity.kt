@@ -26,7 +26,7 @@ class SeatClassEntity(
     var performance: PerformanceEntity? = null,
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "seatClass")
-    var discountPolicies: MutableList<DiscountPolicyEntity> = mutableListOf()
+    var discountPolicies: MutableSet<DiscountPolicyEntity> = mutableSetOf()
 ) {
 
     fun toDomain(): SeatClass {
@@ -50,7 +50,7 @@ class SeatClassEntity(
                 price = seatClass.getPrice().longValue(),
                 classType = seatClass.getClassType(),
                 discountPolicies = seatClass.getDiscountPolicies().map { DiscountPolicyMapper.fromDomainToEntity(it) }
-                    .toMutableList(),
+                    .toMutableSet(),
             )
         }
     }

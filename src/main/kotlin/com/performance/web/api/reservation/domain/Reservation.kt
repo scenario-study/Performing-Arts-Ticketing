@@ -7,7 +7,7 @@ class Reservation(
     id: Long = 0L,
     session: Session,
     customer: Customer,
-    tickets: List<Ticket>,
+    tickets: List<Ticket> = mutableListOf(),
 ) {
 
     private val _id = id

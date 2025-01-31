@@ -50,4 +50,10 @@ data class Money(
     override fun toString(): String = this.amount.toString() + " 원"
 }
 
-fun List<Money>.sum(): Money = this.reduce { acc, curr -> acc.plus(curr) }
+fun List<Money>.sum(): Money {
+    return if (this.isNotEmpty()) {
+        this.reduce { acc, curr -> acc.plus(curr) }
+    } else {
+        Money.ZERO
+    }
+}
