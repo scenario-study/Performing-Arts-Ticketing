@@ -3,7 +3,7 @@ package com.hunhui.ticketworld.infra.jpa.repository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.hunhui.ticketworld.common.error.BusinessException
 import com.hunhui.ticketworld.domain.discount.Discount
-import com.hunhui.ticketworld.domain.discount.DiscountApplyCountFactory
+import com.hunhui.ticketworld.domain.discount.DiscountApplyCount
 import com.hunhui.ticketworld.domain.discount.DiscountCondition
 import com.hunhui.ticketworld.domain.discount.DiscountRate
 import com.hunhui.ticketworld.domain.discount.DiscountRepository
@@ -40,7 +40,7 @@ internal class DiscountRepositoryImpl(
                 performanceId = performanceId,
                 discountName = discountName,
                 discountConditions = discountConditions.map { it.domain },
-                applyCount = DiscountApplyCountFactory.create(applyCountType, applyCountAmount),
+                applyCount = DiscountApplyCount.create(applyCountType, applyCountAmount),
                 discountRate = DiscountRate(discountRate),
             )
 

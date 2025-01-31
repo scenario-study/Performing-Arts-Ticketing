@@ -21,7 +21,7 @@ class Discount(
                 performanceId = UUID.randomUUID(),
                 discountName = "default",
                 discountConditions = emptyList(),
-                applyCount = DiscountApplyInf,
+                applyCount = DiscountApplyCount.Inf,
                 discountRate = DiscountRate(BigDecimal.ZERO),
             )
     }

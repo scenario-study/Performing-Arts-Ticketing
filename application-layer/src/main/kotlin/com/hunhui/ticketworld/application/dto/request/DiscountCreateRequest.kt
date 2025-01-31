@@ -1,7 +1,7 @@
 package com.hunhui.ticketworld.application.dto.request
 
 import com.hunhui.ticketworld.domain.discount.Discount
-import com.hunhui.ticketworld.domain.discount.DiscountApplyCountFactory
+import com.hunhui.ticketworld.domain.discount.DiscountApplyCount
 import com.hunhui.ticketworld.domain.discount.DiscountApplyCountType
 import com.hunhui.ticketworld.domain.discount.DiscountCondition
 import com.hunhui.ticketworld.domain.discount.DiscountRate
@@ -21,7 +21,7 @@ data class DiscountCreateRequest(
             performanceId = performanceId,
             discountName = discountName,
             discountConditions = discountConditions,
-            applyCount = DiscountApplyCountFactory.create(applyCountType, applyCountAmount),
+            applyCount = DiscountApplyCount.create(applyCountType, applyCountAmount),
             discountRate = DiscountRate(discountRate),
         )
 }
