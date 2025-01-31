@@ -1,28 +1,12 @@
 package com.hunhui.ticketworld.infra.jpa.repository
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.hunhui.ticketworld.common.error.BusinessException
-import com.hunhui.ticketworld.domain.discount.Certificate
-import com.hunhui.ticketworld.domain.discount.CertificateDiscount
 import com.hunhui.ticketworld.domain.discount.Discount
-import com.hunhui.ticketworld.domain.discount.DiscountApplyCountType
-import com.hunhui.ticketworld.domain.discount.DiscountApplyInf
-import com.hunhui.ticketworld.domain.discount.DiscountApplyMax
-import com.hunhui.ticketworld.domain.discount.DiscountApplyMultiple
-import com.hunhui.ticketworld.domain.discount.DiscountApplySelf
+import com.hunhui.ticketworld.domain.discount.DiscountApplyCountFactory
 import com.hunhui.ticketworld.domain.discount.DiscountCondition
-import com.hunhui.ticketworld.domain.discount.DiscountConditionData
-import com.hunhui.ticketworld.domain.discount.DiscountConditionType
 import com.hunhui.ticketworld.domain.discount.DiscountRate
 import com.hunhui.ticketworld.domain.discount.DiscountRepository
-import com.hunhui.ticketworld.domain.discount.PerformancePriceId
-import com.hunhui.ticketworld.domain.discount.PerformancePriceIdDiscount
-import com.hunhui.ticketworld.domain.discount.ReservationDate
-import com.hunhui.ticketworld.domain.discount.ReservationDateDiscount
-import com.hunhui.ticketworld.domain.discount.RoundIdDiscount
-import com.hunhui.ticketworld.domain.discount.RoundIds
 import com.hunhui.ticketworld.domain.discount.exception.DiscountErrorCode
 import com.hunhui.ticketworld.infra.jpa.entity.DiscountConditionEntity
 import com.hunhui.ticketworld.infra.jpa.entity.DiscountEntity
@@ -33,10 +17,8 @@ import java.util.UUID
 @Repository
 internal class DiscountRepositoryImpl(
     private val discountJpaRepository: DiscountJpaRepository,
+    private val objectMapper: ObjectMapper,
 ) : DiscountRepository {
-    private val objectMapper =
-        ObjectMapper().registerModule(JavaTimeModule()).registerKotlinModule()
-
     override fun getById(id: UUID): Discount =
         discountJpaRepository.findByIdOrNull(id)?.domain ?: throw BusinessException(DiscountErrorCode.NOT_FOUND)
 
@@ -58,44 +40,12 @@ internal class DiscountRepositoryImpl(
                 performanceId = performanceId,
                 discountName = discountName,
                 discountConditions = discountConditions.map { it.domain },
-                applyCount =
-                    when (applyCountType) {
-                        DiscountApplyCountType.MAX -> DiscountApplyMax(amount = applyCountAmount!!)
-                        DiscountApplyCountType.MULTIPLE -> DiscountApplyMultiple(amount = applyCountAmount!!)
-                        DiscountApplyCountType.SELF -> DiscountApplySelf
-                        DiscountApplyCountType.INF -> DiscountApplyInf
-                    },
+                applyCount = DiscountApplyCountFactory.create(applyCountType, applyCountAmount),
                 discountRate = DiscountRate(discountRate),
             )
 
     private val DiscountConditionEntity.domain: DiscountCondition
-        get() =
-            when (type) {
-                DiscountConditionType.RESERVATION_DATE ->
-                    ReservationDateDiscount(
-                        id = id,
-                        type = type,
-                        data = objectMapper.readValue(data, ReservationDate::class.java),
-                    )
-                DiscountConditionType.ROUND_ID ->
-                    RoundIdDiscount(
-                        id = id,
-                        type = type,
-                        data = objectMapper.readValue(data, RoundIds::class.java),
-                    )
-                DiscountConditionType.CERTIFICATE ->
-                    CertificateDiscount(
-                        id = id,
-                        type = type,
-                        data = objectMapper.readValue(data, Certificate::class.java),
-                    )
-                DiscountConditionType.PERFORMANCE_PRICE_ID ->
-                    PerformancePriceIdDiscount(
-                        id = id,
-                        type = type,
-                        data = objectMapper.readValue(data, PerformancePriceId::class.java),
-                    )
-            }
+        get() = objectMapper.readValue(this.data, DiscountCondition::class.java)
 
     private val Discount.entity: DiscountEntity
         get() =
@@ -108,8 +58,7 @@ internal class DiscountRepositoryImpl(
                         DiscountConditionEntity(
                             id = it.id,
                             discountId = id,
-                            type = it.type,
-                            data = it.data.serialize(),
+                            data = it.serialize(),
                         )
                     },
                 applyCountType = applyCount.type,
@@ -117,5 +66,5 @@ internal class DiscountRepositoryImpl(
                 discountRate = discountRate.rate,
             )
 
-    private fun DiscountConditionData.serialize(): String = objectMapper.writeValueAsString(this)
+    private fun DiscountCondition.serialize(): String = objectMapper.writeValueAsString(this)
 }

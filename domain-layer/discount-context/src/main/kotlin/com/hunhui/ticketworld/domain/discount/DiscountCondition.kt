@@ -3,79 +3,57 @@ package com.hunhui.ticketworld.domain.discount
 import java.time.LocalDateTime
 import java.util.UUID
 
-interface DiscountCondition {
-    val id: UUID
-    val type: DiscountConditionType
-    val data: DiscountConditionData
+sealed class DiscountCondition(
+    val type: DiscountConditionType,
+) {
+    abstract val id: UUID
 
-    fun canApply(
+    abstract fun canApply(
         roundId: UUID,
         priceId: UUID,
     ): Boolean
-}
 
-interface DiscountConditionData
-
-data class ReservationDate(
-    val startDate: LocalDateTime,
-    val endDate: LocalDateTime,
-) : DiscountConditionData
-
-data class RoundIds(
-    val roundIds: List<UUID>,
-) : DiscountConditionData
-
-data class Certificate(
-    val message: String,
-) : DiscountConditionData
-
-data class PerformancePriceId(
-    val performancePriceId: UUID,
-) : DiscountConditionData
-
-data class ReservationDateDiscount(
-    override val id: UUID,
-    override val type: DiscountConditionType = DiscountConditionType.RESERVATION_DATE,
-    override val data: ReservationDate,
-) : DiscountCondition {
-    override fun canApply(
-        roundId: UUID,
-        priceId: UUID,
-    ): Boolean {
-        val now = LocalDateTime.now()
-        return now.isAfter(data.startDate) && now.isBefore(data.endDate)
+    data class ReservationDate(
+        override val id: UUID = UUID.randomUUID(),
+        val startDate: LocalDateTime,
+        val endDate: LocalDateTime,
+    ) : DiscountCondition(DiscountConditionType.RESERVATION_DATE) {
+        override fun canApply(
+            roundId: UUID,
+            priceId: UUID,
+        ): Boolean {
+            val now = LocalDateTime.now()
+            return now.isAfter(startDate) && now.isBefore(endDate)
+        }
     }
-}
 
-data class RoundIdDiscount(
-    override val id: UUID,
-    override val type: DiscountConditionType = DiscountConditionType.ROUND_ID,
-    override val data: RoundIds,
-) : DiscountCondition {
-    override fun canApply(
-        roundId: UUID,
-        priceId: UUID,
-    ): Boolean = data.roundIds.contains(roundId)
-}
+    data class RoundIds(
+        override val id: UUID = UUID.randomUUID(),
+        val roundIds: List<UUID>,
+    ) : DiscountCondition(DiscountConditionType.ROUND_ID) {
+        override fun canApply(
+            roundId: UUID,
+            priceId: UUID,
+        ): Boolean = roundIds.contains(roundId)
+    }
 
-data class CertificateDiscount(
-    override val id: UUID,
-    override val type: DiscountConditionType = DiscountConditionType.CERTIFICATE,
-    override val data: Certificate,
-) : DiscountCondition {
-    override fun canApply(
-        roundId: UUID,
-        priceId: UUID,
-    ): Boolean = true
-}
+    data class Certificate(
+        override val id: UUID = UUID.randomUUID(),
+        val message: String,
+    ) : DiscountCondition(DiscountConditionType.CERTIFICATE) {
+        override fun canApply(
+            roundId: UUID,
+            priceId: UUID,
+        ): Boolean = true
+    }
 
-data class PerformancePriceIdDiscount(
-    override val id: UUID,
-    override val type: DiscountConditionType = DiscountConditionType.PERFORMANCE_PRICE_ID,
-    override val data: PerformancePriceId,
-) : DiscountCondition {
-    override fun canApply(
-        roundId: UUID,
-        priceId: UUID,
-    ): Boolean = priceId == data.performancePriceId
+    data class PerformancePriceId(
+        override val id: UUID = UUID.randomUUID(),
+        val performancePriceId: UUID,
+    ) : DiscountCondition(DiscountConditionType.PERFORMANCE_PRICE_ID) {
+        override fun canApply(
+            roundId: UUID,
+            priceId: UUID,
+        ): Boolean = priceId == performancePriceId
+    }
 }
