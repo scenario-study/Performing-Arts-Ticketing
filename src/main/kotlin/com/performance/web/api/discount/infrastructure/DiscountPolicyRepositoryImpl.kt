@@ -10,7 +10,12 @@ import java.util.*
 class DiscountPolicyRepositoryImpl(
     private val discountPolicyJpaRepository: DiscountPolicyJpaRepository
 ) : DiscountPolicyRepository {
+
     override fun findById(id: Long): Optional<DiscountPolicy> {
-        return discountPolicyJpaRepository.findById(id).map { it.toDomain() }
+        return discountPolicyJpaRepository.findByIdWithConditions(id).map { it.toDomain() }
+    }
+
+    override fun findAllByPerformanceSeatClassIds(ids: List<Long>): List<DiscountPolicy> {
+        return discountPolicyJpaRepository.findAllByPerformanceSeatClassIds(ids).map { it.toDomain() }
     }
 }

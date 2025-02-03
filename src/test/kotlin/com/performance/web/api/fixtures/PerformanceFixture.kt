@@ -1,7 +1,7 @@
 package com.performance.web.api.fixtures
 
-import com.performance.web.api.reservation.domain.Performance
-import com.performance.web.api.reservation.domain.SeatClass
+import com.performance.web.api.performance.domain.Performance
+import com.performance.web.api.performance.domain.PerformanceSeatClass
 import java.time.LocalDate
 
 class PerformanceFixture {
@@ -14,7 +14,7 @@ class PerformanceFixture {
             startDate: LocalDate = LocalDate.now(),
             endDate: LocalDate = LocalDate.now().plusDays(1),
             description: String = "설명설명",
-            seatClasses: List<SeatClass> = emptyList()
+            seatClasses: List<PerformanceSeatClass> = emptyList()
         ): Performance =
             Performance(
                 id = id,

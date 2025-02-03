@@ -1,9 +1,8 @@
 package com.performance.web.api.discount.domain
 
-import java.util.Optional
+import com.performance.web.api.common.domain.BaseRepository
 
-interface DiscountPolicyRepository {
+interface DiscountPolicyRepository : BaseRepository<DiscountPolicy> {
 
-    fun findById(id: Long): Optional<DiscountPolicy>
-
+    fun findAllByPerformanceSeatClassIds(ids: List<Long>): List<DiscountPolicy>
 }

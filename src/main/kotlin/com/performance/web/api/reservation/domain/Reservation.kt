@@ -5,16 +5,18 @@ import com.performance.web.api.common.domain.sum
 
 class Reservation(
     id: Long = 0L,
-    session: Session,
+    sessionId: Long,
+    performanceSessionInfo: PerformanceSessionInfo,
     customer: Customer,
     tickets: List<Ticket> = mutableListOf(),
 ) {
 
-    private val _id = id
-    private val _session = session
-    private val _customer = customer
-    private val _tickets = tickets
+    private val _id: Long = id
+    private val _sessionId: Long = sessionId
+    private val _performanceSessionInfo: PerformanceSessionInfo = performanceSessionInfo
+    private val _customer: Customer = customer
     private val _totalAmount: Money = tickets.map { it.getTotalAmount() }.toList().sum()
+    private val _tickets: List<Ticket> = tickets
 
     fun getId(): Long = _id
 
@@ -22,7 +24,9 @@ class Reservation(
 
     fun getCustomer(): Customer = _customer
 
-    fun getSession(): Session = _session
-
     fun getTotalAmount(): Money = _totalAmount
+
+    fun getSessionId(): Long = _sessionId
+
+    fun getPerformanceSessionInfo(): PerformanceSessionInfo = _performanceSessionInfo
 }

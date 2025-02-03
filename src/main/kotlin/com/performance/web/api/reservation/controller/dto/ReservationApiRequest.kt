@@ -1,7 +1,6 @@
 package com.performance.web.api.reservation.controller.dto
 
 import com.performance.web.api.member.domain.Member
-import com.performance.web.api.reservation.domain.Customer
 import com.performance.web.api.reservation.service.dto.ReservationCommand
 
 data class ReservationApiRequest(
@@ -19,7 +18,7 @@ data class ReservationApiRequest(
         member: Member,
     ): ReservationCommand =
         ReservationCommand(
-            customer = Customer(member.getId()),
+            customerId = member.getId(),
             sessionId = sessionId,
             seatCommands =
                 seatRequests.map { request ->

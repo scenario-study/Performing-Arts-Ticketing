@@ -7,7 +7,8 @@ class PercentDiscountPolicy(
     name: String,
     vararg conditions: DiscountCondition,
     percent: Double,
-) : DiscountPolicy(id, name, *conditions) {
+    seatClassId: Long,
+) : DiscountPolicy(id, name, seatClassId, *conditions) {
 
     private val _percent = percent
 

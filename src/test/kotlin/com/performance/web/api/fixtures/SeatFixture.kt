@@ -1,10 +1,10 @@
 package com.performance.web.api.fixtures
 
 import com.performance.web.api.common.domain.Money
-import com.performance.web.api.reservation.domain.Seat
-import com.performance.web.api.reservation.domain.SeatClass
-import com.performance.web.api.reservation.domain.SeatPosition
-import com.performance.web.api.reservation.domain.SeatStatus
+import com.performance.web.api.seat.domain.Seat
+import com.performance.web.api.seat.domain.SeatClass
+import com.performance.web.api.seat.domain.SeatPosition
+import com.performance.web.api.seat.domain.SeatStatus
 
 class SeatFixture {
 

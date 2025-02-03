@@ -1,7 +1,6 @@
 package com.performance.web.api.discount.infrastructure.jpa
 
 import com.performance.web.api.discount.domain.DiscountPolicy
-import com.performance.web.api.reservation.infrastructure.jpa.SeatClassEntity
 import jakarta.persistence.*
 
 @Entity
@@ -20,9 +19,8 @@ abstract class DiscountPolicyEntity(
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "discountPolicy", fetch = FetchType.LAZY, orphanRemoval = true)
     var conditions: MutableList<DiscountConditionEntity> = mutableListOf(),
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "seat_class_id", foreignKey = ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
-    var seatClass: SeatClassEntity?,
+    @Column(name = "performance_seat_class_id", nullable = false)
+    var performanceSeatClassId : Long
 ) {
 
 

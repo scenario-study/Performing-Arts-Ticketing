@@ -11,6 +11,5 @@ class MemberService(
 ) {
 
     fun findById(id: Long): Member =
-        memberRepository.findById(id)
-            .orElseThrow { throw ResourceNotFoundException("Member with id $id not found") }
+        memberRepository.findByIdThrown(id)
 }

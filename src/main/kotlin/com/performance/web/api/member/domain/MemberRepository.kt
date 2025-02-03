@@ -1,8 +1,6 @@
 package com.performance.web.api.member.domain
 
-import java.util.Optional
+import com.performance.web.api.common.domain.BaseRepository
 
-interface MemberRepository {
-
-    fun findById(id: Long): Optional<Member>
+interface MemberRepository : BaseRepository<Member> {
 }

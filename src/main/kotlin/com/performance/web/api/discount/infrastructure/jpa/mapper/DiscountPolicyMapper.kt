@@ -25,7 +25,7 @@ class DiscountPolicyMapper {
                     .map { DiscountConditionMapper.fromDomainToEntity(it) }
                     .toMutableList(),
                 percent = percentDiscountPolicy.getPercent(),
-                seatClass = null,
+                performanceSeatClassId = percentDiscountPolicy.getPerformanceSeatClassId(),
             )
         }
     }

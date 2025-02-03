@@ -6,7 +6,7 @@ class NoneDiscountPolicy(
     id: Long = 0L,
     name: String = "할인 미적용",
     vararg conditions: DiscountCondition,
-) : DiscountPolicy(id, name, *conditions) {
+) : DiscountPolicy(id, name, 0L, *conditions) {
 
     override fun getDiscountAmount(price: Money): Money = Money.ZERO
 }

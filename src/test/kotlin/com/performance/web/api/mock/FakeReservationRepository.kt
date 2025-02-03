@@ -12,33 +12,7 @@ class FakeReservationRepository : ReservationRepository {
     private val store = mutableMapOf<Long, Reservation>()
 
     override fun save(reservation: Reservation): Reservation {
-        if(reservation.getId() == 0L){
-            val nextKey = autoIncrementId++;
-
-            val newReservation = Reservation(
-                id = nextKey,
-                session = reservation.getSession(),
-                customer = reservation.getCustomer(),
-                tickets = reservation.getTickets().map {
-                    if(it.getId() == 0L) {
-                        val nextTicketKey = autoIncrementTicketId++;
-                        Ticket(
-                            id = nextTicketKey,
-                            totalAmount = it.getTotalAmount(),
-                            regularPrice = it.getRegularPrice(),
-                            seat = it.getSeat(),
-                            appliedDiscountPolicy = it.getAppliedDiscountPolicy()
-                        )
-                    }else{
-                        it
-                    }
-                }
-            )
-            store[nextKey] = newReservation
-            return newReservation
-        }
-        store[reservation.getId()] = reservation
-        return reservation
+        TODO()
     }
 
     override fun findById(reservationId: Long): Optional<Reservation> {

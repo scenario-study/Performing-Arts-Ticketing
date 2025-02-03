@@ -1,8 +1,8 @@
 package com.performance.web.api.reservation.controller.dto
 
 import com.performance.web.api.reservation.domain.Reservation
-import com.performance.web.api.reservation.domain.Seat
 import com.performance.web.api.reservation.domain.Ticket
+import com.performance.web.api.reservation.domain.TicketSeatInfo
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -16,18 +16,15 @@ data class ReservationApiResponse(
 ) {
 
     companion object {
-        fun from(reservation: Reservation): ReservationApiResponse =
+        fun from(result: Reservation): ReservationApiResponse =
             ReservationApiResponse(
-                id = reservation.getId(),
-                performanceName = reservation.getSession().getPerformance().getName(),
-                startDate = reservation.getSession().getStartDateTime().toLocalDate(),
-                starTime = reservation.getSession().getStartDateTime().toLocalTime(),
-                endTime =
-                    reservation.getSession().getStartDateTime().plusMinutes(
-                        reservation.getSession().getPerformance().getRunTime(),
-                    ).toLocalTime(),
+                id = result.getId(),
+                performanceName = result.getPerformanceSessionInfo().performanceName,
+                startDate = result.getPerformanceSessionInfo().sessionStartDate,
+                starTime = result.getPerformanceSessionInfo().sessionStartTime,
+                endTime = result.getPerformanceSessionInfo().sessionEndTime,
                 tickets =
-                    reservation.getTickets().map { ticket ->
+                    result.getTickets().map { ticket ->
                         TicketApiResponse.from(ticket)
                     },
             )
@@ -45,29 +42,27 @@ data class ReservationApiResponse(
             fun from(ticket: Ticket): TicketApiResponse =
                 TicketApiResponse(
                     id = ticket.getId(),
-                    seatInfo = SeatInfoApiResponse.from(ticket.getSeat()),
+                    seatInfo = SeatInfoApiResponse.from(ticket.getTicketSeatInfo()),
                     totalAmount = ticket.getTotalAmount().longValue(),
                     regularPrice = ticket.getRegularPrice().longValue(),
-                    discountName = ticket.getAppliedDiscountPolicy().getName(),
+                    discountName = ticket.getDiscountInfo().name
                 )
         }
     }
 
     data class SeatInfoApiResponse(
-        val id: Long,
         val seatClassType: String,
         val floor: Int,
         val row: Int,
         val column: Int,
     ) {
         companion object {
-            fun from(seat: Seat): SeatInfoApiResponse =
+            fun from(ticketSeatInfo: TicketSeatInfo): SeatInfoApiResponse =
                 SeatInfoApiResponse(
-                    id = seat.getId(),
-                    seatClassType = seat.getSeatClass().getClassType(),
-                    floor = seat.getSeatPosition().floor,
-                    row = seat.getSeatPosition().row,
-                    column = seat.getSeatPosition().column,
+                    seatClassType = ticketSeatInfo.seatType,
+                    floor = ticketSeatInfo.floor,
+                    row = ticketSeatInfo.row,
+                    column = ticketSeatInfo.column
                 )
         }
     }
