@@ -5,4 +5,6 @@ import com.performance.web.api.common.domain.BaseRepository
 interface DiscountPolicyRepository : BaseRepository<DiscountPolicy> {
 
     fun findAllByPerformanceSeatClassIds(ids: List<Long>): List<DiscountPolicy>
+
+    fun save(policy: DiscountPolicy): DiscountPolicy
 }

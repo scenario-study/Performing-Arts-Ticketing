@@ -14,22 +14,12 @@ class FakeSeatRepository: SeatRepository {
     }
 
     override fun save(seat: Seat): Seat {
-        if(seat.getId() == 0L){
-
-            val newSeat = Seat(
-                id = autoIncrementId++,
-                seatClass = seat.getSeatClass(),
-                seatStatus = seat.getSeatStatus(),
-                seatPosition = seat.getSeatPosition()
-            )
-            store.put(newSeat.getId(), newSeat)
-            return newSeat
-        }
         val newSeat = Seat(
-            id = seat.getId(),
+            id = if(seat.getId()==0L) autoIncrementId++ else seat.getId(),
             seatClass = seat.getSeatClass(),
             seatStatus = seat.getSeatStatus(),
-            seatPosition = seat.getSeatPosition()
+            seatPosition = seat.getSeatPosition(),
+            sessionId = seat.getSessionId()
         )
 
         store.put(newSeat.getId(), newSeat)

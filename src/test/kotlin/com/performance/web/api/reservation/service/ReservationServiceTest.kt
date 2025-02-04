@@ -1,10 +1,14 @@
 package com.performance.web.api.reservation.service
 
 import com.performance.web.api.common.domain.Money
+import com.performance.web.api.common.domain.ResourceNotFoundException
 import com.performance.web.api.discount.domain.DiscountPolicySelector
 import com.performance.web.api.discount.domain.PercentDiscountPolicy
+import com.performance.web.api.member.domain.Member
 import com.performance.web.api.mock.*
-import com.performance.web.api.reservation.domain.SeatReservation
+import com.performance.web.api.performance.domain.Performance
+import com.performance.web.api.performance.domain.PerformanceSeatClass
+import com.performance.web.api.reservation.domain.*
 import com.performance.web.api.reservation.service.dto.ReservationCommand
 import com.performance.web.api.seat.domain.Seat
 import com.performance.web.api.seat.domain.SeatClass
@@ -15,64 +19,67 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 
 class ReservationServiceTest {
 
     private lateinit var reservationService: ReservationService
-
+    private lateinit var reservationRepository: ReservationRepository
     @BeforeEach
     fun initReservationService() {
-        val sessionRepository = FakeSessionRepository()
-        val reservationRepository = FakeReservationRepository()
-        val seatRepository = FakeSeatRepository()
         val memberRepository = FakeMemberRepository()
+        val sessionRepository = FakeSessionRepository()
+        val seatRepository = FakeSeatRepository()
         val performanceRepository = FakePerformanceRepository()
         val discountPolicyRepository = FakeDiscountPolicyRepository();
+        reservationRepository = FakeReservationRepository()
         val discountPolicySelector = DiscountPolicySelector(discountPolicyRepository)
         val seatReservation = SeatReservation(seatRepository)
 
-//        PercentDiscountPolicy(
-//            id = 2L,
-//            percent = 0.3,
-//            name = "테스트 할인",
-//            seatClassId = 1L,
-//        )
-//        PercentDiscountPolicy(
-//            id = 1L,
-//            percent = 0.3,
-//            name = "테스트 할인",
-//        ),
-        val seatClass1 = SeatClass(
-            price = Money.of(10000),
-            classType = "VIP",
-        )
-        val seatClass2 = SeatClass(
-            price = Money.of(10000),
-            classType = "VIP",
-
-        )
-        val seats = listOf(
-            Seat(
-                id = 1L,
-                seatClass = seatClass1,
-                seatStatus = SeatStatus.UN_RESERVED,
-                seatPosition = SeatPosition(1, 1, 1),
-            ),
-            Seat(
-                id = 2L,
-                seatClass = seatClass2,
-                seatStatus = SeatStatus.UN_RESERVED,
-                seatPosition = SeatPosition(1, 1, 1),
-            ),
-        )
-
-        val session = Session(
+        memberRepository.save(Member(name = "김철수"))
+        sessionRepository.save(Session(
             performanceId = 1L,
             startDateTime = LocalDateTime.of(2025, 1, 10, 12, 30),
+        ))
+        seatRepository.save(
+            Seat(
+                seatClass = SeatClass(price = Money.of(10000), classType = "VIP"),
+                seatPosition = SeatPosition(1,1,1),
+                seatStatus = SeatStatus.UN_RESERVED,
+                sessionId = 1L
+            )
+        )
+        seatRepository.save(
+            Seat(
+                seatClass = SeatClass(price = Money.of(10000), classType = "VIP"),
+                seatPosition = SeatPosition(1,2,1),
+                seatStatus = SeatStatus.UN_RESERVED,
+                sessionId = 1L
+            )
+        )
+        discountPolicyRepository.save(
+            PercentDiscountPolicy(
+                name = "50%할인",
+                percent = 0.5,
+                seatClassId = 1L,
+            )
+        )
+        performanceRepository.save(
+            Performance(
+                name = "공연1",
+                runTimeInMinutes = 180,
+                startDate = LocalDate.of(2025,2,1),
+                endDate = LocalDate.of(2025,2,20),
+                description = "공연입니다",
+                seatClasses = listOf(
+                    PerformanceSeatClass(price = Money.of(10000), classType = "VIP"),
+                )
+            )
         )
 
-        sessionRepository.save(session)
+
 
         reservationService = ReservationService(
             sessionRepository = sessionRepository,
@@ -98,7 +105,7 @@ class ReservationServiceTest {
                 ),
                 ReservationCommand.ReservationSeatCommand(
                     seatId = 2L,
-                    discountPolicyId = 2L,
+                    discountPolicyId = 1L,
                 ),
             ),
         )
@@ -107,10 +114,10 @@ class ReservationServiceTest {
         // when
         val result = reservationService.reserve(command)
 
-
         // then
         assertThat(result.getId()).isEqualTo(1L)
-        assertThat(result.getTotalAmount()).isEqualTo(Money.of(14000))
+        assertThat(result.getTickets().size).isEqualTo(2)
+        assertThat(result.getTotalAmount()).isEqualTo(Money.of(10000))
     }
 
 
@@ -145,12 +152,44 @@ class ReservationServiceTest {
     @Test
     fun `findById 시 없는 id로 요청하면 예외를 반환한다`() {
         //given
-        val id = 1L
+        val id = 2L
 
         //when
         //then
         assertThatThrownBy {
             reservationService.findById(id);
-        }.hasMessageContaining("${id}의 Reservation을 찾을 수 없습니다.")
+        }.isInstanceOf(ResourceNotFoundException::class.java)
+    }
+
+
+    @Test
+    fun `findById시 조회가 성공하면 정상적으로 예매를 반환한다`(){
+        // givne
+        reservationRepository.save(
+            Reservation(
+                sessionId = 1L,
+                performanceSessionInfo = PerformanceSessionInfo(
+                    performanceName = "공연",
+                    sessionStartDate = LocalDate.now(),
+                    sessionStartTime = LocalTime.now(),
+                    sessionEndTime = LocalTime.now(),
+                ),
+                customer = Customer(1L),
+                tickets = listOf(Ticket(
+                    totalAmount = Money.of(10000),
+                    regularPrice = Money.of(10000),
+                    ticketSeatInfo = TicketSeatInfo(1,1,1,"VIP"),
+                    discountInfo = DiscountInfo("할인 적용 X"),
+                ))
+            )
+        )
+
+        //when
+        val result = reservationService.findById(1L)
+
+        assertThat(result.getId()).isEqualTo(1L)
+        assertThat(result.getTotalAmount()).isEqualTo(Money.of(10000))
+        assertThat(result.getCustomer().getId()).isEqualTo(1L)
+        assertThat(result.getTickets().size).isEqualTo(1)
     }
 }

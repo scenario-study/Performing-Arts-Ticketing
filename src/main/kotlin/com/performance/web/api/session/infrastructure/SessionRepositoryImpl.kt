@@ -17,7 +17,7 @@ class SessionRepositoryImpl(
         return sessionJpaRepository.findById(id).map { it.toDomain() }
     }
 
-    override fun save(session: Session) {
-        sessionJpaRepository.save(SessionEntity.fromDomain(session))
+    override fun save(session: Session):Session {
+        return sessionJpaRepository.save(SessionEntity.fromDomain(session)).toDomain()
     }
 }

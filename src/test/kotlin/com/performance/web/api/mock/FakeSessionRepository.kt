@@ -13,7 +13,13 @@ class FakeSessionRepository : SessionRepository {
         return Optional.ofNullable(store[id])
     }
 
-    override fun save(session: Session) {
-        TODO()
+    override fun save(session: Session): Session {
+        var newSession = Session(
+            id = if (session.getId() == 0L) autoIncrementId++ else session.getId(),
+            performanceId = session.getPerformanceId(),
+            startDateTime = session.getStartDateTime(),
+        )
+        store.put(newSession.getId(), newSession);
+        return newSession
     }
 }

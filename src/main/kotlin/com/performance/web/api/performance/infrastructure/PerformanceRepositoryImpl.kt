@@ -2,6 +2,7 @@ package com.performance.web.api.performance.infrastructure
 
 import com.performance.web.api.performance.domain.Performance
 import com.performance.web.api.performance.domain.PerformanceRepository
+import com.performance.web.api.performance.infrastructure.jpa.PerformanceEntity
 import com.performance.web.api.performance.infrastructure.jpa.PerformanceJpaRepository
 import org.springframework.stereotype.Component
 import java.util.*
@@ -23,4 +24,7 @@ class PerformanceRepositoryImpl(
         return performanceJpaRepository.findAll().map { it.toDomain() }
     }
 
+    override fun save(performance: Performance): Performance {
+        return performanceJpaRepository.save(PerformanceEntity.fromDomain(performance)).toDomain()
+    }
 }

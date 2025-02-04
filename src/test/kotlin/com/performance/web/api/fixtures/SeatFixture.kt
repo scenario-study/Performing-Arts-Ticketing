@@ -22,12 +22,14 @@ class SeatFixture {
                     row = 1,
                     column = 0,
                 ),
+            sessionId : Long = 1L,
         ): Seat =
             Seat(
                 id = id,
                 seatClass = seatClass,
                 seatStatus = seatStatus,
                 seatPosition = seatPosition,
+                sessionId = sessionId
             )
     }
 }
