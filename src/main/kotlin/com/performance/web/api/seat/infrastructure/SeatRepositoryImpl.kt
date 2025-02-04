@@ -20,4 +20,8 @@ class SeatRepositoryImpl(
     override fun save(seat: Seat): Seat {
         return seatJpaRepository.save(SeatEntity.fromDomain(seat)).toDomain()
     }
+
+    override fun saveAll(seats: List<Seat>): List<Seat> {
+        return seatJpaRepository.saveAll( seats.map { SeatEntity.fromDomain(it) }).map { it.toDomain() }
+    }
 }

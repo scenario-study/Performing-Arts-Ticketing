@@ -21,7 +21,7 @@ class Seat(
     private val _seatPosition: SeatPosition = seatPosition
     private val _sessionId: Long = sessionId
 
-    fun reserve(
+    fun reserveTicket(
         discountPolicy: DiscountPolicy,
         discountFactor: DiscountFactor,
     ): Ticket {

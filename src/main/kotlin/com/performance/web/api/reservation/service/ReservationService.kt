@@ -5,10 +5,7 @@ import com.performance.web.api.discount.domain.DiscountFactor
 import com.performance.web.api.discount.domain.DiscountPolicySelector
 import com.performance.web.api.member.domain.MemberRepository
 import com.performance.web.api.performance.domain.PerformanceRepository
-import com.performance.web.api.reservation.domain.Customer
-import com.performance.web.api.reservation.domain.Reservation
-import com.performance.web.api.reservation.domain.ReservationRepository
-import com.performance.web.api.reservation.domain.SeatReservation
+import com.performance.web.api.reservation.domain.*
 import com.performance.web.api.session.domain.SessionRepository
 import com.performance.web.api.reservation.service.dto.ReservationCommand
 import com.performance.web.api.seat.domain.SeatRepository
@@ -24,7 +21,7 @@ class ReservationService(
     private val reservationRepository: ReservationRepository,
     private val memberRepository: MemberRepository,
     private val discountPolicySelector: DiscountPolicySelector,
-    private val seatReservation: SeatReservation,
+    private val ticketIssuer: TicketIssuer,
 ) {
 
     @Transactional
@@ -39,24 +36,27 @@ class ReservationService(
             reservationCommand.seatCommands.size,
         )
 
-        val reservation = seatReservation.reserve(
-            performance = performance,
-            customer = Customer(member.getId()),
-            session = session,
+        val tickets = ticketIssuer.issue(
             discountFactor = discountFactor,
             commands = convertSeatReserveCommandList(reservationCommand.seatCommands),
+        )
+        val reservation = Reservation(
+            sessionId = session.getId(),
+            performanceSessionInfo = PerformanceSessionInfo.create(performance, session),
+            customer = Customer(member.getId()),
+            tickets = tickets,
         )
 
         return reservationRepository.save(reservation)
     }
 
-    private fun convertSeatReserveCommandList(seatCommand: List<ReservationCommand.ReservationSeatCommand>): List<SeatReservation.SeatReserveCommand> {
+    private fun convertSeatReserveCommandList(seatCommand: List<ReservationCommand.ReservationSeatCommand>): List<TicketIssuer.SeatReserveCommand> {
         return seatCommand.map {
             val seat = seatRepository.findByIdThrown(it.seatId)
             val discountPolicy = discountPolicySelector.findById(it.discountPolicyId).orElseThrow {
                 throw ResourceNotFoundException("$it.discountPolicyId 의 DiscountPolicy 를 찾을 수 없습니다.")
             }
-            SeatReservation.SeatReserveCommand(seat, discountPolicy)
+            TicketIssuer.SeatReserveCommand(seat, discountPolicy)
         }.toList()
     }
 

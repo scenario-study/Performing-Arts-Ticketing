@@ -36,7 +36,7 @@ class ReservationServiceTest {
         val discountPolicyRepository = FakeDiscountPolicyRepository();
         reservationRepository = FakeReservationRepository()
         val discountPolicySelector = DiscountPolicySelector(discountPolicyRepository)
-        val seatReservation = SeatReservation(seatRepository)
+        val ticketIssuer = TicketIssuer(seatRepository)
 
         memberRepository.save(Member(name = "김철수"))
         sessionRepository.save(Session(
@@ -87,7 +87,7 @@ class ReservationServiceTest {
             seatRepository =  seatRepository,
             memberRepository = memberRepository,
             discountPolicySelector = discountPolicySelector,
-            seatReservation =  seatReservation,
+            ticketIssuer =  ticketIssuer,
             performanceRepository = performanceRepository
         )
     }

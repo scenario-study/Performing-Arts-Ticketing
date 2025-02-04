@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository
 interface SeatRepository : BaseRepository<Seat> {
 
     fun save(seat: Seat): Seat
+
+    fun saveAll(seats: List<Seat>): List<Seat>
 }

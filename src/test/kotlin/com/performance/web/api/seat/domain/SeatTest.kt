@@ -22,7 +22,7 @@ class SeatTest {
         // when
         // then
         assertThatThrownBy {
-            seat.reserve(
+            seat.reserveTicket(
                 discountPolicy = DiscountPolicyFixture.createPercent(),
                 discountFactor = DiscountFactorFixture.create()
             )
@@ -43,7 +43,7 @@ class SeatTest {
         )
 
         // when
-        val ticket = seat.reserve(discountPolicy, discountFactor)
+        val ticket = seat.reserveTicket(discountPolicy, discountFactor)
 
         //then
         assertThat(ticket.getTotalAmount()).isEqualTo(Money.of(5000))

@@ -25,4 +25,12 @@ class FakeSeatRepository: SeatRepository {
         store.put(newSeat.getId(), newSeat)
         return newSeat
     }
+
+    override fun saveAll(seats: List<Seat>): List<Seat> {
+        val list = mutableListOf<Seat>()
+        for (seat in seats) {
+            list.add(this.save(seat))
+        }
+        return list
+    }
 }
