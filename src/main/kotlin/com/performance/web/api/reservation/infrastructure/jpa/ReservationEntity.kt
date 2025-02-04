@@ -21,7 +21,7 @@ class ReservationEntity(
     var customerId: Long,
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "reservation", cascade = [CascadeType.PERSIST], orphanRemoval = true)
-    var tickets: List<TicketEntity> = mutableListOf()
+    var tickets: MutableList<TicketEntity> = mutableListOf<TicketEntity>()
     ) {
 
     fun toDomain() : Reservation {
@@ -44,7 +44,7 @@ class ReservationEntity(
                 performanceSessionInfoEntity = PerformanceSessionInfoEntity.fromDomain(reservation.getPerformanceSessionInfo()),
             )
 
-            val ticketEntities = reservation.getTickets().map { TicketEntity.fromDomain(it, reservationEntity) }
+            val ticketEntities = reservation.getTickets().map { TicketEntity.fromDomain(it, reservationEntity) }.toMutableList()
             reservationEntity.tickets = ticketEntities
             return reservationEntity
         }

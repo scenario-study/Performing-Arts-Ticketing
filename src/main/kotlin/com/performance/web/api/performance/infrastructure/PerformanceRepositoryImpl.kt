@@ -12,7 +12,7 @@ class PerformanceRepositoryImpl(
 ) : PerformanceRepository {
 
     override fun findById(id: Long): Optional<Performance> {
-        return performanceJpaRepository.findById(id).map { it.toDomain() }
+        return performanceJpaRepository.findByIdWithSeatClass(id).map { it.toDomain() }
     }
 
     override fun findByPage(pageNum: Int): List<Performance> {

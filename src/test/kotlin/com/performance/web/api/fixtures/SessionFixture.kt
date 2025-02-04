@@ -10,12 +10,12 @@ class SessionFixture {
         fun create(
             id: Long = 0L,
             performanceId: Long = 1L,
-            startDate: LocalDateTime = LocalDateTime.now()
+            startDateTime: LocalDateTime = LocalDateTime.now()
         ): Session =
             Session(
                 id = id,
                 performanceId = performanceId,
-                startDateTime = startDate,
+                startDateTime = startDateTime,
             )
     }
 }

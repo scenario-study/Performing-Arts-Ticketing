@@ -33,7 +33,8 @@ class SeatTest {
     fun `할인 정책과 요소를 확인해 티켓을 생성한다`(){
         //given
         val discountPolicy = DiscountPolicyFixture.createPercent(
-            percent = 0.5
+            percent = 0.5,
+            name = "퍼센트할인입니다"
         )
         val discountFactor = DiscountFactorFixture.create()
         val seat = SeatFixture.create(
@@ -42,7 +43,6 @@ class SeatTest {
         )
 
         // when
-
         val ticket = seat.reserve(discountPolicy, discountFactor)
 
         //then
@@ -51,5 +51,7 @@ class SeatTest {
         assertThat(ticket.getTicketSeatInfo().row).isEqualTo(1)
         assertThat(ticket.getTicketSeatInfo().column).isEqualTo(1)
         assertThat(ticket.getTicketSeatInfo().floor).isEqualTo(1)
+        assertThat(ticket.getDiscountInfo().name).isEqualTo("퍼센트할인입니다")
+        assertThat(seat.getSeatStatus()).isEqualTo(SeatStatus.RESERVED)
     }
 }

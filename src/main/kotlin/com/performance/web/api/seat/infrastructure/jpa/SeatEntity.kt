@@ -21,10 +21,7 @@ class SeatEntity(
     @Embedded
     var seatClass: SeatClassEntity,
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "session_id",  foreignKey = ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
-    var session: SessionEntity? = null,
-
+    var sessionId : Long
 
     ) {
 
@@ -34,7 +31,8 @@ class SeatEntity(
             id = id,
             seatClass = seatClass.toDomain(),
             seatStatus = seatStatus.toDomain(),
-            seatPosition = seatPosition.toDomain()
+            seatPosition = seatPosition.toDomain(),
+            sessionId = sessionId
         )
     }
 
@@ -47,7 +45,7 @@ class SeatEntity(
                 seatStatus = SeatStatusEntity.fromDomain(seat.getSeatStatus()),
                 seatPosition = SeatPositionEntity.fromDomain(seat.getSeatPosition()),
                 seatClass = SeatClassEntity.fromDomain(seat.getSeatClass()),
-                session = null,
+                sessionId = seat.getSessionId(),
             )
         }
     }
