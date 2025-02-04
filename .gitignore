@@ -1,4 +1,4 @@
-test/HELP.md
+HELP.md
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
@@ -17,6 +17,7 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
+application.properties
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -38,6 +39,3 @@ out/
 
 ### Kotlin ###
 .kotlin
-
-### Mac ###
-.DS_Store
