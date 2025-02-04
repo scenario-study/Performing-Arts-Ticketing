@@ -7,6 +7,7 @@ import com.performance.web.api.performance.domain.Performance
 import com.performance.web.api.performance.domain.PerformanceRepository
 import com.performance.web.api.performance.service.dto.PerformanceDiscountResponse
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 
 @Service
@@ -16,16 +17,18 @@ class PerformanceService(
 ) {
 
 
+    @Transactional(readOnly = true)
     fun findById(id: Long): Performance {
         return performanceRepository.findById(id)
             .orElseThrow { throw ResourceNotFoundException("$id 에 해당하는 Performance를 찾을 수 없습니다.") }
     }
 
+    @Transactional(readOnly = true)
     fun findAll(): List<Performance> {
         return performanceRepository.findAll()
     }
 
-
+    @Transactional(readOnly = true)
     fun findSeatClassByIdWithDiscounts(id: Long): List<PerformanceDiscountResponse> {
         val performance: Performance = performanceRepository.findByIdThrown(id)
 
@@ -36,15 +39,10 @@ class PerformanceService(
             it.getPerformanceSeatClassId()
         }
 
-        return discountGroupByPerformanceIds.toPerformanceDiscountResponse(performance)
-    }
-
-    private fun Map<Long, List<DiscountPolicy>>.toPerformanceDiscountResponse(performance: Performance):
-        List<PerformanceDiscountResponse> {
-        return this.keys.map {
+        return performance.getSeatClasses().map {
             PerformanceDiscountResponse(
-                performanceSeatClass = performance.findSeatClassById(it),
-                discountPolies = this[it] ?: emptyList(),
+                performanceSeatClass = it,
+                discountPolies = discountGroupByPerformanceIds[it.getId()] ?: emptyList()
             )
         }
     }

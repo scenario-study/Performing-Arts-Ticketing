@@ -26,6 +26,7 @@ class PerformanceSeatClassEntity(
 
     fun toDomain(): PerformanceSeatClass {
         return PerformanceSeatClass(
+            id = id,
             price = Money.of(price),
             classType = classType,
         )
